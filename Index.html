@@ -1,77 +1,106 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GoPay Game Topup</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Eterield Shop</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="assets/images/logo.png" />
 </head>
 <body>
+
+  <!-- 🔵 Header -->
   <header>
     <div class="logo">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/GoPay_Logo.svg/512px-GoPay_Logo.svg.png" alt="GoPay">
-      <strong>GoPay</strong>
-    </div>
-    <div class="search-bar">
-      <input type="text" id="searchInput" placeholder="Cari game, voucher, atau info terbaru">
+      <img src="assets/images/logo.png" alt="Eterield Shop">
+      <h1>Eterield Shop</h1>
     </div>
     <nav>
-      <a href="#">Beranda</a>
-      <a href="#">Semua Game</a>
-      <a href="#">Info Terbaru</a>
-      <a href="#">Tentang GoPay</a>
-      <a href="#">Hubungi Kami</a>
+      <ul>
+        <li><a href="#home">Beranda</a></li>
+        <li><a href="#produk">Daftar Game</a></li>
+        <li><a href="#order">Pesan</a></li>
+        <li><a href="#kontak">Kontak</a></li>
+      </ul>
     </nav>
-  </header>  <div class="banner">
-    <img src="https://cdn-cf.gopay.co.id/assets/images/promo/aspirants-mobilelegends.jpg" alt="Promo MLBB">
-  </div>  <div class="section">
-    <h2>Best Deals 🔥</h2>
-    <div class="products">
-      <div class="card">
-        <img src="https://cdn-icons-png.flaticon.com/512/1039/1039801.png" alt="Diamond">
-        <div>Weekly Diamond Pass</div>
-        <div class="price">Rp29.119 <small><s>Rp31.219</s></small></div>
-        <button class="btn-topup" onclick="openTopupModal('Weekly Diamond Pass', '29119')">Top Up Sekarang</button>
-      </div>
-      <div class="card">
-        <img src="https://cdn-icons-png.flaticon.com/512/1039/1039801.png" alt="Diamond">
-        <div>59 Diamonds</div>
-        <div class="price">Rp16.307 <small><s>Rp17.221</s></small></div>
-        <button class="btn-topup" onclick="openTopupModal('59 Diamonds', '16307')">Top Up Sekarang</button>
-      </div>
-      <div class="card">
-        <img src="https://cdn-icons-png.flaticon.com/512/1039/1039801.png" alt="Diamond">
-        <div>3 Diamonds</div>
-        <div class="price">Rp1.076 <small><s>Rp1.179</s></small></div>
-        <button class="btn-topup" onclick="openTopupModal('3 Diamonds', '1076')">Top Up Sekarang</button>
-      </div>
+  </header>
+
+  <!-- 🔵 Slide/Banner -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <h2>Top Up Game Murah & Cepat!</h2>
+      <p>Layanan terpercaya untuk semua kebutuhan game kamu</p>
+      <a href="#produk" class="cta-button">Lihat Daftar Game</a>
     </div>
-  </div>  <div class="section">
-    <h2>Populer</h2>
-    <div class="games" id="gameList">
-      <!-- Game Cards Disini (dari JS) -->
+  </section>
+
+  <!-- 🔵 Daftar Produk/Game -->
+  <section class="produk" id="produk">
+    <h2>Daftar Game</h2>
+    <div class="game-list">
+      <div class="game-card">
+        <img src="assets/images/mlbb.png" alt="Mobile Legends">
+        <h3>Mobile Legends</h3>
+        <p>Top up cepat, harga termurah!</p>
+        <button class="order-btn" data-game="Mobile Legends">Pesan</button>
+      </div>
+      <div class="game-card">
+        <img src="assets/images/freefire.png" alt="Free Fire">
+        <h3>Free Fire</h3>
+        <p>Langsung masuk, proses cepat!</p>
+        <button class="order-btn" data-game="Free Fire">Pesan</button>
+      </div>
+      <div class="game-card">
+        <img src="assets/images/pubg.png" alt="PUBG Mobile">
+        <h3>PUBG Mobile</h3>
+        <p>Top up UC dengan aman dan nyaman</p>
+        <button class="order-btn" data-game="PUBG Mobile">Pesan</button>
+      </div>
+      <!-- Tambahkan game lain di sini -->
     </div>
-  </div>  <div class="section">
-    <h2>Riwayat Transaksi</h2>
-    <ul id="transactionHistory" class="history-list"></ul>
-  </div>  <div id="topupModal" class="modal hidden">
-    <div class="modal-content">
-      <span class="close-btn" onclick="closeTopupModal()">&times;</span>
-      <h3 id="modalTitle">Top Up</h3>
-      <form id="topupForm">
-        <input type="text" id="userId" placeholder="Masukkan ID Game" required>
-        <select id="paymentMethod" required>
-          <option value="">Pilih Metode Pembayaran</option>
-          <option value="Dana">Dana</option>
-          <option value="Gopay">GoPay</option>
-          <option value="OVO">OVO</option>
-          <option value="QRIS">QRIS</option>
-        </select>
-        <input type="file" id="buktiTransfer" accept="image/*" required>
-        <button type="submit">Kirim Top Up</button>
-      </form>
+  </section>
+
+  <!-- 🔵 Formulir Pemesanan -->
+  <section class="order-form" id="order">
+    <h2>Formulir Pemesanan</h2>
+    <form id="topupForm">
+      <label for="game">Game</label>
+      <input type="text" id="game" name="game" placeholder="Pilih dari daftar" required readonly />
+
+      <label for="id">ID Pengguna</label>
+      <input type="text" id="id" name="id" placeholder="Contoh: 123456789 (Zone ID jika perlu)" required />
+
+      <label for="jumlah">Jumlah Diamond/Koin</label>
+      <input type="text" id="jumlah" name="jumlah" placeholder="Misal: 86 diamond" required />
+
+      <label for="pembayaran">Metode Pembayaran</label>
+      <select id="pembayaran" name="pembayaran" required>
+        <option value="">Pilih</option>
+        <option value="Dana">Dana</option>
+        <option value="Gopay">Gopay</option>
+        <option value="OVO">OVO</option>
+        <option value="QRIS">QRIS</option>
+      </select>
+
+      <label for="bukti">Upload Bukti Pembayaran</label>
+      <input type="file" id="bukti" name="bukti" accept="image/*" required />
+
+      <button type="submit" class="submit-btn">Kirim Pesanan</button>
+    </form>
+    <p id="statusText"></p>
+  </section>
+
+  <!-- 🔵 Kontak & Footer -->
+  <footer id="kontak">
+    <div class="footer-content">
+      <p>Hubungi Admin: <a href="https://wa.me/6281234567890">WhatsApp</a></p>
+      <p>&copy; 2025 Eterield Shop. All rights reserved.</p>
     </div>
-  </div>  <div id="toast" class="toast hidden">Berhasil dikirim!</div>  <footer class="footer">
-    <p>© 2025 Eterield Shop. All rights reserved.</p>
-  </footer>  <script src="script.js"></script></body>
+  </footer>
+
+  <!-- 🔵 Audio Klik -->
+  <audio id="clickSound" src="assets/audio/click.mp3" preload="auto"></audio>
+
+  <script src="script.js"></script>
+</body>
 </html>
