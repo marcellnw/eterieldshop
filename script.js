@@ -1,55 +1,116 @@
-// === Loading Screen ===
-window.addEventListener("load", () => {
-  const loadingScreen = document.getElementById("loading-screen");
-  setTimeout(() => {
-    loadingScreen.style.display = "none";
-  }, 1500);
+// === KONFIGURASI ===
+const WEBHOOK_URL = "https://discord.com/api/webhooks/1387401415831588984/ZPK_TEvECuB6TEiY3bkRkL4p2xqK9IHEEugoYtNbg_loZ4SK-2n2RFvktxYsrHKGrLDl";
+
+// === AUDIO ===
+const clickSound = new Audio("audio/click.mp3");
+document.querySelectorAll("button, .rank-button, .menu-button").forEach(btn => {
+  btn.addEventListener("click", () => clickSound.play());
 });
 
-// === Tombol Navigasi Halaman ===
-document.getElementById("enter-button").addEventListener("click", () => {
-  document.getElementById("page1").style.display = "none";
-  document.getElementById("page2").style.display = "block";
-  document.getElementById("page2").classList.add("slide-animate");
-  playClickSound();
-});
-
-// === Suara Klik ===
-function playClickSound() {
-  const audio = new Audio("click.mp3"); // pastikan file ada di folder
-  audio.volume = 0.5;
-  audio.play();
+// === NAVIGASI ANTAR HALAMAN ===
+function showPage(pageId) {
+  document.querySelectorAll(".page").forEach(p => p.style.display = "none");
+  document.getElementById(pageId).style.display = "block";
 }
 
-// === Navigasi Menu Game ===
-const buttons = document.querySelectorAll(".game-button");
-const sections = document.querySelectorAll(".section");
+// === POPUP INFO ===
+function showInfo(judul, isi) {
+  document.getElementById("popupJudul").textContent = judul;
+  document.getElementById("popupIsi").innerHTML = isi;
+  document.getElementById("popup").style.display = "flex";
+}
+function closePopup() {
+  document.getElementById("popup").style.display = "none";
+}
 
-buttons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const target = button.getAttribute("data-target");
+// === MODAL PEMESANAN ===
+function openTopupModal(rank, price) {
+  document.getElementById("product").value = rank;
+  document.getElementById("price").value = price;
+  document.getElementById("topupModal").style.display = "flex";
+}
+function closeTopupModal() {
+  document.getElementById("topupForm").reset();
+  document.getElementById("topupModal").style.display = "none";
+}
 
-    sections.forEach((section) => {
-      section.classList.remove("active");
-    });
+// === SUBMIT TOPUP ===
+document.getElementById("topupForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+  const userId = document.getElementById("userId").value;
+  const product = document.getElementById("product").value;
+  const paymentMethod = document.getElementById("paymentMethod").value;
+  const price = document.getElementById("price").value;
+  const file = document.getElementById("buktiTransfer").files[0];
 
-    const targetSection = document.getElementById(target);
-    if (targetSection) {
-      targetSection.classList.add("active");
-      targetSection.scrollIntoView({ behavior: "smooth" });
+  if (!userId || !paymentMethod || !file) {
+    alert("Mohon lengkapi semua field dan upload bukti transfer.");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("content", `📥 **Top Up Masuk**
+👤 ID: ${userId}
+💎 Produk: ${product}
+💳 Metode: ${paymentMethod}
+💰 Harga: Rp${price}`);
+  formData.append("file", file);
+
+  fetch(WEBHOOK_URL, {
+    method: "POST",
+    body: formData
+  })
+  .then(res => {
+    if (res.ok) {
+      saveHistory({ userId, product, paymentMethod, price });
+      renderHistory();
+      closeTopupModal();
+      showToast("✅ Top Up berhasil dikirim!");
+    } else {
+      alert("❌ Gagal mengirim data ke Discord.");
     }
-
-    playClickSound();
-  });
+  })
+  .catch(() => alert("❌ Terjadi kesalahan koneksi ke Webhook."));
 });
 
-// === Toggle Menu Mobile (Opsional) ===
-const menuToggle = document.getElementById("menu-toggle");
-const navLinks = document.querySelector(".nav-links");
+// === TAMPILKAN QRIS JIKA DIPILIH ===
+document.getElementById("paymentMethod").addEventListener("change", function () {
+  const qrisSection = document.getElementById("qrisSection");
+  qrisSection.style.display = this.value === "QRIS" ? "block" : "none";
+});
 
-if (menuToggle) {
-  menuToggle.addEventListener("click", () => {
-    navLinks.classList.toggle("active");
-    playClickSound();
-  });
+// === SISTEM RIWAYAT ===
+function saveHistory(data) {
+  const history = JSON.parse(localStorage.getItem("topupHistory")) || [];
+  history.push({ ...data, time: new Date().toLocaleString() });
+  localStorage.setItem("topupHistory", JSON.stringify(history));
 }
+
+function renderHistory() {
+  const container = document.getElementById("riwayatContainer");
+  const history = JSON.parse(localStorage.getItem("topupHistory")) || [];
+  container.innerHTML = history.length
+    ? history.reverse().map(item => `
+      <div class="history-card">
+        <p><strong>${item.product}</strong> - ${item.paymentMethod}</p>
+        <p>ID: ${item.userId}</p>
+        <p>Rp${item.price}</p>
+        <p><em>${item.time}</em></p>
+      </div>
+    `).join("")
+    : "<p>Belum ada riwayat top up.</p>";
+}
+
+// === TOAST NOTIFIKASI ===
+function showToast(msg) {
+  const toast = document.getElementById("toast");
+  toast.textContent = msg;
+  toast.style.opacity = 1;
+  setTimeout(() => { toast.style.opacity = 0; }, 3000);
+}
+
+// === LOADING ===
+window.addEventListener("load", () => {
+  document.getElementById("loading").style.display = "none";
+  renderHistory();
+});
