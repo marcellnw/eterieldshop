@@ -1,282 +1,77 @@
 <!DOCTYPE html><html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Eterield Shop</title>
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    .form-section {
-  padding: 30px;
-  background-color: #1b1b1b;
-  border-radius: 12px;
-  margin: 30px auto;
-  max-width: 500px;
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
-}
-
-.form-section label {
-  display: block;
-  margin-top: 15px;
-  color: #ffd700;
-}
-
-.form-section input,
-.form-section select {
-  width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  border: none;
-  border-radius: 6px;
-  background-color: #2c2c2c;
-  color: #fff;
-}
-
-.submit-btn {
-  margin-top: 20px;
-  padding: 12px;
-  width: 100%;
-  background-color: #ffd700;
-  color: #000;
-  border: none;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.submit-btn:hover {
-  background-color: #e6c200;
-}
-
-.qris-image {
-  width: 180px;
-  height: auto;
-  border: 2px solid #ffd700;
-  border-radius: 10px;
-}
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GoPay Game Topup</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Header -->
   <header>
-    <div class="container">
-      <div class="logo">Eterield Shop</div>
-      <nav id="main-nav">
-        <ul>
-          <li><a href="#home">Beranda</a></li>
-          <li><a href="#topup">Top Up Game</a></li>
-          <li><a href="#voucher">Voucher</a></li>
-          <li><a href="#pembayaran">Pembayaran</a></li>
-          <li><a href="#hubungi">Hubungi Kami</a></li>
-        </ul>
-      </nav>
-      <div class="hamburger" id="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
+    <div class="logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/GoPay_Logo.svg/512px-GoPay_Logo.svg.png" alt="GoPay">
+      <strong>GoPay</strong>
+    </div>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Cari game, voucher, atau info terbaru">
+    </div>
+    <nav>
+      <a href="#">Beranda</a>
+      <a href="#">Semua Game</a>
+      <a href="#">Info Terbaru</a>
+      <a href="#">Tentang GoPay</a>
+      <a href="#">Hubungi Kami</a>
+    </nav>
+  </header>  <div class="banner">
+    <img src="https://cdn-cf.gopay.co.id/assets/images/promo/aspirants-mobilelegends.jpg" alt="Promo MLBB">
+  </div>  <div class="section">
+    <h2>Best Deals 🔥</h2>
+    <div class="products">
+      <div class="card">
+        <img src="https://cdn-icons-png.flaticon.com/512/1039/1039801.png" alt="Diamond">
+        <div>Weekly Diamond Pass</div>
+        <div class="price">Rp29.119 <small><s>Rp31.219</s></small></div>
+        <button class="btn-topup" onclick="openTopupModal('Weekly Diamond Pass', '29119')">Top Up Sekarang</button>
+      </div>
+      <div class="card">
+        <img src="https://cdn-icons-png.flaticon.com/512/1039/1039801.png" alt="Diamond">
+        <div>59 Diamonds</div>
+        <div class="price">Rp16.307 <small><s>Rp17.221</s></small></div>
+        <button class="btn-topup" onclick="openTopupModal('59 Diamonds', '16307')">Top Up Sekarang</button>
+      </div>
+      <div class="card">
+        <img src="https://cdn-icons-png.flaticon.com/512/1039/1039801.png" alt="Diamond">
+        <div>3 Diamonds</div>
+        <div class="price">Rp1.076 <small><s>Rp1.179</s></small></div>
+        <button class="btn-topup" onclick="openTopupModal('3 Diamonds', '1076')">Top Up Sekarang</button>
       </div>
     </div>
-  </header>  <!-- Hero Slider -->  <section class="hero-slider">
-    <div class="slide active">
-      <h1>Top Up Game Tercepat & Termurah</h1>
+  </div>  <div class="section">
+    <h2>Populer</h2>
+    <div class="games" id="gameList">
+      <!-- Game Cards Disini (dari JS) -->
     </div>
-    <div class="slide">
-      <h1>Diskon Hingga 70% Untuk Game Favoritmu</h1>
+  </div>  <div class="section">
+    <h2>Riwayat Transaksi</h2>
+    <ul id="transactionHistory" class="history-list"></ul>
+  </div>  <div id="topupModal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeTopupModal()">&times;</span>
+      <h3 id="modalTitle">Top Up</h3>
+      <form id="topupForm">
+        <input type="text" id="userId" placeholder="Masukkan ID Game" required>
+        <select id="paymentMethod" required>
+          <option value="">Pilih Metode Pembayaran</option>
+          <option value="Dana">Dana</option>
+          <option value="Gopay">GoPay</option>
+          <option value="OVO">OVO</option>
+          <option value="QRIS">QRIS</option>
+        </select>
+        <input type="file" id="buktiTransfer" accept="image/*" required>
+        <button type="submit">Kirim Top Up</button>
+      </form>
     </div>
-    <div class="slide">
-      <h1>Download Aplikasi Eterield Shop Sekarang</h1>
-    </div>
-  </section>  <!-- Grid Kategori Game -->  <section id="kategori" class="game-grid">
-    <h2>Kategori Game</h2>
-    <div class="grid">
-      <div class="game-card" onclick="showGame('mlbb')">
-        <img src="img/mlbb.png" alt="Mobile Legends" />
-        <p>Mobile Legends</p>
-      </div>
-      <div class="game-card" onclick="showGame('ff')">
-        <img src="img/ff.png" alt="Free Fire" />
-        <p>Free Fire</p>
-      </div>
-      <div class="game-card" onclick="showGame('pubg')">
-        <img src="img/pubg.png" alt="PUBG" />
-        <p>PUBG Mobile</p>
-      </div>
-      <div class="game-card" onclick="showGame('valorant')">
-        <img src="img/valorant.png" alt="Valorant" />
-        <p>Valorant</p>
-      </div>
-      <div class="game-card" onclick="showGame('genshin')">
-        <img src="img/genshin.png" alt="Genshin Impact" />
-        <p>Genshin Impact</p>
-      </div>
-      <div class="game-card" onclick="showGame('honkai')">
-        <img src="img/honkai.png" alt="Honkai Star Rail" />
-        <p>Honkai Star Rail</p>
-      </div>
-      <div class="game-card" onclick="showGame('codm')">
-        <img src="img/codm.png" alt="CODM" />
-        <p>Call of Duty Mobile</p>
-      </div>
-    </div>
-    <section id="topup-form" class="form-section">
-  <h2 class="section-title">Form TopUp Eterield Shop</h2>
-  <form id="topupForm">
-    <label for="username">Username Game:</label>
-    <input type="text" id="username" name="username" required placeholder="Masukkan username">
-
-    <label for="produk">Pilih Produk:</label>
-    <select id="produk" name="produk" required>
-      <option value="" disabled selected>Pilih jumlah Diamond</option>
-      <option value="86 Diamond - Rp20.000">86 Diamond - Rp20.000</option>
-      <option value="172 Diamond - Rp39.000">172 Diamond - Rp39.000</option>
-      <option value="257 Diamond - Rp59.000">257 Diamond - Rp59.000</option>
-      <option value="344 Diamond - Rp78.000">344 Diamond - Rp78.000</option>
-      <option value="429 Diamond - Rp98.000">429 Diamond - Rp98.000</option>
-      <!-- Tambahkan sesuai kebutuhan -->
-    </select>
-
-    <label for="pembayaran">Metode Pembayaran:</label>
-    <select id="pembayaran" name="pembayaran" required onchange="toggleQRIS(this.value)">
-      <option value="" disabled selected>Pilih metode pembayaran</option>
-      <option value="Dana - 083159084210">Dana - 083159084210</option>
-      <option value="Gopay - 083159084210">Gopay - 083159084210</option>
-      <option value="OVO - 083159084210">OVO - 083159084210</option>
-      <option value="QRIS">QRIS (Scan Barcode)</option>
-    </select>
-
-    <div id="qrisDisplay" style="display: none; text-align: center; margin: 10px 0;">
-      <img src="LINK_GAMBAR_QRIS.png" alt="QRIS Payment" class="qris-image">
-      <p>Silakan scan QRIS di atas untuk melakukan pembayaran.</p>
-    </div>
-
-    <label for="bukti">Upload Bukti Transfer:</label>
-    <input type="file" id="bukti" name="bukti" accept="image/*" required>
-
-    <button type="submit" class="submit-btn">Kirim Pemesanan</button>
-  </form>
-    </section>
-    <section id="topup-form" class="form-section">
-  <h2 class="section-title">Form TopUp Eterield Shop</h2>
-  <form id="topupForm">
-    <label for="username">Username Game:</label>
-    <input type="text" id="username" name="username" required placeholder="Masukkan username">
-
-    <label for="produk">Pilih Produk:</label>
-    <select id="produk" name="produk" required>
-      <option value="" disabled selected>Pilih jumlah Diamond</option>
-      <option value="86 Diamond - Rp20.000">86 Diamond - Rp20.000</option>
-      <option value="172 Diamond - Rp39.000">172 Diamond - Rp39.000</option>
-      <option value="257 Diamond - Rp59.000">257 Diamond - Rp59.000</option>
-      <option value="344 Diamond - Rp78.000">344 Diamond - Rp78.000</option>
-      <option value="429 Diamond - Rp98.000">429 Diamond - Rp98.000</option>
-      <!-- Tambahkan sesuai kebutuhan -->
-    </select>
-
-    <label for="pembayaran">Metode Pembayaran:</label>
-    <select id="pembayaran" name="pembayaran" required onchange="toggleQRIS(this.value)">
-      <option value="" disabled selected>Pilih metode pembayaran</option>
-      <option value="Dana - 083159084210">Dana - 083159084210</option>
-      <option value="Gopay - 083159084210">Gopay - 083159084210</option>
-      <option value="OVO - 083159084210">OVO - 083159084210</option>
-      <option value="QRIS">QRIS (Scan Barcode)</option>
-    </select>
-
-    <div id="qrisDisplay" style="display: none; text-align: center; margin: 10px 0;">
-      <img src="LINK_GAMBAR_QRIS.png" alt="QRIS Payment" class="qris-image">
-      <p>Silakan scan QRIS di atas untuk melakukan pembayaran.</p>
-    </div>
-
-    <label for="bukti">Upload Bukti Transfer:</label>
-    <input type="file" id="bukti" name="bukti" accept="image/*" required>
-
-    <button type="submit" class="submit-btn">Kirim Pemesanan</button>
-  </form>
-    </section>
-   <!-- Top Up Form (akan dikirim bagian selanjutnya) -->  <!-- Footer (akan dikirim bagian selanjutnya) -->  <script src="script.js"><script>
-  const metodePembayaran = document.getElementById("metodePembayaran");
-  const qrisImage = document.getElementById("qrisImage");
-  const qrisContainer = document.getElementById("qrisContainer");
-
-  metodePembayaran.addEventListener("change", function () {
-    const value = this.value;
-    if (value === "QRIS") {
-      qrisContainer.style.display = "block";
-      // Ganti link QRIS di sini
-      qrisImage.src = "https://example.com/link-gambar-qris-anda.jpg";
-    } else {
-      qrisContainer.style.display = "none";
-      qrisImage.src = "";
-    }
-
-    // Tampilkan bagian upload bukti
-    document.getElementById("upload-section").style.display = "block";
-  });
-
-  async function kirimData() {
-    const nama = document.getElementById("namaPembeli").value;
-    const jumlah = document.getElementById("jumlahDiamond").value;
-    const metode = document.getElementById("metodePembayaran").value;
-    const bukti = document.getElementById("buktiTransfer").files[0];
-
-    if (!nama || !jumlah || !metode || !bukti) {
-      alert("Mohon lengkapi semua data sebelum mengirim.");
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onloadend = async function () {
-      const base64Image = reader.result.split(",")[1];
-
-      const payload = {
-        embeds: [
-          {
-            title: "📩 Pesanan Topup Eterield Shop",
-            color: 0xf1c40f,
-            fields: [
-              { name: "👤 Nama Pembeli", value: nama },
-              { name: "💎 Jumlah Diamond", value: jumlah },
-              { name: "💳 Metode Pembayaran", value: metode },
-            ],
-            image: {
-              url: "attachment://bukti.jpg",
-            },
-            footer: {
-              text: "Eterield Shop • Sistem Otomatis",
-            },
-            timestamp: new Date().toISOString(),
-          },
-        ],
-      };
-
-      const form = new FormData();
-      form.append("payload_json", JSON.stringify(payload));
-      form.append("file", dataURItoBlob(reader.result), "bukti.jpg");
-
-      const webhook = "https://discord.com/api/webhooks/1396156235207671999/D6WPoY1lYHf2O3cmN1HcIvrZLMzVfusbd4BwvLXwPVn1O_NMR5k1D9GE8ECxc69Kq9AQ";
-
-      await fetch(webhook, {
-        method: "POST",
-        body: form,
-      });
-
-      document.getElementById("notif").style.display = "block";
-    };
-
-    reader.readAsDataURL(bukti);
-  }
-
-  function dataURItoBlob(dataURI) {
-    const byteString = atob(dataURI.split(",")[1]);
-    const mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
-    const ab = new ArrayBuffer(byteString.length);
-    const ia = new Uint8Array(ab);
-
-    for (let i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-
-    return new Blob([ab], { type: mimeString });
-  }
-</script>
-  </script>
-</body>
+  </div>  <div id="toast" class="toast hidden">Berhasil dikirim!</div>  <footer class="footer">
+    <p>© 2025 Eterield Shop. All rights reserved.</p>
+  </footer>  <script src="script.js"></script></body>
 </html>
