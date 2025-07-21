@@ -5,102 +5,95 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Eterield Shop</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="assets/images/logo.png" />
 </head>
 <body>
 
-  <!-- 🔵 Header -->
+  <!-- HEADER -->
   <header>
-    <div class="logo">
-      <img src="assets/images/logo.png" alt="Eterield Shop">
-      <h1>Eterield Shop</h1>
-    </div>
-    <nav>
-      <ul>
-        <li><a href="#home">Beranda</a></li>
-        <li><a href="#produk">Daftar Game</a></li>
-        <li><a href="#order">Pesan</a></li>
-        <li><a href="#kontak">Kontak</a></li>
-      </ul>
+    <div class="logo">Eterield <span>Shop</span></div>
+    <nav id="nav-menu">
+      <a href="#home">Beranda</a>
+      <a href="#games">Game</a>
+      <a href="#info">Tentang</a>
+      <a href="#contact">Kontak</a>
     </nav>
+    <div class="menu-toggle" id="menu-toggle">&#9776;</div>
   </header>
 
-  <!-- 🔵 Slide/Banner -->
-  <section class="hero" id="home">
-    <div class="hero-content">
-      <h2>Top Up Game Murah & Cepat!</h2>
-      <p>Layanan terpercaya untuk semua kebutuhan game kamu</p>
-      <a href="#produk" class="cta-button">Lihat Daftar Game</a>
+  <!-- SLIDE -->
+  <section class="slide-container">
+    <div class="slide active">
+      <img src="assets/images/promo1.jpg" alt="Promo 1">
+      <div class="slide-text">Top Up Cepat dan Aman di Eterield Shop!</div>
+    </div>
+    <div class="slide">
+      <img src="assets/images/promo2.jpg" alt="Promo 2">
+      <div class="slide-text">Diskon hingga 70% Hari Ini!</div>
+    </div>
+    <div class="slide">
+      <img src="assets/images/promo3.jpg" alt="Promo 3">
+      <div class="slide-text">Gabung Membership & Dapatkan Bonus</div>
     </div>
   </section>
 
-  <!-- 🔵 Daftar Produk/Game -->
-  <section class="produk" id="produk">
-    <h2>Daftar Game</h2>
+  <!-- BERANDA -->
+  <section id="home" class="home-section">
+    <h1>Selamat Datang di <span>Eterield Shop</span></h1>
+    <p>Tempat terbaik untuk top up game favoritmu!</p>
+    <a href="#games" class="btn-primary">Lihat Daftar Game</a>
+  </section>
+
+  <!-- GAME LIST -->
+  <section id="games" class="game-section">
+    <h2>Daftar Game Populer</h2>
     <div class="game-list">
       <div class="game-card">
-        <img src="assets/images/mlbb.png" alt="Mobile Legends">
+        <img src="assets/images/mlbb.jpg" alt="MLBB">
         <h3>Mobile Legends</h3>
-        <p>Top up cepat, harga termurah!</p>
-        <button class="order-btn" data-game="Mobile Legends">Pesan</button>
+        <button class="order-btn" data-game="Mobile Legends">Top Up</button>
       </div>
       <div class="game-card">
-        <img src="assets/images/freefire.png" alt="Free Fire">
-        <h3>Free Fire</h3>
-        <p>Langsung masuk, proses cepat!</p>
-        <button class="order-btn" data-game="Free Fire">Pesan</button>
-      </div>
-      <div class="game-card">
-        <img src="assets/images/pubg.png" alt="PUBG Mobile">
+        <img src="assets/images/pubg.jpg" alt="PUBG">
         <h3>PUBG Mobile</h3>
-        <p>Top up UC dengan aman dan nyaman</p>
-        <button class="order-btn" data-game="PUBG Mobile">Pesan</button>
+        <button class="order-btn" data-game="PUBG Mobile">Top Up</button>
+      </div>
+      <div class="game-card">
+        <img src="assets/images/ff.jpg" alt="Free Fire">
+        <h3>Free Fire</h3>
+        <button class="order-btn" data-game="Free Fire">Top Up</button>
       </div>
       <!-- Tambahkan game lain di sini -->
     </div>
   </section>
 
-  <!-- 🔵 Formulir Pemesanan -->
-  <section class="order-form" id="order">
-    <h2>Formulir Pemesanan</h2>
-    <form id="topupForm">
-      <label for="game">Game</label>
-      <input type="text" id="game" name="game" placeholder="Pilih dari daftar" required readonly />
-
-      <label for="id">ID Pengguna</label>
-      <input type="text" id="id" name="id" placeholder="Contoh: 123456789 (Zone ID jika perlu)" required />
-
-      <label for="jumlah">Jumlah Diamond/Koin</label>
-      <input type="text" id="jumlah" name="jumlah" placeholder="Misal: 86 diamond" required />
-
-      <label for="pembayaran">Metode Pembayaran</label>
-      <select id="pembayaran" name="pembayaran" required>
-        <option value="">Pilih</option>
-        <option value="Dana">Dana</option>
-        <option value="Gopay">Gopay</option>
-        <option value="OVO">OVO</option>
-        <option value="QRIS">QRIS</option>
-      </select>
-
-      <label for="bukti">Upload Bukti Pembayaran</label>
-      <input type="file" id="bukti" name="bukti" accept="image/*" required />
-
-      <button type="submit" class="submit-btn">Kirim Pesanan</button>
-    </form>
-    <p id="statusText"></p>
+  <!-- INFO -->
+  <section id="info" class="info-section">
+    <h2>Mengapa Memilih Kami?</h2>
+    <ul>
+      <li>✅ Transaksi cepat & aman</li>
+      <li>✅ Harga bersaing dengan Codashop</li>
+      <li>✅ Tersedia banyak metode pembayaran</li>
+      <li>✅ Pelayanan ramah & responsif</li>
+    </ul>
   </section>
 
-  <!-- 🔵 Kontak & Footer -->
-  <footer id="kontak">
-    <div class="footer-content">
-      <p>Hubungi Admin: <a href="https://wa.me/6281234567890">WhatsApp</a></p>
-      <p>&copy; 2025 Eterield Shop. All rights reserved.</p>
-    </div>
+  <!-- KONTAK -->
+  <section id="contact" class="contact-section">
+    <h2>Kontak Kami</h2>
+    <p>Jika ada pertanyaan, hubungi kami melalui:</p>
+    <ul class="social-icons">
+      <li><a href="https://wa.me/6281234567890" target="_blank">WhatsApp</a></li>
+      <li><a href="https://instagram.com/eterield.shop" target="_blank">Instagram</a></li>
+      <li><a href="mailto:support@eterieldshop.com">Email</a></li>
+    </ul>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 Eterield Shop. All Rights Reserved.</p>
   </footer>
 
-  <!-- 🔵 Audio Klik -->
-  <audio id="clickSound" src="assets/audio/click.mp3" preload="auto"></audio>
-
+  <!-- SCRIPT -->
   <script src="script.js"></script>
 </body>
 </html>
