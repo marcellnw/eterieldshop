@@ -1,99 +1,519 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Eterield Shop</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Itemku Clone</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body 
+    {
+        background: #f2f4f8; color: #222; }
+    header 
+    {
+      background-color: #002c6b;
+      color: white;
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+    .logo { font-weight: bold; font-size: 1.2rem; }
+    .search-box {
+      flex: 1;
+      margin: 0 12px;
+      position: relative;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: none;
+      outline: none;
+    }
+    .btn-login {
+      background: white;
+      color: #002c6b;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+    }
+
+    /* Slider */
+    .slider-container {
+      overflow-x: auto;
+      white-space: nowrap;
+      background: #001f4d;
+      padding: 12px 0;
+    }
+    .slider-card {
+      display: inline-block;
+      width: 220px;
+      margin: 0 10px;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      vertical-align: top;
+    }
+    .slider-card img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+    }
+    .slider-card button {
+      width: 100%;
+      padding: 8px;
+      background: #002c6b;
+      color: white;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* Kategori */
+    .kategori {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      background: #fff;
+      padding: 12px 0;
+    }
+    .kategori-item {
+      flex: 0 0 auto;
+      text-align: center;
+      margin: 0 10px;
+      width: 70px;
+    }
+    .kategori-item i {
+      font-size: 24px;
+      color: #002c6b;
+    }
+    .kategori-item p {
+      font-size: 12px;
+      margin-top: 4px;
+    }
+    <!-- Beli Cepat Section -->
+  .beli-cepat {
+    background: #eaf0ff;
+    padding: 16px;
+  }
+  .beli-cepat h2 {
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #002c6b;
+  }
+  .game-scroll {
+    display: flex;
+    overflow-x: auto;
+    gap: 12px;
+    padding-bottom: 8px;
+  }
+  .game-item {
+    flex: 0 0 auto;
+    width: 100px;
+    text-align: center;
+    background: white;
+    border-radius: 10px;
+    padding: 10px 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  }
+  .game-item img {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 4px;
+  }
+  .game-item p {
+    font-size: 12px;
+    }
+    
+Promo IG
+/* Promo IG Slider */
+.promo-section {
+  padding: 10px;
+}
+
+.promo-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+}
+
+.promo-slide {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  scroll-behavior: smooth;
+}
+
+.promo-banner {
+  flex: 0 0 auto;
+  width: 300px;
+  height: 100px;
+  scroll-snap-align: center;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.promo-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+<!-- Top Up Game -->
+  .section {
+    padding: 16px;
+    background: #fff;
+    margin-top: 12px;
+  }
+  .section h2 {
+    font-size: 16px;
+    color: #002c6b;
+    margin-bottom: 12px;
+  }
+  .card-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  background: #f9f9f9;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.card-row .item {
+  flex: 1;
+  text-align: center;
+  min-width: 20%;
+}
+
+.card-row .item img {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 6px;
+}
+
+.card-row .item p {
+  font-size: 13px;
+  color: #002c6b;
+  font-weight: 500;
+}
+@media (max-width: 600px) {
+  .card-row .item {
+    flex: 1 1 45%;
+    margin-bottom: 10px;
+  }
+}
+<!-- Footer Navigasi Mobile -->
+footer {
+  background-color: #111;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 1rem 2rem;
+  font-size: 0.875rem;
+  border-top: 1px solid #333;
+}
+
+.footer-bottom .social-icons a {
+  color: #fff;
+  margin-left: 1rem;
+  font-size: 1.25rem;
+  transition: color 0.3s;
+}
+
+.footer-bottom .social-icons a:hover {
+  color: gold;
+}
+
+.footer-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #1a1a1a;
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid #333;
+  z-index: 1000;
+}
+
+.footer-nav a {
+  color: #fff;
+  text-align: center;
+  padding: 0.6rem 0;
+  font-size: 0.75rem;
+  flex: 1;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.footer-nav a:hover {
+  background-color: #222;
+  color: gold;
+}
+
+.footer-nav i {
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 0.2rem;
+}
+
+  </style>
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header>
-    <div class="logo">Eterield <span>Shop</span></div>
-    <nav id="nav-menu">
-      <a href="#home">Beranda</a>
-      <a href="#games">Game</a>
-      <a href="#info">Tentang</a>
-      <a href="#contact">Kontak</a>
-    </nav>
-    <div class="menu-toggle" id="menu-toggle">&#9776;</div>
-  </header>
+<header>
+  <div class="logo"><i class="fa-solid fa-bars"></i> eterield</div>
+  <div class="search-box">
+    <input type="text" placeholder="Coba cari Game">
+  </div>
+  <button class="btn-login">Masuk</button>
+</header>
 
-  <!-- SLIDE -->
-  <section class="slide-container">
-    <div class="slide active">
-      <img src="assets/images/promo1.jpg" alt="Promo 1">
-      <div class="slide-text">Top Up Cepat dan Aman di Eterield Shop!</div>
+<!-- Slider Banner Promosi -->
+<div class="slider-container">
+  <div class="slider-card">
+    <img src="https://via.placeholder.com/220x120.png?text=Jumat+Berkah" alt="">
+    <button>Join Sekarang</button>
+  </div>
+  <div class="slider-card">
+    <img src="https://via.placeholder.com/220x120.png?text=Star+Rail" alt="">
+    <button>Top Up</button>
+  </div>
+  <div class="slider-card">
+    <img src="https://via.placeholder.com/220x120.png?text=Mobile+Legends" alt="">
+    <button>Top Up!</button>
+  </div>
+  <div class="slider-card">
+    <img src="https://via.placeholder.com/220x120.png?text=Minecraft" alt="">
+    <button>Explore!</button>
+  </div>
+</div>
+
+
+<!-- Kategori Ikon -->
+<div class="kategori">
+  <div class="kategori-item"><i class="fa-solid fa-gem"></i><p>Top Up</p></div>
+  <div class="kategori-item"><i class="fa-solid fa-user"></i><p>Akun</p></div>
+  <div class="kategori-item"><i class="fa-solid fa-ticket"></i><p>Voucher</p></div>
+  <div class="kategori-item"><i class="fa-solid fa-key"></i><p>Game Key</p></div>
+  <div class="kategori-item"><i class="fa-solid fa-bolt"></i><p>Item</p></div>
+  <div class="kategori-item"><i class="fa-solid fa-coins"></i><p>Koin</p></div>
+  <div class="kategori-item"><i class="fa-solid fa-mobile-screen"></i><p>Pulsa</p></div>
+  <div class="kategori-item"><i class="fa-solid fa-database"></i><p>Data</p></div>
+  
+  <!-- Tambahan -->
+  <div class="kategori-item"><i class="fa-solid fa-crown"></i><p>Membership</p></div>
+  <div class="kategori-item"><i class="fa-solid fa-user-shield"></i><p>Premium</p></div>
+  <div class="kategori-item"><i class="fa-solid fa-gamepad"></i><p>Game Pass</p></div>
+  <div class="kategori-item"><i class="fa-solid fa-store"></i><p>Official Store</p></div>
+  <div class="kategori-item"><i class="fa-solid fa-headset"></i><p>Bantuan</p></div>
+</div>
+
+
+ <div class="beli-cepat">
+   <h2>Beli Cepat</h2>
+   <div class="game-scroll">
+     <div class="game-item">
+       <img src="https://via.placeholder.com/48?text=ML" alt="">
+       <p>Mobile Legends</p>
+     </div>
+     <div class="game-item">
+       <img src="https://via.placeholder.com/48?text=HOK" alt="">
+       <p>Honor of Kings</p>
+     </div>
+     <div class="game-item">
+       <img src="https://via.placeholder.com/48?text=FF" alt="">
+       <p>Free Fire</p>
+     </div>
+     <div class="game-item">
+       <img src="https://via.placeholder.com/48?text=GT" alt="">
+       <p>Growtopia</p>
+     </div>
+     <div class="game-item">
+       <img src="https://via.placeholder.com/48?text=VALO" alt="">
+       <p>Valorant</p>
+     </div>
+     <div class="game-item">
+      <img src="https://via.placeholder.com/48?text=STEAM" alt="">
+       <p>Steam</p>
+     </div>
+          <div class="game-item">
+      <img src="https://via.placeholder.com/48?text=BETA" alt="">
+       <p>Beta</p>
+     </div>
+          <div class="game-item">
+      <img src="https://via.placeholder.com/48?text=BETA" alt="">
+       <p>Beta</p>
+     </div>
+          <div class="game-item">
+      <img src="https://via.placeholder.com/48?text=BETA" alt="">
+       <p>Beta</p>
+     </div>
+          <div class="game-item">
+      <img src="https://via.placeholder.com/48?text=BETA" alt="">
+       <p>Beta</p>
+     </div>
+     </div>
+</div>
+      <!-- promo ig Slider -->
+<!-- Promo IG Slider -->
+<div class="promo-section">
+  <div class="promo-container">
+    <div class="promo-slide">
+      <div class="promo-banner"><img src="promo1.jpg" alt="Promo 1"></div>
+      <div class="promo-banner"><img src="promo2.jpg" alt="Promo 2"></div>
+      <div class="promo-banner"><img src="promo3.jpg" alt="Promo 3"></div>
+      <div class="promo-banner"><img src="promo4.jpg" alt="Promo 4"></div>
+      <div class="promo-banner"><img src="promo5.jpg" alt="Promo 5"></div>
     </div>
-    <div class="slide">
-      <img src="assets/images/promo2.jpg" alt="Promo 2">
-      <div class="slide-text">Diskon hingga 70% Hari Ini!</div>
+  </div>
+</div>
+
+     <div class="section">
+     <h2>Top Up Game</h2>
+     <div class="card-row">
+     <div class="item"><img src="..." alt=""><p>Mobile Legends</p></div>
+     <div class="item"><img src="..." alt=""><p>Free Fire</p></div>
+     <div class="item"><img src="..." alt=""><p>PUBG Mobile</p></div>
+     <div class="item"><img src="..." alt=""><p>Valorant</p></div>
+</div>
+
+     <div class="card-row">
+     <div class="item"><img src="..." alt=""><p>Genshin Impact</p></div>
+     <div class="item"><img src="..." alt=""><p>LivU</p></div>
+     <div class="item"><img src="..." alt=""><p>Star Rail</p></div>
+     <div class="item"><img src="..." alt=""><p>Honor of Kings</p></div>
+</div>
+
+ <!-- Voucher Section -->
+     <div class="section">
+   <h2>Voucher</h2>
+     <div class="card-row">
+     <div class="item"><img src="..." alt=""><p>Mobile Legends</p></div>
+     <div class="item"><img src="..." alt=""><p >Free Fire</p></div>
+     <div class="item"><img src="..." alt=""><p>PUBG Mobile</p></div>
+     <div class="item"><img src="..." alt=""><p>Valorant</p></div>
+</div>
+
+<div class="card-row">
+  <div class="item"><img src="..." alt=""><p>Genshin Impact</p></div>
+  <div class="item"><img src="..." alt=""><p>LivU</p></div>
+  <div class="item"><img src="..." alt=""><p>Star Rail</p></div>
+  <div class="item"><img src="..." alt=""><p>Honor of Kings</p></div>
+</div>
+
+  <!-- Section: Footer Bottom -->
+<!-- ======== FOOTER START ======== -->
+<footer>
+  <!-- Section: Footer Bottom -->
+  <div class="footer-bottom">
+    <p>© 2025 EterieldShop. All rights reserved.</p>
+    <div class="social-icons">
+      <a href="https://instagram.com/eternalsmp" target="_blank" aria-label="Instagram">
+        <i class="fa-brands fa-instagram"></i>
+      </a>
+      <a href="https://youtube.com/@eternalsmp" target="_blank" aria-label="YouTube">
+        <i class="fa-brands fa-youtube"></i>
+      </a>
+      <a href="https://tiktok.com/@eternalsmpserver" target="_blank" aria-label="TikTok">
+        <i class="fa-brands fa-tiktok"></i>
+      </a>
     </div>
-    <div class="slide">
-      <img src="assets/images/promo3.jpg" alt="Promo 3">
-      <div class="slide-text">Gabung Membership & Dapatkan Bonus</div>
-    </div>
-  </section>
+  </div>
 
-  <!-- BERANDA -->
-  <section id="home" class="home-section">
-    <h1>Selamat Datang di <span>Eterield Shop</span></h1>
-    <p>Tempat terbaik untuk top up game favoritmu!</p>
-    <a href="#games" class="btn-primary">Lihat Daftar Game</a>
-  </section>
+  <!-- Navigasi Bawah -->
+  <div class="footer-nav">
+    <a href="index.html"><i class="fa-solid fa-house"></i><span>Home</span></a>
+    <a href="topup.html"><i class="fa-solid fa-gamepad"></i><span>Top Up</span></a>
+    <a href="bantuan.html"><i class="fa-solid fa-headset"></i><span>Bantuan</span></a>
+    <a href="akun.html"><i class="fa-solid fa-user"></i><span>Akun</span></a>
+  </div>
+</footer>
+<!-- JavaScript Interaktif -->
+<script>
+  // === Efek klik tombol ===
+  const buttons = document.querySelectorAll("button");
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const audio = new Audio("https://www.myinstants.com/media/sounds/mouse-click.mp3");
+      audio.play();
+    });
+  });
 
-  <!-- GAME LIST -->
-  <section id="games" class="game-section">
-    <h2>Daftar Game Populer</h2>
-    <div class="game-list">
-      <div class="game-card">
-        <img src="assets/images/mlbb.jpg" alt="MLBB">
-        <h3>Mobile Legends</h3>
-        <button class="order-btn" data-game="Mobile Legends">Top Up</button>
-      </div>
-      <div class="game-card">
-        <img src="assets/images/pubg.jpg" alt="PUBG">
-        <h3>PUBG Mobile</h3>
-        <button class="order-btn" data-game="PUBG Mobile">Top Up</button>
-      </div>
-      <div class="game-card">
-        <img src="assets/images/ff.jpg" alt="Free Fire">
-        <h3>Free Fire</h3>
-        <button class="order-btn" data-game="Free Fire">Top Up</button>
-      </div>
-      <!-- Tambahkan game lain di sini -->
-    </div>
-  </section>
+  // === Slider otomatis banner ===
+  const sliderContainer = document.querySelector('.slider-container');
+  let scrollAmount = 0;
+  setInterval(() => {
+    scrollAmount += 220;
+    if (scrollAmount > sliderContainer.scrollWidth - sliderContainer.clientWidth) {
+      scrollAmount = 0;
+    }
+    sliderContainer.scrollTo({
+      left: scrollAmount,
+      behavior: "smooth"
+    });
+  }, 4000);
 
-  <!-- INFO -->
-  <section id="info" class="info-section">
-    <h2>Mengapa Memilih Kami?</h2>
-    <ul>
-      <li>✅ Transaksi cepat & aman</li>
-      <li>✅ Harga bersaing dengan Codashop</li>
-      <li>✅ Tersedia banyak metode pembayaran</li>
-      <li>✅ Pelayanan ramah & responsif</li>
-    </ul>
-  </section>
+  // === Fungsi Pencarian ===
+  const searchInput = document.querySelector('.search-box input');
+  const allGameItems = document.querySelectorAll('.grid-game .item');
 
-  <!-- KONTAK -->
-  <section id="contact" class="contact-section">
-    <h2>Kontak Kami</h2>
-    <p>Jika ada pertanyaan, hubungi kami melalui:</p>
-    <ul class="social-icons">
-      <li><a href="https://wa.me/6281234567890" target="_blank">WhatsApp</a></li>
-      <li><a href="https://instagram.com/eterield.shop" target="_blank">Instagram</a></li>
-      <li><a href="mailto:support@eterieldshop.com">Email</a></li>
-    </ul>
-  </section>
+  searchInput.addEventListener('input', () => {
+    const keyword = searchInput.value.toLowerCase();
+    allGameItems.forEach(item => {
+      const text = item.innerText.toLowerCase();
+      item.style.display = text.includes(keyword) ? 'block' : 'none';
+    });
+  });
 
-  <!-- FOOTER -->
-  <footer>
-    <p>&copy; 2025 Eterield Shop. All Rights Reserved.</p>
-  </footer>
+  // === Klik Beli Cepat Game: Menampilkan Detail Game ===
+  const gameItems = document.querySelectorAll('.game-item');
+  gameItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const gameName = item.querySelector('p').innerText;
+      alert("📦 Anda memilih game: " + gameName + "\n\nFitur beli akan segera tersedia.");
+    });
+  });
 
-  <!-- SCRIPT -->
-  <script src="script.js"></script>
+  // === Klik Kategori (Top Up, Akun, dll) ===
+  const kategoriItems = document.querySelectorAll('.kategori-item');
+  kategoriItems.forEach((item, i) => {
+    item.addEventListener('click', () => {
+      const label = item.querySelector('p').innerText;
+      alert("🔍 Kategori " + label + " akan difilter...\n(ini simulasi saja)");
+    });
+  });
+  
+  // === Footer Navigasi Mobile ===
+<script>
+  const faqToggles = document.querySelectorAll('.faq-toggle');
+  faqToggles.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const answer = btn.nextElementSibling;
+      answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+      btn.querySelector('.arrow').innerHTML = answer.style.display === 'block' ? '&#9650;' : '&#9660;';
+    });
+  });
+</script>
+
+
+</script>
 </body>
 </html>
