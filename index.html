@@ -1,276 +1,504 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexusFlow - The Future of Team Collaboration</title>
-    <link href="templatemo-nexus-style.css" rel="stylesheet">
-<!--
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EternalSMP Shop</title>
+  <meta name="description" content="Toko resmi EternalSMP — paket MVP/VIP, donasi, sponsorship, dan top up." />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <style>
+    :root{
+      --navy:#0b1736;
+      --navy-2:#0f1e4d;
+      --gold:#ffd166;
+      --gold-2:#ffb703;
+      --white:#ffffff;
+      --muted:#9aa4c7;
+      --black:#0b0b0f;
+      --shadow: 0 10px 25px rgba(0,0,0,.35);
+      --radius: 18px;
+      --radius-lg: 24px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, Inter, "Noto Sans", Arial;
+      color:var(--white); background: var(--navy); overflow-x:hidden;
+    }
 
-TemplateMo 594 nexus flow
+    /* Animated background */
+    .bg-animated{
+      position:fixed; inset:0; z-index:-2;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(255,214,102,.10), transparent 60%),
+                  radial-gradient(800px 500px at 90% 20%, rgba(255,183,3,.08), transparent 60%),
+                  radial-gradient(900px 600px at 30% 90%, rgba(255,214,102,.06), transparent 60%),
+                  linear-gradient(120deg, var(--navy), var(--navy-2));
+      animation: hue 18s ease-in-out infinite alternate;
+    }
+    @keyframes hue{ from{ filter:hue-rotate(0deg)} to{ filter:hue-rotate(10deg)} }
 
-https://templatemo.com/tm-594-nexus-flow
+    .twinkle{ position:fixed; inset:0; pointer-events:none; z-index:-1; }
+    .twinkle span{ position:absolute; width:2px; height:2px; background:var(--gold); border-radius:50%; opacity:.8; box-shadow:0 0 8px rgba(255,214,102,.8); animation: twinkle 4s linear infinite; }
+    @keyframes twinkle{ 0%{ transform:scale(.6); opacity:.2 } 50%{ transform:scale(1.2); opacity:.9 } 100%{ transform:scale(.6); opacity:.2 } }
 
--->
+    /* Layout */
+    header{ position:sticky; top:0; backdrop-filter: blur(8px); background: linear-gradient(to bottom, rgba(5,10,26,.75), rgba(5,10,26,.35)); border-bottom:1px solid rgba(255,255,255,.06); z-index:20; }
+    .container{ width:min(1100px, 92vw); margin-inline:auto; }
+    .nav{ display:flex; align-items:center; justify-content:space-between; padding:14px 4px; }
+    .brand{ display:flex; gap:12px; align-items:center; text-decoration:none; color:var(--white)}
+    .logo{ width:38px; height:38px; border-radius:50%; background: radial-gradient(circle at 30% 30%, var(--gold), var(--gold-2)); box-shadow:0 0 0 3px rgba(255,214,102,.25), 0 10px 20px rgba(0,0,0,.35)}
+    .title{ font-weight:800; letter-spacing:.3px; font-size:1.08rem; }
+
+    .kebab{ width:42px; height:42px; border-radius:12px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.04); display:grid; place-items:center; cursor:pointer; transition:.25s; }
+    .menu{ position:absolute; right:16px; top:64px; background:rgba(9,17,40,.95); border:1px solid rgba(255,255,255,.08); border-radius:12px; box-shadow:var(--shadow); width:220px; padding:8px; display:none; }
+    .menu.open{ display:block }
+    .menu a{ display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:10px; color:var(--white); text-decoration:none; font-size:.95rem }
+
+    .hero{ padding:48px 0 8px }
+    .headline{ font-size:clamp(1.4rem, 2.6vw, 2rem); font-weight:800; }
+    .sub{ color:var(--muted) }
+
+    /* Carousel Banner: responsive heights */
+    .carousel-banner{ margin:20px auto; border-radius:14px; overflow:hidden; box-shadow:0 10px 25px rgba(0,0,0,.4); width:min(1100px,92vw) }
+    .carousel-banner .slides{ display:flex; transition: transform .8s ease; }
+    .carousel-banner img{ width:100%; height:360px; object-fit:cover; flex:0 0 100% }
+    /* smaller on medium */
+    @media (max-width: 900px){
+      .carousel-banner img{ height:260px; }
+    }
+    /* mobile: compact banner */
+    @media (max-width: 480px){
+      .carousel-banner img{ height:140px; }
+      .headline{ font-size:1.2rem }
+      .sub{ font-size:0.92rem }
+    }
+
+    /* Grid / cards */
+    .grid{ display:grid; gap:16px; grid-template-columns: repeat(12, 1fr); }
+    .card{ grid-column: span 12; background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01)); border:1px solid rgba(255,255,255,.06); border-radius: 14px; box-shadow: var(--shadow); padding:14px; }
+    .badge{ display:inline-flex; align-items:center; gap:8px; font-size:.8rem; color:var(--black); background:linear-gradient(180deg, var(--gold), var(--gold-2)); padding:6px 10px; border-radius:999px; font-weight:700; }
+    .price{ font-weight:800; font-size:1.15rem; margin-top:8px }
+    .desc{ color:var(--muted); font-size:.95rem; line-height:1.4 }
+
+    .actions{ display:flex; flex-wrap:wrap; gap:10px; margin-top:10px }
+    .btn{ position:relative; padding:10px 12px; border-radius:12px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); color:var(--white); font-weight:700; cursor:pointer; }
+    .btn.primary{ color:var(--black); background: linear-gradient(180deg,var(--gold),var(--gold-2)); border-color: rgba(0,0,0,.12); }
+
+    /* Table */
+    .table{ margin-top:18px; border:1px solid rgba(255,255,255,.06); border-radius:12px; overflow:hidden }
+    table{ width:100%; border-collapse:collapse; font-size:.95rem }
+    thead th{ background:rgba(255,255,255,.03); text-align:left; padding:12px 14px; color:#dbe2ff }
+    tbody td{ padding:12px 14px; border-top:1px solid rgba(255,255,255,.04) }
+
+    /* Modal */
+    .modal-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.55); display:none; align-items:center; justify-content:center; padding:18px; z-index:50; }
+    .modal-backdrop.open{ display:flex }
+    .modal{ width:min(560px, 96vw); background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.06); border-radius:14px; padding:16px; box-shadow:var(--shadow); }
+    .form{ display:grid; gap:10px }
+    .row{ display:grid; gap:8px; grid-template-columns:1fr 1fr }
+    .input, .select, textarea{ width:100%; padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.02); color:var(--white); }
+    .note{ font-size:.9rem; color:var(--muted) }
+
+    /* proof preview */
+    .proof-preview{ margin-top:8px; display:flex; gap:10px; align-items:center }
+    .proof-preview img{ width:72px; height:72px; object-fit:cover; border-radius:8px; border:1px solid rgba(255,255,255,.06) }
+
+    footer{ margin-top:24px; padding:20px 0 48px; color:#c8d0f2; border-top:1px solid rgba(255,255,255,.06); }
+    .foot-grid{ display:grid; gap:12px; grid-template-columns: repeat(12,1fr) }
+    .foot-col{ grid-column: span 12 }
+    @media (min-width:680px){ .card{ grid-column: span 6 } .foot-col{ grid-column: span 4 } }
+    @media (min-width:980px){ .card{ grid-column: span 4 } }
+  </style>
 </head>
-<body id="top">
-    <!-- Enhanced Background Elements -->
-    <div class="cyber-bg">
-        <div class="cyber-gradient"></div>
-        <div class="matrix-rain" id="matrixRain"></div>
-    </div>
-    
-    <div class="particles" id="particlesContainer"></div>
-    
-    <div class="data-streams" id="dataStreams"></div>
-    
-    <div class="orb orb1"></div>
-    <div class="orb orb2"></div>
-    <div class="orb orb3"></div>
-    
-    <div class="grid-overlay">
-        <div class="grid-lines"></div>
-        <div class="grid-glow"></div>
-    </div>
-    
-    <div class="scanlines"></div>
-    <div class="noise-overlay"></div>
-    
-    <!-- Navigation -->
-    <nav>
-        <div class="nav-container">
-            <a href="#top" class="logo">NexusFlow</a>
-            <ul class="nav-links">
-                <li><a href="#features">Features</a></li>
-                <li><a href="#pricing">Pricing</a></li>
-                <li><a href="#stats">Stats</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <div class="nav-bottom">
-                <a href="#" class="cyber-button">Access Terminal</a>
-            </div>
-            <button class="mobile-menu-button" id="mobileMenuBtn">
-                <div class="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </button>
-        </div>
-    </nav>
+<body>
+  <div class="bg-animated"></div>
+  <div class="twinkle" id="twinkle"></div>
 
-    <!-- Mobile Menu -->
-    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
-    <div class="mobile-menu" id="mobileMenu">
-        <div class="mobile-menu-header">
-            <a href="#top" class="mobile-menu-logo">NexusFlow</a>
-            <button class="mobile-menu-close" id="mobileMenuClose">✕</button>
-        </div>
-        <div class="mobile-menu-cta">
-            <a href="#" class="cyber-button">Access Terminal</a>
-        </div>
-        <nav class="mobile-menu-nav">
-            <ul>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#pricing">Pricing</a></li>
-                <li><a href="#stats">Stats</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#">
+        <div class="logo" aria-hidden="true"></div>
+        <div class="title">EternalSMP Shop</div>
+      </a>
+      <button class="kebab" id="kebab" aria-label="Menu">
+        <i class="bi bi-three-dots-vertical"></i>
+      </button>
+      <nav class="menu" id="menu" role="navigation" aria-label="Main menu">
+        <a href="#shop"><i class="bi bi-bag-fill" style="color:#ffd166"></i> Shop</a>
+        <a href="#info"><i class="bi bi-info-circle-fill" style="color:#4cc9f0"></i> Info</a>
+        <a href="#kontak"><i class="bi bi-chat-left-dots-fill" style="color:#38d9a9"></i> Kontak</a>
+        <a href="#sponsor"><i class="bi bi-star-fill" style="color:#ffd166"></i> Sponsor</a>
+      </nav>
     </div>
+  </header>
 
-    <!-- Hero Section -->
+  <main class="container">
     <section class="hero">
-        <div class="hero-container">
-            <h1 class="hero-title">
-                <span class="hero-nexus">NEXUS</span><span class="hero-flow">FLOW</span>
-            </h1>
-            <p class="hero-subtitle">The quantum leap in team collaboration. Connect minds, sync realities, achieve impossible.</p>
-            <div class="hero-buttons">
-                <a href="#" class="btn-primary">Initialize System</a>
-                <a href="#" class="btn-secondary">View Documentation</a>
-            </div>
-        </div>
+      <h1 class="headline">Dukung server & dapatkan benefit eksklusif</h1>
+      <p class="sub">Paket MVP/VIP, pendaftaran via donasi, sponsorship, dan top up. Desain profesional, nyaman untuk mobile & PC.</p>
     </section>
 
-    <!-- Stats Section -->
-    <section class="stats fade-up" id="stats">
-        <div class="stats-container">
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <span class="stat-number">50K+</span>
-                    <span class="stat-label">Active Users</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">99.9%</span>
-                    <span class="stat-label">Uptime</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">500M+</span>
-                    <span class="stat-label">Tasks Processed</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">180+</span>
-                    <span class="stat-label">Countries</span>
-                </div>
-            </div>
-        </div>
+    <!-- Banner -->
+    <div class="carousel-banner" aria-hidden="false">
+      <div class="slides" id="bannerSlides" aria-hidden="false">
+        <img src="https://picsum.photos/1200/360?random=1" alt="Banner 1">
+        <img src="https://picsum.photos/1200/360?random=2" alt="Banner 2">
+        <img src="https://picsum.photos/1200/360?random=3" alt="Banner 3">
+      </div>
+    </div>
+
+    <!-- Shop -->
+    <section id="shop" class="grid" aria-label="Shop">
+      <!-- JS renders cards -->
     </section>
 
-    <!-- Features Section -->
-    <section class="features fade-up" id="features">
-        <div class="features-container">
-            <div class="section-header">
-                <h2 class="section-title">Core Systems</h2>
-                <p class="section-subtitle">Advanced modules designed for maximum efficiency and seamless integration</p>
-            </div>
-            
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Quantum Processing</h3>
-                    <p>Experience lightning-fast data processing with our quantum-inspired algorithms that handle complex workflows in microseconds.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">🔮</div>
-                    <h3>Neural Networks</h3>
-                    <p>AI-powered decision making that learns from your team's patterns and optimizes collaboration in real-time.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">🌐</div>
-                    <h3>Holographic Interface</h3>
-                    <p>Immersive 3D workspace that transcends traditional boundaries, bringing remote teams into a shared reality.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">🛡️</div>
-                    <h3>Quantum Encryption</h3>
-                    <p>Military-grade security protocols with quantum encryption that makes your data literally impossible to breach.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">🚀</div>
-                    <h3>Hyperdrive Sync</h3>
-                    <p>Instantaneous synchronization across all devices and platforms with zero latency, no matter the distance.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">🎯</div>
-                    <h3>Mind Reading Analytics</h3>
-                    <p>Predictive analytics so advanced, it anticipates your team's needs before they even know what they need.</p>
-                </div>
-            </div>
-        </div>
+    <!-- Payment table -->
+    <section class="table" aria-labelledby="tabel-judul">
+      <h2 id="tabel-judul" style="position:absolute;left:-9999px">Daftar Paket</h2>
+      <table>
+        <thead>
+          <tr><th>Pemasukan</th><th>Harga</th><th>Keterangan</th></tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
     </section>
 
-    <!-- Pricing Section -->
-    <section class="pricing fade-up" id="pricing">
-        <div class="pricing-container">
-            <div class="section-header">
-                <h2 class="section-title">Access Levels</h2>
-                <p class="section-subtitle">Choose your gateway to the future of collaboration</p>
-            </div>
-            
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <div class="plan-name">Initiate</div>
-                    <div class="plan-price">$49</div>
-                    <div class="plan-period">per neural link</div>
-                    <ul class="plan-features">
-                        <li>Basic quantum processing</li>
-                        <li>5 holographic workspaces</li>
-                        <li>Standard encryption</li>
-                        <li>Community support matrix</li>
-                        <li>Reality sync enabled</li>
-                    </ul>
-                    <a href="#" class="btn-secondary">Enter System</a>
-                </div>
-                
-                <div class="pricing-card featured">
-                    <div class="plan-name">Nexus</div>
-                    <div class="plan-price">$149</div>
-                    <div class="plan-period">per neural link</div>
-                    <ul class="plan-features">
-                        <li>Advanced quantum algorithms</li>
-                        <li>Unlimited holo-workspaces</li>
-                        <li>Quantum encryption fortress</li>
-                        <li>Priority neural support</li>
-                        <li>Mind-reading analytics</li>
-                        <li>Hyperdrive sync protocol</li>
-                    </ul>
-                    <a href="#" class="btn-primary">Jack In</a>
-                </div>
-                
-                <div class="pricing-card">
-                    <div class="plan-name">Transcend</div>
-                    <div class="plan-price">$399</div>
-                    <div class="plan-period">per neural link</div>
-                    <ul class="plan-features">
-                        <li>Infinite processing power</li>
-                        <li>Custom reality matrices</li>
-                        <li>Temporal encryption layers</li>
-                        <li>Direct neural interface</li>
-                        <li>Predictive consciousness</li>
-                        <li>Quantum entanglement sync</li>
-                    </ul>
-                    <a href="#" class="btn-secondary">Ascend</a>
-                </div>
-            </div>
+    <!-- Info & Payments -->
+    <section id="info" style="margin-top:18px">
+      <div class="card">
+        <h3 class="badge">Panduan & Metode Pembayaran</h3>
+        <div style="margin-top:10px" class="desc">
+          <ul style="padding-left:18px; margin:8px 0">
+            <li>Harga dapat berubah sesuai fase server.</li>
+            <li>VIP mendapatkan pengembalian perlengkapan dari MVP (tanpa enchant) sesuai ketentuan fase.</li>
+            <li>Metode beli: <b>Discord Webhook</b> atau <b>WhatsApp</b> admin (pilih di form).</li>
+            <li>Setelah pembayaran, harap kirim bukti & IGN (in-game name).</li>
+          </ul>
+          <strong>Metode Pembayaran Tersedia:</strong>
+          <ul style="padding-left:18px; margin:8px 0">
+            <li>DANA / GoPay / OVO: <code>083159084210</code> (nama: EternalSMP)</li>
+            <li>Bank Jago: <code>104657404763</code></li>
+            <li>Saweria: <a class="link" href="https://saweria.co/eternalsmp" target="_blank" rel="noopener">saweria.co/eternalsmp</a></li>
+            <li>QRIS: silakan scan QRIS di kasir — atau unggah bukti transfer di form.</li>
+          </ul>
+          <p class="note">Tambahkan bukti transfer (foto) saat kirim pesanan agar admin lebih cepat memverifikasi.</p>
         </div>
+      </div>
     </section>
 
-    <!-- Contact Section -->
-    <section class="contact fade-up" id="contact">
-        <div class="contact-container">
-            <div class="section-header">
-                <h2 class="section-title">Initialize Contact</h2>
-                <p class="section-subtitle">Send a transmission through the neural network</p>
-            </div>
-            
-            <div class="contact-form-wrapper">
-                <div class="contact-form">
-                    <div class="form-group">
-                        <label for="name">Neural ID</label>
-                        <input type="text" id="name" name="name" placeholder="Enter your designation" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email">Quantum Address</label>
-                        <input type="email" id="email" name="email" placeholder="your.id@nexusflow.com" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="message">Transmission</label>
-                        <textarea id="message" name="message" rows="5" placeholder="Compose your message to the network..." required></textarea>
-                    </div>
-                    
-                    <button type="submit" class="btn-primary btn-submit">Transmit Message</button>
-                </div>
-            </div>
+    <!-- Sponsor -->
+    <section id="sponsor" style="margin-top:12px">
+      <div class="card">
+        <h3 class="badge">Sponsorship</h3>
+        <p class="desc" style="margin-top:8px">Bantu operasional server melalui paket <b>SponsorShip</b>. Nama/brand Anda akan dicantumkan pada halaman dukungan & pengumuman komunitas.</p>
+        <div class="actions">
+          <button class="btn primary" data-buy="SponsorShip">Ajukan Sponsorship</button>
+          <a class="btn" href="#kontak">Lihat Ketentuan</a>
         </div>
+      </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-links">
-                <a href="#">Privacy Policy</a>
-                <span class="footer-separator">•</span>
-                <a href="#">Terms of Service</a>
-                <span class="footer-separator">•</span>
-                <a href="#">Documentation</a>
-                <span class="footer-separator">•</span>
-                <a href="#">Contact Support</a>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 NexusFlow Systems. All realities reserved.</p>
-                <p class="footer-credit">Brought to you by <a href="https://templatemo.com" target="_blank" rel="noopener nofollow">TemplateMo</a></p>
-            </div>
+    <!-- Kontak -->
+    <section id="kontak" style="margin-top:12px">
+      <div class="card">
+        <h3 class="badge">Kontak Admin</h3>
+        <p class="desc" style="margin-top:8px">Perlu bantuan? Hubungi admin melalui WhatsApp atau Discord.</p>
+        <div class="actions">
+          <a class="btn primary" id="waAdmin" target="_blank" rel="noopener"><i class="bi bi-whatsapp"></i> WhatsApp Admin</a>
+          <button class="btn" id="copyDiscord"><i class="bi bi-discord"></i> Salin Template Discord</button>
         </div>
-    </footer>
+        <p class="note">Mohon sertakan IGN saat menghubungi. Jika sudah bayar, lampirkan bukti transfer.</p>
+      </div>
+    </section>
 
-    <script src="templatemo-nexus-scripts.js"></script>
+  </main>
+
+  <footer>
+    <div class="container foot-grid">
+      <div class="foot-col">
+        <h4><i class="bi bi-shield-shaded" style="color:var(--gold)"></i> EternalSMP</h4>
+        <p class="desc">Server komunitas — terima kasih atas dukungan Anda.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Navigasi</h4>
+        <p><a class="link" href="#shop">Shop</a> · <a class="link" href="#info">Info</a> · <a class="link" href="#sponsor">Sponsor</a> · <a class="link" href="#kontak">Kontak</a></p>
+      </div>
+      <div class="foot-col">
+        <h4>Legal</h4>
+        <p class="desc">© 2025 EternalSMP. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal Beli -->
+  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal" role="document">
+      <h3 id="modalTitle">Beli Paket</h3>
+      <form id="orderForm" class="form" enctype="multipart/form-data">
+        <div class="row">
+          <div>
+            <label>Nama Pemain (IGN)</label>
+            <input class="input" id="ign" placeholder="Contoh: Marcello_14" required />
+          </div>
+          <div>
+            <label>Paket</label>
+            <input class="input" id="paket" readonly />
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>Metode</label>
+            <select class="select" id="metode">
+              <option value="webhook">Discord Webhook (otomatis)</option>
+              <option value="wa">WhatsApp Admin (manual)</option>
+            </select>
+          </div>
+          <div>
+            <label>Catatan (opsional)</label>
+            <input class="input" id="catatan" placeholder="ID transaksi / preferensi" />
+          </div>
+        </div>
+
+        <!-- Payment proof upload -->
+        <div>
+          <label>Unggah Bukti Transfer (jpg/png, max 5MB)</label>
+          <input type="file" accept="image/*" id="proof" class="input" />
+          <div class="proof-preview" id="proofPreview" style="display:none">
+            <img id="proofImg" alt="preview bukti" />
+            <div style="font-size:.9rem;color:var(--muted)">Preview bukti transfer</div>
+          </div>
+          <div id="proofNote" class="note" style="margin-top:6px">Disarankan: lampirkan bukti agar verifikasi lebih cepat.</div>
+        </div>
+
+        <p class="note">Jika memilih <b>Discord Webhook</b>, bukti akan dikirim otomatis ke admin. Untuk WhatsApp, Anda perlu mengirim gambar secara manual setelah chat terbuka.</p>
+
+        <div class="actions" style="margin-top:8px">
+          <button type="submit" class="btn primary">Kirim</button>
+          <button type="button" class="btn" id="batal">Batal</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // ============= CONFIG =============
+    const DISCORD_WEBHOOK_URL = ""; // <-- ISI DENGAN URL WEBHOOK DISCORD ADMIN
+    const WHATSAPP_NUMBER = "6281323146137"; // tanpa +
+    // ==================================
+
+    const PRODUCTS = [
+      { name:"Paket MVP 50K", label:"Paket MVP", price:50000, desc:"Setiap pergantian fase akan bertambah Rp. 5.000" },
+      { name:"Paket MVP 100K", label:"Paket MVP", price:100000, desc:"Setiap pergantian fase akan bertambah Rp. 10.000" },
+      { name:"Paket MVP 150K", label:"Paket MVP", price:150000, desc:"Setiap pergantian fase akan bertambah Rp. 15.000" },
+      { name:"Paket VIP 250K", label:"Paket VIP", price:250000, desc:"Perlengkapan dari MVP akan dikembalikan (kecuali enchant) setiap ganti fase 1 fase" },
+      { name:"Paket VIP 325K", label:"Paket VIP", price:325000, desc:"Perlengkapan dari MVP akan dikembalikan (kecuali enchant) setiap ganti fase 2 fase" },
+      { name:"Pendaftaran via Donasi", label:"Pendaftaran via Donasi", price:30000, desc:"Diterima jika pemain bersangkutan tidak mau wawancara" },
+      { name:"SponsorShip", label:"SponsorShip", price:40000, desc:"Jika pemain mau bersedekah" },
+      { name:"Top Up (min 10K)", label:"Top Up", price:10000, desc:"Minimal Rp. 10.000 — tergantung alat tukar nanti" },
+    ];
+
+    // small helper: format currency
+    const rp = (n)=> new Intl.NumberFormat('id-ID',{ style:'currency', currency:'IDR', maximumFractionDigits:0 }).format(n);
+
+    // generate twinkles
+    const tw = document.getElementById('twinkle');
+    for(let i=0;i<60;i++){
+      const s=document.createElement('span');
+      const x=Math.random()*100, y=Math.random()*100, d=2+Math.random()*3;
+      s.style.left=x+'%'; s.style.top=y+'%'; s.style.width=d+'px'; s.style.height=d+'px';
+      s.style.animationDelay=(Math.random()*3).toFixed(2)+'s';
+      tw.appendChild(s);
+    }
+
+    // Render cards
+    const grid = document.getElementById('shop');
+    PRODUCTS.forEach(p=>{
+      const el=document.createElement('article');
+      el.className='card';
+      el.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><div class="badge">${p.label}</div><h3 style="margin:8px 0 0">${p.name}</h3></div>
+          <div style="text-align:right"><div class="price">${rp(p.price)}</div></div>
+        </div>
+        <p class="desc" style="margin-top:10px">${p.desc}</p>
+        <div class="actions">
+          <button class="btn" data-info="${p.name}">Detail</button>
+          <button class="btn primary" data-buy="${p.name}">Beli Sekarang</button>
+        </div>
+      `;
+      grid.appendChild(el);
+    });
+
+    // Render table rows
+    const tbody = document.getElementById('table-body');
+    const tableRows = [
+      ["Paket MVP", 50000, "Setiap pergantian fase akan bertambah Rp. 5.000"],
+      ["Paket MVP", 100000, "Setiap pergantian fase akan bertambah Rp. 10.000"],
+      ["Paket MVP", 150000, "Setiap pergantian fase akan bertambah Rp. 15.000"],
+      ["Paket VIP", 250000, "Perlengkapan dari MVP akan dikembalikan (kecuali enchant) setiap ganti fase 1 fase"],
+      ["Paket VIP", 325000, "Perlengkapan dari MVP akan dikembalikan (kecuali enchant) setiap ganti fase 2 fase"],
+      ["Pendaftaran via Donasi", 30000, "Diterima jika pemain bersangkutan tidak mau wawancara"],
+      ["SponsorShip", 40000, "Jika pemain mau bersedekah"],
+      ["Top Up", 10000, "Minimal Rp. 10.000 — tergantung alat tukar nanti"],
+    ];
+    tbody.innerHTML = tableRows.map(r=>`<tr><td>${r[0]}</td><td>${rp(r[1])}</td><td>${r[2]}</td></tr>`).join("");
+
+    // Menu kebab
+    const kebab = document.getElementById('kebab');
+    const menu  = document.getElementById('menu');
+    kebab.addEventListener('click', ()=> menu.classList.toggle('open'));
+    document.addEventListener('click', (e)=>{ if(!menu.contains(e.target) && e.target!==kebab) menu.classList.remove('open'); });
+
+    // Buttons: detail / buy
+    document.body.addEventListener('click', (e)=>{
+      const buyBtn = e.target.closest('[data-buy]');
+      const infoBtn = e.target.closest('[data-info]');
+      if(buyBtn){ openModal(buyBtn.getAttribute('data-buy')); }
+      if(infoBtn){
+        const name = infoBtn.getAttribute('data-info');
+        const p = PRODUCTS.find(x=>x.name===name);
+        if(p) alert(`${p.name}\nHarga: ${rp(p.price)}\n\n${p.desc}`);
+      }
+    });
+
+    // Modal refs
+    const modal = document.getElementById('modalBackdrop');
+    const inputIGN = document.getElementById('ign');
+    const inputPaket = document.getElementById('paket');
+    const selectMetode = document.getElementById('metode');
+    const inputCatatan = document.getElementById('catatan');
+    const proofInput = document.getElementById('proof');
+    const proofPreviewWrap = document.getElementById('proofPreview');
+    const proofImg = document.getElementById('proofImg');
+
+    function openModal(paket){
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden','false');
+      inputPaket.value = paket || '';
+      document.getElementById('modalTitle').textContent = `Beli ${paket}`;
+      setTimeout(()=> inputIGN.focus(), 100);
+    }
+    function closeModal(){
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden','true');
+      document.getElementById('orderForm').reset();
+      proofPreviewWrap.style.display='none';
+      proofImg.src='';
+    }
+    document.getElementById('batal').addEventListener('click', closeModal);
+    modal.addEventListener('click', (e)=>{ if(e.target===modal) closeModal(); });
+
+    // Preview proof file
+    proofInput.addEventListener('change', (e)=>{
+      const file = e.target.files[0];
+      if(!file){ proofPreviewWrap.style.display='none'; proofImg.src=''; return; }
+      if(!file.type.startsWith('image/')){ alert('Hanya file gambar (jpg/png) yang diperbolehkan.'); proofInput.value=''; return; }
+      if(file.size > 5 * 1024 * 1024){ alert('Ukuran maksimal 5MB.'); proofInput.value=''; return; }
+      const reader = new FileReader();
+      reader.onload = ()=>{ proofImg.src = reader.result; proofPreviewWrap.style.display='flex'; }
+      reader.readAsDataURL(file);
+    });
+
+    // Submit order
+    document.getElementById('orderForm').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const ign = inputIGN.value.trim();
+      const paket = inputPaket.value.trim();
+      const metode = selectMetode.value;
+      const catatan = inputCatatan.value.trim();
+      if(!ign || !paket){ alert('Lengkapi data terlebih dahulu.'); return; }
+      const product = PRODUCTS.find(p=>p.name===paket);
+      const price = product ? rp(product.price) : 'N/A';
+
+      // Build embed fields
+      const fields = [
+        { name: 'IGN', value: ign, inline: true },
+        { name: 'Paket', value: paket, inline: true },
+        { name: 'Harga', value: price, inline: true },
+        { name: 'Catatan', value: (catatan||'-'), inline: false }
+      ];
+
+      // If webhook:
+      if(metode === 'webhook'){
+        if(!DISCORD_WEBHOOK_URL){ alert('Webhook belum diatur. Isi DISCORD_WEBHOOK_URL di baris konfigurasi.'); return; }
+        const file = proofInput.files[0];
+
+        try{
+          if(file){
+            // Use multipart/form-data: payload_json + file
+            const fd = new FormData();
+            const payload = {
+              username: 'EternalSMP Shop',
+              embeds: [{
+                title: 'Pesanan Baru — EternalSMP Shop',
+                color: 16766706, // gold-ish
+                fields,
+                timestamp: new Date().toISOString(),
+                // image will reference attachment
+                image: { url: `attachment://${file.name}` }
+              }]
+            };
+            fd.append('file', file, file.name);
+            fd.append('payload_json', JSON.stringify(payload));
+            const res = await fetch(DISCORD_WEBHOOK_URL, { method:'POST', body: fd });
+            if(!res.ok) throw new Error('Gagal kirim ke Discord (status '+res.status+')');
+          } else {
+            // Send plain JSON embed
+            const payload = {
+              username: 'EternalSMP Shop',
+              embeds: [{
+                title: 'Pesanan Baru — EternalSMP Shop',
+                color: 16766706,
+                fields,
+                timestamp: new Date().toISOString()
+              }]
+            };
+            const res = await fetch(DISCORD_WEBHOOK_URL, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(payload) });
+            if(!res.ok) throw new Error('Gagal kirim ke Discord (status '+res.status+')');
+          }
+
+          alert('Pesanan terkirim ke Discord. Admin akan menindaklanjuti.');
+          closeModal();
+        }catch(err){
+          console.error(err);
+          alert('Terjadi kesalahan saat mengirim ke Discord. Periksa webhook atau koneksi. ('+err.message+')');
+        }
+
+      } else {
+        // WhatsApp: open chat with text; instruct to attach image manually if provided
+        let text = `Halo Admin EternalSMP, saya ingin membeli paket:\n\n• Paket: ${paket}\n• Harga: ${price}\n• IGN: ${ign}\n`;
+        if(catatan) text += `• Catatan: ${catatan}\n`;
+        if(proofInput.files[0]) text += `\n(Saya akan mengirim bukti transfer berupa gambar lewat chat ini)\n`;
+        text += `\nTerima kasih.`;
+        const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+        window.open(waUrl, '_blank');
+        closeModal();
+      }
+    });
+
+    // WhatsApp link update
+    const waAdmin = document.getElementById('waAdmin');
+    waAdmin.href = `https://wa.me/${WHATSAPP_NUMBER}`;
+
+    // Copy Discord template
+    document.getElementById('copyDiscord').addEventListener('click', async ()=>{
+      const t = `Template Order EternalSMP\n\nIGN: \nPaket: \nBukti bayar: (link/gambar)\nCatatan: \n`;
+      try{ await navigator.clipboard.writeText(t); alert('Template disalin ke clipboard.'); }
+      catch{ alert('Gagal menyalin ke clipboard. Silakan salin manual template di layar.'); }
+    });
+
+    // Carousel auto-slide
+    const slidesEl = document.getElementById('bannerSlides');
+    let slideIndex = 0;
+    const totalSlides = slidesEl ? slidesEl.children.length : 0;
+    if(totalSlides>0){
+      setInterval(()=>{ slideIndex = (slideIndex + 1) % totalSlides; slidesEl.style.transform = `translateX(-${slideIndex * 100}%)`; }, 3600);
+    }
+
+    // Small accessibility: close modal with Escape
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
+  </script>
 </body>
 </html>
