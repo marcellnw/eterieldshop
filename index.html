@@ -1,504 +1,174 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>EternalSMP Shop</title>
-  <meta name="description" content="Toko resmi EternalSMP — paket MVP/VIP, donasi, sponsorship, dan top up." />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-  <style>
-    :root{
-      --navy:#0b1736;
-      --navy-2:#0f1e4d;
-      --gold:#ffd166;
-      --gold-2:#ffb703;
-      --white:#ffffff;
-      --muted:#9aa4c7;
-      --black:#0b0b0f;
-      --shadow: 0 10px 25px rgba(0,0,0,.35);
-      --radius: 18px;
-      --radius-lg: 24px;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, Inter, "Noto Sans", Arial;
-      color:var(--white); background: var(--navy); overflow-x:hidden;
-    }
-
-    /* Animated background */
-    .bg-animated{
-      position:fixed; inset:0; z-index:-2;
-      background: radial-gradient(1200px 600px at 10% 10%, rgba(255,214,102,.10), transparent 60%),
-                  radial-gradient(800px 500px at 90% 20%, rgba(255,183,3,.08), transparent 60%),
-                  radial-gradient(900px 600px at 30% 90%, rgba(255,214,102,.06), transparent 60%),
-                  linear-gradient(120deg, var(--navy), var(--navy-2));
-      animation: hue 18s ease-in-out infinite alternate;
-    }
-    @keyframes hue{ from{ filter:hue-rotate(0deg)} to{ filter:hue-rotate(10deg)} }
-
-    .twinkle{ position:fixed; inset:0; pointer-events:none; z-index:-1; }
-    .twinkle span{ position:absolute; width:2px; height:2px; background:var(--gold); border-radius:50%; opacity:.8; box-shadow:0 0 8px rgba(255,214,102,.8); animation: twinkle 4s linear infinite; }
-    @keyframes twinkle{ 0%{ transform:scale(.6); opacity:.2 } 50%{ transform:scale(1.2); opacity:.9 } 100%{ transform:scale(.6); opacity:.2 } }
-
-    /* Layout */
-    header{ position:sticky; top:0; backdrop-filter: blur(8px); background: linear-gradient(to bottom, rgba(5,10,26,.75), rgba(5,10,26,.35)); border-bottom:1px solid rgba(255,255,255,.06); z-index:20; }
-    .container{ width:min(1100px, 92vw); margin-inline:auto; }
-    .nav{ display:flex; align-items:center; justify-content:space-between; padding:14px 4px; }
-    .brand{ display:flex; gap:12px; align-items:center; text-decoration:none; color:var(--white)}
-    .logo{ width:38px; height:38px; border-radius:50%; background: radial-gradient(circle at 30% 30%, var(--gold), var(--gold-2)); box-shadow:0 0 0 3px rgba(255,214,102,.25), 0 10px 20px rgba(0,0,0,.35)}
-    .title{ font-weight:800; letter-spacing:.3px; font-size:1.08rem; }
-
-    .kebab{ width:42px; height:42px; border-radius:12px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.04); display:grid; place-items:center; cursor:pointer; transition:.25s; }
-    .menu{ position:absolute; right:16px; top:64px; background:rgba(9,17,40,.95); border:1px solid rgba(255,255,255,.08); border-radius:12px; box-shadow:var(--shadow); width:220px; padding:8px; display:none; }
-    .menu.open{ display:block }
-    .menu a{ display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:10px; color:var(--white); text-decoration:none; font-size:.95rem }
-
-    .hero{ padding:48px 0 8px }
-    .headline{ font-size:clamp(1.4rem, 2.6vw, 2rem); font-weight:800; }
-    .sub{ color:var(--muted) }
-
-    /* Carousel Banner: responsive heights */
-    .carousel-banner{ margin:20px auto; border-radius:14px; overflow:hidden; box-shadow:0 10px 25px rgba(0,0,0,.4); width:min(1100px,92vw) }
-    .carousel-banner .slides{ display:flex; transition: transform .8s ease; }
-    .carousel-banner img{ width:100%; height:360px; object-fit:cover; flex:0 0 100% }
-    /* smaller on medium */
-    @media (max-width: 900px){
-      .carousel-banner img{ height:260px; }
-    }
-    /* mobile: compact banner */
-    @media (max-width: 480px){
-      .carousel-banner img{ height:140px; }
-      .headline{ font-size:1.2rem }
-      .sub{ font-size:0.92rem }
-    }
-
-    /* Grid / cards */
-    .grid{ display:grid; gap:16px; grid-template-columns: repeat(12, 1fr); }
-    .card{ grid-column: span 12; background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01)); border:1px solid rgba(255,255,255,.06); border-radius: 14px; box-shadow: var(--shadow); padding:14px; }
-    .badge{ display:inline-flex; align-items:center; gap:8px; font-size:.8rem; color:var(--black); background:linear-gradient(180deg, var(--gold), var(--gold-2)); padding:6px 10px; border-radius:999px; font-weight:700; }
-    .price{ font-weight:800; font-size:1.15rem; margin-top:8px }
-    .desc{ color:var(--muted); font-size:.95rem; line-height:1.4 }
-
-    .actions{ display:flex; flex-wrap:wrap; gap:10px; margin-top:10px }
-    .btn{ position:relative; padding:10px 12px; border-radius:12px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); color:var(--white); font-weight:700; cursor:pointer; }
-    .btn.primary{ color:var(--black); background: linear-gradient(180deg,var(--gold),var(--gold-2)); border-color: rgba(0,0,0,.12); }
-
-    /* Table */
-    .table{ margin-top:18px; border:1px solid rgba(255,255,255,.06); border-radius:12px; overflow:hidden }
-    table{ width:100%; border-collapse:collapse; font-size:.95rem }
-    thead th{ background:rgba(255,255,255,.03); text-align:left; padding:12px 14px; color:#dbe2ff }
-    tbody td{ padding:12px 14px; border-top:1px solid rgba(255,255,255,.04) }
-
-    /* Modal */
-    .modal-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.55); display:none; align-items:center; justify-content:center; padding:18px; z-index:50; }
-    .modal-backdrop.open{ display:flex }
-    .modal{ width:min(560px, 96vw); background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.06); border-radius:14px; padding:16px; box-shadow:var(--shadow); }
-    .form{ display:grid; gap:10px }
-    .row{ display:grid; gap:8px; grid-template-columns:1fr 1fr }
-    .input, .select, textarea{ width:100%; padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.02); color:var(--white); }
-    .note{ font-size:.9rem; color:var(--muted) }
-
-    /* proof preview */
-    .proof-preview{ margin-top:8px; display:flex; gap:10px; align-items:center }
-    .proof-preview img{ width:72px; height:72px; object-fit:cover; border-radius:8px; border:1px solid rgba(255,255,255,.06) }
-
-    footer{ margin-top:24px; padding:20px 0 48px; color:#c8d0f2; border-top:1px solid rgba(255,255,255,.06); }
-    .foot-grid{ display:grid; gap:12px; grid-template-columns: repeat(12,1fr) }
-    .foot-col{ grid-column: span 12 }
-    @media (min-width:680px){ .card{ grid-column: span 6 } .foot-col{ grid-column: span 4 } }
-    @media (min-width:980px){ .card{ grid-column: span 4 } }
-  </style>
+  <link rel="stylesheet" href="css5.css" />
 </head>
 <body>
-  <div class="bg-animated"></div>
-  <div class="twinkle" id="twinkle"></div>
-
-  <header>
-    <div class="container nav">
-      <a class="brand" href="#">
-        <div class="logo" aria-hidden="true"></div>
-        <div class="title">EternalSMP Shop</div>
-      </a>
-      <button class="kebab" id="kebab" aria-label="Menu">
-        <i class="bi bi-three-dots-vertical"></i>
-      </button>
-      <nav class="menu" id="menu" role="navigation" aria-label="Main menu">
-        <a href="#shop"><i class="bi bi-bag-fill" style="color:#ffd166"></i> Shop</a>
-        <a href="#info"><i class="bi bi-info-circle-fill" style="color:#4cc9f0"></i> Info</a>
-        <a href="#kontak"><i class="bi bi-chat-left-dots-fill" style="color:#38d9a9"></i> Kontak</a>
-        <a href="#sponsor"><i class="bi bi-star-fill" style="color:#ffd166"></i> Sponsor</a>
+  <!-- Header -->
+  <header class="header">
+    <div class="container flex-between">
+      <h1 class="logo">EternalSMP Shop</h1>
+      <nav class="nav">
+        <a href="#produk">Shop</a>
+        <a href="#info">Info</a>
+        <a href="#sponsor">Sponsor</a>
+        <a href="#kontak">Kontak</a>
+        <a href="#order">Order</a>
       </nav>
     </div>
   </header>
 
-  <main class="container">
-    <section class="hero">
-      <h1 class="headline">Dukung server & dapatkan benefit eksklusif</h1>
-      <p class="sub">Paket MVP/VIP, pendaftaran via donasi, sponsorship, dan top up. Desain profesional, nyaman untuk mobile & PC.</p>
-    </section>
+  <!-- Hero -->
+  <section class="hero">
+    <h2>Dukung server & dapatkan benefit eksklusif</h2>
+    <p>Paket VVIP+/VVIP++, donasi, sponsorship, dan top up. Desain profesional & nyaman di mobile/PC.</p>
+  </section>
 
-    <!-- Banner -->
-    <div class="carousel-banner" aria-hidden="false">
-      <div class="slides" id="bannerSlides" aria-hidden="false">
-        <img src="https://picsum.photos/1200/360?random=1" alt="Banner 1">
-        <img src="https://picsum.photos/1200/360?random=2" alt="Banner 2">
-        <img src="https://picsum.photos/1200/360?random=3" alt="Banner 3">
+  <!-- Banner Promo -->
+  <section class="banner container grid-5">
+    <div class="banner-item">Banner 1</div>
+    <div class="banner-item">Banner 2</div>
+    <div class="banner-item">Banner 3</div>
+    <div class="banner-item">Banner 4</div>
+    <div class="banner-item">Banner 5</div>
+  </section>
+
+  <!-- Produk -->
+  <section id="produk" class="section">
+    <div class="container">
+      <h3 class="title">Produk Tersedia</h3>
+      <div class="grid-3">
+        <div class="card">
+          <h4>Paket MVP 50K</h4>
+          <p class="price">Rp 50.000</p>
+          <p>Setiap pergantian fase akan bertambah Rp. 5.000</p>
+          <a href="#order" class="btn">Beli Sekarang</a>
+        </div>
+        <div class="card">
+          <h4>Paket MVP 100K</h4>
+          <p class="price">Rp 100.000</p>
+          <p>Setiap pergantian fase akan bertambah Rp. 10.000</p>
+          <a href="#order" class="btn">Beli Sekarang</a>
+        </div>
+        <div class="card">
+          <h4>Paket MVP 150K</h4>
+          <p class="price">Rp 150.000</p>
+          <p>Setiap pergantian fase akan bertambah Rp. 15.000</p>
+          <a href="#order" class="btn">Beli Sekarang</a>
+        </div>
+        <div class="card">
+          <h4>Paket VVIP+ 250K</h4>
+          <p class="price">Rp 250.000</p>
+          <p>Perlengkapan dari MVP dikembalikan tiap 1 fase (tanpa enchant)</p>
+          <a href="#order" class="btn">Beli Sekarang</a>
+        </div>
+        <div class="card">
+          <h4>Paket VVIP++ 350K</h4>
+          <p class="price">Rp 350.000</p>
+          <p>Perlengkapan dari MVP dikembalikan tiap 2 fase (tanpa enchant)</p>
+          <a href="#order" class="btn">Beli Sekarang</a>
+        </div>
+        <div class="card">
+          <h4>Pendaftaran via Donasi</h4>
+          <p class="price">Rp 30.000</p>
+          <p>Diterima jika pemain tidak mau wawancara</p>
+          <a href="#order" class="btn">Beli Sekarang</a>
+        </div>
+        <div class="card">
+          <h4>Sponsorship</h4>
+          <p class="price">Rp 40.000</p>
+          <p>Jika pemain mau bersedekah</p>
+          <a href="#order" class="btn">Beli Sekarang</a>
+        </div>
+        <div class="card">
+          <h4>Top Up</h4>
+          <p class="price">Rp 10.000</p>
+          <p>Minimal Rp 10.000 — tergantung alat tukar</p>
+          <a href="#order" class="btn">Beli Sekarang</a>
+        </div>
       </div>
     </div>
+  </section>
 
-    <!-- Shop -->
-    <section id="shop" class="grid" aria-label="Shop">
-      <!-- JS renders cards -->
-    </section>
-
-    <!-- Payment table -->
-    <section class="table" aria-labelledby="tabel-judul">
-      <h2 id="tabel-judul" style="position:absolute;left:-9999px">Daftar Paket</h2>
-      <table>
-        <thead>
-          <tr><th>Pemasukan</th><th>Harga</th><th>Keterangan</th></tr>
-        </thead>
-        <tbody id="table-body"></tbody>
-      </table>
-    </section>
-
-    <!-- Info & Payments -->
-    <section id="info" style="margin-top:18px">
+  <!-- Info -->
+  <section id="info" class="section bg-light">
+    <div class="container">
+      <h3 class="title">Informasi Pembayaran</h3>
+      <ul>
+        <li>Harga dapat berubah sesuai fase server.</li>
+        <li>VVIP+ mendapatkan pengembalian perlengkapan dari MVP (tanpa enchant).</li>
+        <li>Metode beli: Discord Webhook atau WhatsApp admin.</li>
+        <li>Setelah pembayaran, harap kirim bukti & nama.</li>
+      </ul>
       <div class="card">
-        <h3 class="badge">Panduan & Metode Pembayaran</h3>
-        <div style="margin-top:10px" class="desc">
-          <ul style="padding-left:18px; margin:8px 0">
-            <li>Harga dapat berubah sesuai fase server.</li>
-            <li>VIP mendapatkan pengembalian perlengkapan dari MVP (tanpa enchant) sesuai ketentuan fase.</li>
-            <li>Metode beli: <b>Discord Webhook</b> atau <b>WhatsApp</b> admin (pilih di form).</li>
-            <li>Setelah pembayaran, harap kirim bukti & IGN (in-game name).</li>
-          </ul>
-          <strong>Metode Pembayaran Tersedia:</strong>
-          <ul style="padding-left:18px; margin:8px 0">
-            <li>DANA / GoPay / OVO: <code>083159084210</code> (nama: EternalSMP)</li>
-            <li>Bank Jago: <code>104657404763</code></li>
-            <li>Saweria: <a class="link" href="https://saweria.co/eternalsmp" target="_blank" rel="noopener">saweria.co/eternalsmp</a></li>
-            <li>QRIS: silakan scan QRIS di kasir — atau unggah bukti transfer di form.</li>
-          </ul>
-          <p class="note">Tambahkan bukti transfer (foto) saat kirim pesanan agar admin lebih cepat memverifikasi.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Sponsor -->
-    <section id="sponsor" style="margin-top:12px">
-      <div class="card">
-        <h3 class="badge">Sponsorship</h3>
-        <p class="desc" style="margin-top:8px">Bantu operasional server melalui paket <b>SponsorShip</b>. Nama/brand Anda akan dicantumkan pada halaman dukungan & pengumuman komunitas.</p>
-        <div class="actions">
-          <button class="btn primary" data-buy="SponsorShip">Ajukan Sponsorship</button>
-          <a class="btn" href="#kontak">Lihat Ketentuan</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Kontak -->
-    <section id="kontak" style="margin-top:12px">
-      <div class="card">
-        <h3 class="badge">Kontak Admin</h3>
-        <p class="desc" style="margin-top:8px">Perlu bantuan? Hubungi admin melalui WhatsApp atau Discord.</p>
-        <div class="actions">
-          <a class="btn primary" id="waAdmin" target="_blank" rel="noopener"><i class="bi bi-whatsapp"></i> WhatsApp Admin</a>
-          <button class="btn" id="copyDiscord"><i class="bi bi-discord"></i> Salin Template Discord</button>
-        </div>
-        <p class="note">Mohon sertakan IGN saat menghubungi. Jika sudah bayar, lampirkan bukti transfer.</p>
-      </div>
-    </section>
-
-  </main>
-
-  <footer>
-    <div class="container foot-grid">
-      <div class="foot-col">
-        <h4><i class="bi bi-shield-shaded" style="color:var(--gold)"></i> EternalSMP</h4>
-        <p class="desc">Server komunitas — terima kasih atas dukungan Anda.</p>
-      </div>
-      <div class="foot-col">
-        <h4>Navigasi</h4>
-        <p><a class="link" href="#shop">Shop</a> · <a class="link" href="#info">Info</a> · <a class="link" href="#sponsor">Sponsor</a> · <a class="link" href="#kontak">Kontak</a></p>
-      </div>
-      <div class="foot-col">
-        <h4>Legal</h4>
-        <p class="desc">© 2025 EternalSMP. All rights reserved.</p>
+        <h4>Metode Pembayaran:</h4>
+        <p>DANA / GoPay / OVO: <b>083159084210</b> (nama: EternalSMP)</p>
+        <p>Bank Jago: <b>104657404763</b></p>
+        <p>Saweria: <a href="https://saweria.co/eternalsmp">saweria.co/eternalsmp</a></p>
+        <p>QRIS: Scan QRIS atau upload bukti transfer di form.</p>
       </div>
     </div>
-  </footer>
+  </section>
 
-  <!-- Modal Beli -->
-  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal" role="document">
-      <h3 id="modalTitle">Beli Paket</h3>
-      <form id="orderForm" class="form" enctype="multipart/form-data">
-        <div class="row">
-          <div>
-            <label>Nama Pemain (IGN)</label>
-            <input class="input" id="ign" placeholder="Contoh: Marcello_14" required />
-          </div>
-          <div>
-            <label>Paket</label>
-            <input class="input" id="paket" readonly />
-          </div>
-        </div>
+  <!-- Sponsor -->
+  <section id="sponsor" class="section">
+    <div class="container center">
+      <h3 class="title">Sponsorship</h3>
+      <p>Bantu operasional server dengan paket SponsorShip. Nama/brand Anda akan dicantumkan di halaman dukungan & komunitas.</p>
+      <button class="btn">Ajukan Sponsorship</button>
+    </div>
+  </section>
 
-        <div class="row">
-          <div>
-            <label>Metode</label>
-            <select class="select" id="metode">
-              <option value="webhook">Discord Webhook (otomatis)</option>
-              <option value="wa">WhatsApp Admin (manual)</option>
-            </select>
-          </div>
-          <div>
-            <label>Catatan (opsional)</label>
-            <input class="input" id="catatan" placeholder="ID transaksi / preferensi" />
-          </div>
-        </div>
+  <!-- Order -->
+  <section id="order" class="section bg-light">
+    <div class="container">
+      <h3 class="title">Form Pemesanan</h3>
+      <form id="orderForm" class="card">
+        <label>Nama</label>
+        <input id="nama" type="text" placeholder="Masukkan nama Anda" required />
 
-        <!-- Payment proof upload -->
-        <div>
-          <label>Unggah Bukti Transfer (jpg/png, max 5MB)</label>
-          <input type="file" accept="image/*" id="proof" class="input" />
-          <div class="proof-preview" id="proofPreview" style="display:none">
-            <img id="proofImg" alt="preview bukti" />
-            <div style="font-size:.9rem;color:var(--muted)">Preview bukti transfer</div>
-          </div>
-          <div id="proofNote" class="note" style="margin-top:6px">Disarankan: lampirkan bukti agar verifikasi lebih cepat.</div>
-        </div>
+        <label>Pilih Paket</label>
+        <select id="paket" required>
+          <option value="">-- Pilih Paket --</option>
+          <option>Paket MVP 50K</option>
+          <option>Paket MVP 100K</option>
+          <option>Paket MVP 150K</option>
+          <option>Paket VVIP+ 250K</option>
+          <option>Paket VVIP++ 350K</option>
+          <option>Pendaftaran via Donasi</option>
+          <option>Sponsorship</option>
+          <option>Top Up</option>
+        </select>
 
-        <p class="note">Jika memilih <b>Discord Webhook</b>, bukti akan dikirim otomatis ke admin. Untuk WhatsApp, Anda perlu mengirim gambar secara manual setelah chat terbuka.</p>
+        <label>Upload Bukti Transfer</label>
+        <input id="bukti" type="file" accept="image/*" required />
 
-        <div class="actions" style="margin-top:8px">
-          <button type="submit" class="btn primary">Kirim</button>
-          <button type="button" class="btn" id="batal">Batal</button>
-        </div>
+        <label>Kontak (WhatsApp/Discord)</label>
+        <input id="kontak" type="text" placeholder="Masukkan kontak Anda" required />
+
+        <button type="submit" class="btn">Kirim Pesanan</button>
       </form>
     </div>
-  </div>
+  </section>
 
-  <script>
-    // ============= CONFIG =============
-    const DISCORD_WEBHOOK_URL = ""; // <-- ISI DENGAN URL WEBHOOK DISCORD ADMIN
-    const WHATSAPP_NUMBER = "6281323146137"; // tanpa +
-    // ==================================
+  <!-- Kontak -->
+  <section id="kontak" class="section">
+    <div class="container center">
+      <h3 class="title">Kontak Admin</h3>
+      <p>Perlu bantuan? Hubungi admin via WhatsApp atau Discord. Sertakan nama & bukti transfer.</p>
+      <a href="https://wa.me/6283159084210" class="btn green">WhatsApp Admin</a>
+      <a href="#" class="btn">Salin Template Discord</a>
+    </div>
+  </section>
 
-    const PRODUCTS = [
-      { name:"Paket MVP 50K", label:"Paket MVP", price:50000, desc:"Setiap pergantian fase akan bertambah Rp. 5.000" },
-      { name:"Paket MVP 100K", label:"Paket MVP", price:100000, desc:"Setiap pergantian fase akan bertambah Rp. 10.000" },
-      { name:"Paket MVP 150K", label:"Paket MVP", price:150000, desc:"Setiap pergantian fase akan bertambah Rp. 15.000" },
-      { name:"Paket VIP 250K", label:"Paket VIP", price:250000, desc:"Perlengkapan dari MVP akan dikembalikan (kecuali enchant) setiap ganti fase 1 fase" },
-      { name:"Paket VIP 325K", label:"Paket VIP", price:325000, desc:"Perlengkapan dari MVP akan dikembalikan (kecuali enchant) setiap ganti fase 2 fase" },
-      { name:"Pendaftaran via Donasi", label:"Pendaftaran via Donasi", price:30000, desc:"Diterima jika pemain bersangkutan tidak mau wawancara" },
-      { name:"SponsorShip", label:"SponsorShip", price:40000, desc:"Jika pemain mau bersedekah" },
-      { name:"Top Up (min 10K)", label:"Top Up", price:10000, desc:"Minimal Rp. 10.000 — tergantung alat tukar nanti" },
-    ];
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2025 EternalSMP. All rights reserved.</p>
+  </footer>
 
-    // small helper: format currency
-    const rp = (n)=> new Intl.NumberFormat('id-ID',{ style:'currency', currency:'IDR', maximumFractionDigits:0 }).format(n);
-
-    // generate twinkles
-    const tw = document.getElementById('twinkle');
-    for(let i=0;i<60;i++){
-      const s=document.createElement('span');
-      const x=Math.random()*100, y=Math.random()*100, d=2+Math.random()*3;
-      s.style.left=x+'%'; s.style.top=y+'%'; s.style.width=d+'px'; s.style.height=d+'px';
-      s.style.animationDelay=(Math.random()*3).toFixed(2)+'s';
-      tw.appendChild(s);
-    }
-
-    // Render cards
-    const grid = document.getElementById('shop');
-    PRODUCTS.forEach(p=>{
-      const el=document.createElement('article');
-      el.className='card';
-      el.innerHTML = `
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div><div class="badge">${p.label}</div><h3 style="margin:8px 0 0">${p.name}</h3></div>
-          <div style="text-align:right"><div class="price">${rp(p.price)}</div></div>
-        </div>
-        <p class="desc" style="margin-top:10px">${p.desc}</p>
-        <div class="actions">
-          <button class="btn" data-info="${p.name}">Detail</button>
-          <button class="btn primary" data-buy="${p.name}">Beli Sekarang</button>
-        </div>
-      `;
-      grid.appendChild(el);
-    });
-
-    // Render table rows
-    const tbody = document.getElementById('table-body');
-    const tableRows = [
-      ["Paket MVP", 50000, "Setiap pergantian fase akan bertambah Rp. 5.000"],
-      ["Paket MVP", 100000, "Setiap pergantian fase akan bertambah Rp. 10.000"],
-      ["Paket MVP", 150000, "Setiap pergantian fase akan bertambah Rp. 15.000"],
-      ["Paket VIP", 250000, "Perlengkapan dari MVP akan dikembalikan (kecuali enchant) setiap ganti fase 1 fase"],
-      ["Paket VIP", 325000, "Perlengkapan dari MVP akan dikembalikan (kecuali enchant) setiap ganti fase 2 fase"],
-      ["Pendaftaran via Donasi", 30000, "Diterima jika pemain bersangkutan tidak mau wawancara"],
-      ["SponsorShip", 40000, "Jika pemain mau bersedekah"],
-      ["Top Up", 10000, "Minimal Rp. 10.000 — tergantung alat tukar nanti"],
-    ];
-    tbody.innerHTML = tableRows.map(r=>`<tr><td>${r[0]}</td><td>${rp(r[1])}</td><td>${r[2]}</td></tr>`).join("");
-
-    // Menu kebab
-    const kebab = document.getElementById('kebab');
-    const menu  = document.getElementById('menu');
-    kebab.addEventListener('click', ()=> menu.classList.toggle('open'));
-    document.addEventListener('click', (e)=>{ if(!menu.contains(e.target) && e.target!==kebab) menu.classList.remove('open'); });
-
-    // Buttons: detail / buy
-    document.body.addEventListener('click', (e)=>{
-      const buyBtn = e.target.closest('[data-buy]');
-      const infoBtn = e.target.closest('[data-info]');
-      if(buyBtn){ openModal(buyBtn.getAttribute('data-buy')); }
-      if(infoBtn){
-        const name = infoBtn.getAttribute('data-info');
-        const p = PRODUCTS.find(x=>x.name===name);
-        if(p) alert(`${p.name}\nHarga: ${rp(p.price)}\n\n${p.desc}`);
-      }
-    });
-
-    // Modal refs
-    const modal = document.getElementById('modalBackdrop');
-    const inputIGN = document.getElementById('ign');
-    const inputPaket = document.getElementById('paket');
-    const selectMetode = document.getElementById('metode');
-    const inputCatatan = document.getElementById('catatan');
-    const proofInput = document.getElementById('proof');
-    const proofPreviewWrap = document.getElementById('proofPreview');
-    const proofImg = document.getElementById('proofImg');
-
-    function openModal(paket){
-      modal.classList.add('open');
-      modal.setAttribute('aria-hidden','false');
-      inputPaket.value = paket || '';
-      document.getElementById('modalTitle').textContent = `Beli ${paket}`;
-      setTimeout(()=> inputIGN.focus(), 100);
-    }
-    function closeModal(){
-      modal.classList.remove('open');
-      modal.setAttribute('aria-hidden','true');
-      document.getElementById('orderForm').reset();
-      proofPreviewWrap.style.display='none';
-      proofImg.src='';
-    }
-    document.getElementById('batal').addEventListener('click', closeModal);
-    modal.addEventListener('click', (e)=>{ if(e.target===modal) closeModal(); });
-
-    // Preview proof file
-    proofInput.addEventListener('change', (e)=>{
-      const file = e.target.files[0];
-      if(!file){ proofPreviewWrap.style.display='none'; proofImg.src=''; return; }
-      if(!file.type.startsWith('image/')){ alert('Hanya file gambar (jpg/png) yang diperbolehkan.'); proofInput.value=''; return; }
-      if(file.size > 5 * 1024 * 1024){ alert('Ukuran maksimal 5MB.'); proofInput.value=''; return; }
-      const reader = new FileReader();
-      reader.onload = ()=>{ proofImg.src = reader.result; proofPreviewWrap.style.display='flex'; }
-      reader.readAsDataURL(file);
-    });
-
-    // Submit order
-    document.getElementById('orderForm').addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      const ign = inputIGN.value.trim();
-      const paket = inputPaket.value.trim();
-      const metode = selectMetode.value;
-      const catatan = inputCatatan.value.trim();
-      if(!ign || !paket){ alert('Lengkapi data terlebih dahulu.'); return; }
-      const product = PRODUCTS.find(p=>p.name===paket);
-      const price = product ? rp(product.price) : 'N/A';
-
-      // Build embed fields
-      const fields = [
-        { name: 'IGN', value: ign, inline: true },
-        { name: 'Paket', value: paket, inline: true },
-        { name: 'Harga', value: price, inline: true },
-        { name: 'Catatan', value: (catatan||'-'), inline: false }
-      ];
-
-      // If webhook:
-      if(metode === 'webhook'){
-        if(!DISCORD_WEBHOOK_URL){ alert('Webhook belum diatur. Isi DISCORD_WEBHOOK_URL di baris konfigurasi.'); return; }
-        const file = proofInput.files[0];
-
-        try{
-          if(file){
-            // Use multipart/form-data: payload_json + file
-            const fd = new FormData();
-            const payload = {
-              username: 'EternalSMP Shop',
-              embeds: [{
-                title: 'Pesanan Baru — EternalSMP Shop',
-                color: 16766706, // gold-ish
-                fields,
-                timestamp: new Date().toISOString(),
-                // image will reference attachment
-                image: { url: `attachment://${file.name}` }
-              }]
-            };
-            fd.append('file', file, file.name);
-            fd.append('payload_json', JSON.stringify(payload));
-            const res = await fetch(DISCORD_WEBHOOK_URL, { method:'POST', body: fd });
-            if(!res.ok) throw new Error('Gagal kirim ke Discord (status '+res.status+')');
-          } else {
-            // Send plain JSON embed
-            const payload = {
-              username: 'EternalSMP Shop',
-              embeds: [{
-                title: 'Pesanan Baru — EternalSMP Shop',
-                color: 16766706,
-                fields,
-                timestamp: new Date().toISOString()
-              }]
-            };
-            const res = await fetch(DISCORD_WEBHOOK_URL, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(payload) });
-            if(!res.ok) throw new Error('Gagal kirim ke Discord (status '+res.status+')');
-          }
-
-          alert('Pesanan terkirim ke Discord. Admin akan menindaklanjuti.');
-          closeModal();
-        }catch(err){
-          console.error(err);
-          alert('Terjadi kesalahan saat mengirim ke Discord. Periksa webhook atau koneksi. ('+err.message+')');
-        }
-
-      } else {
-        // WhatsApp: open chat with text; instruct to attach image manually if provided
-        let text = `Halo Admin EternalSMP, saya ingin membeli paket:\n\n• Paket: ${paket}\n• Harga: ${price}\n• IGN: ${ign}\n`;
-        if(catatan) text += `• Catatan: ${catatan}\n`;
-        if(proofInput.files[0]) text += `\n(Saya akan mengirim bukti transfer berupa gambar lewat chat ini)\n`;
-        text += `\nTerima kasih.`;
-        const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
-        window.open(waUrl, '_blank');
-        closeModal();
-      }
-    });
-
-    // WhatsApp link update
-    const waAdmin = document.getElementById('waAdmin');
-    waAdmin.href = `https://wa.me/${WHATSAPP_NUMBER}`;
-
-    // Copy Discord template
-    document.getElementById('copyDiscord').addEventListener('click', async ()=>{
-      const t = `Template Order EternalSMP\n\nIGN: \nPaket: \nBukti bayar: (link/gambar)\nCatatan: \n`;
-      try{ await navigator.clipboard.writeText(t); alert('Template disalin ke clipboard.'); }
-      catch{ alert('Gagal menyalin ke clipboard. Silakan salin manual template di layar.'); }
-    });
-
-    // Carousel auto-slide
-    const slidesEl = document.getElementById('bannerSlides');
-    let slideIndex = 0;
-    const totalSlides = slidesEl ? slidesEl.children.length : 0;
-    if(totalSlides>0){
-      setInterval(()=>{ slideIndex = (slideIndex + 1) % totalSlides; slidesEl.style.transform = `translateX(-${slideIndex * 100}%)`; }, 3600);
-    }
-
-    // Small accessibility: close modal with Escape
-    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
-  </script>
+  <script src="js5.js"></script>
 </body>
 </html>
