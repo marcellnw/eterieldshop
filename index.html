@@ -4,9 +4,599 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eterield Shop</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Fantasy&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fantasy&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* Warna & Font */
+        :root {
+            --white: #ffffff;
+            --light-gray: #f0f0f0;
+            --medium-gray: #a0a0a0; /* Abu-abu baru untuk header/konten */
+            --dark-gray: #333333; /* Warna teks utama, background header */
+            --gold: #FFD700;
+            --red: #FF0000;
+            --soft-black: #1a1a1a;
+            --poppins: 'Poppins', sans-serif;
+            --fantasy: 'Fantasy', cursive;
+        }
+
+        /* Base & Global Style */
+        body {
+            margin: 0;
+            font-family: var(--poppins);
+            color: var(--dark-gray);
+            background-color: var(--white);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3 {
+            font-weight: 700;
+            color: var(--dark-gray);
+        }
+
+        /* Header (Fixed & Animated) */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: var(--dark-gray); /* Header background jadi abu-abu gelap */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: padding 0.3s ease, background-color 0.3s ease;
+            box-sizing: border-box; /* Pastikan padding tidak membuat lebar melebihi 100% */
+        }
+
+        .header.scrolled {
+            padding: 0.75rem 2rem;
+            background-color: var(--soft-black); /* Sedikit lebih gelap saat di-scroll */
+        }
+
+        .shop-name {
+            font-family: var(--fantasy);
+            color: var(--gold);
+            font-size: 1.8rem;
+            margin: 0;
+            transition: font-size 0.3s ease;
+        }
+
+        .header.scrolled .shop-name {
+            font-size: 1.5rem;
+        }
+
+        .menu-icon {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--white); /* Icon menu berwarna putih */
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        /* Landing Page General */
+        .landing-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem 2rem;
+            position: relative;
+            overflow: hidden;
+            box-sizing: border-box; /* Pastikan padding tidak membuat lebar melebihi 100% */
+        }
+
+        /* Landing Page 1 (Hero) */
+        .landing-page-1 {
+            background-color: var(--white);
+            flex-direction: column;
+            text-align: center;
+            padding-top: 8rem; /* Ruang untuk header fixed */
+        }
+
+        .logo-container {
+            width: 200px;
+            height: 200px;
+            animation: bounceIn 1.5s ease-out;
+            margin-bottom: 2rem; /* Tambahkan jarak di bawah logo */
+        }
+
+        .logo {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .hero-text-container {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1.5s 0.8s forwards;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            margin: 0;
+            color: var(--dark-gray);
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            color: var(--medium-gray); /* Deskripsi lebih lembut */
+            max-width: 600px;
+            margin-top: 1rem;
+        }
+
+        /* Landing Page 2 (Item Cards) */
+        .landing-page-2 {
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), /* Overlay hitam transparan */
+                url('https://cdn.pixabay.com/photo/2024/02/21/15/22/ai-generated-8588047_1280.jpg') no-repeat center center/cover; /* Gambar background dari Pixabay */
+            color: var(--white); /* Teks di sini jadi putih */
+            padding-top: 8rem; /* Ruang untuk header fixed */
+        }
+
+        /* Hilangkan overlay hitam karena sudah ada di background */
+        .landing-page-2 .black-overlay {
+            display: none;
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            z-index: 2;
+            max-width: 1200px; /* Batasi lebar container */
+            width: 100%;
+        }
+
+        .card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-image-container {
+            height: 200px;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-info {
+            padding: 1.5rem;
+            text-align: center;
+            color: var(--dark-gray);
+        }
+
+        .item-name {
+            margin: 0 0 1rem 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .buy-button {
+            background-color: var(--red);
+            color: var(--white);
+            border: none;
+            padding: 0.8rem 2rem;
+            cursor: pointer;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .buy-button:hover {
+            background-color: #CC0000;
+            transform: translateY(-2px);
+        }
+        
+        /* Modal / Formulir */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.3s;
+        }
+
+        .modal.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            padding: 2.5rem;
+            border-radius: 10px;
+            color: var(--dark-gray);
+            position: relative;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+        
+        .modal-content h2 {
+            text-align: center;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-content input, .modal-content select {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: var(--poppins);
+            box-sizing: border-box; /* Penting untuk input width 100% */
+        }
+        
+        .modal-content label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+
+        .modal-content .form-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .modal-content button, .modal-content a {
+            flex-grow: 1;
+            padding: 0.8rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .send-discord-btn {
+            background-color: #7289da;
+            color: var(--white);
+        }
+        .send-discord-btn:hover { background-color: #5a6eaa; transform: translateY(-2px); }
+
+        .wa-btn {
+            background-color: #25D366;
+            color: var(--white);
+        }
+        .wa-btn:hover { background-color: #1ea34a; transform: translateY(-2px); }
+        
+        .back-button {
+            background-color: #e0e0e0;
+            color: var(--dark-gray);
+            margin-top: 1rem;
+        }
+        .back-button:hover { background-color: #c0c0c0; transform: translateY(-2px); }
+        
+        /* Landing Page 3 (Donatur & Sponsorship) */
+        .landing-page-3 {
+            background-color: var(--white);
+            padding-top: 8rem; /* Ruang untuk header fixed */
+        }
+
+        .landing-page-3 .card-container {
+            grid-template-columns: 1fr;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .donatur-card, .sponsorship-card {
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            border-radius: 10px;
+            padding: 2rem;
+            opacity: 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08); /* Shadow yang lebih halus */
+            transform: none; /* Reset transform untuk animasi on scroll */
+        }
+        
+        .donatur-card.animate-on-scroll {
+            transform: translateX(-50px);
+        }
+
+        .sponsorship-card.animate-on-scroll {
+            transform: translateX(50px);
+        }
+
+        .card-line {
+            height: 2px;
+            width: 50px;
+            background-color: var(--gold);
+            margin: 0.5rem auto 1.5rem;
+        }
+        
+        .donatur-list details {
+            background-color: var(--white);
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .donatur-list summary {
+            padding: 1.25rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--dark-gray);
+            list-style: none;
+            position: relative;
+            transition: background-color 0.3s;
+        }
+        .donatur-list summary:hover {
+            background-color: #fafafa;
+        }
+
+        .donatur-list summary::before {
+            content: '+';
+            font-size: 1.5rem;
+            position: absolute;
+            right: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gold);
+            transition: transform 0.3s ease;
+        }
+        .donatur-list details[open] summary::before {
+            content: '-';
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        .donatur-list ul {
+            margin: 0;
+            padding: 1rem 1rem 1rem 2.5rem;
+            list-style-type: disc;
+            border-top: 1px solid #eee;
+            color: var(--dark-gray);
+        }
+
+        /* Landing Page 4 (QnA) */
+        .landing-page-4 {
+            background-color: var(--light-gray);
+            padding-top: 8rem; /* Ruang untuk header fixed */
+        }
+        
+        .qna-container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .qna-item {
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .qna-question {
+            background-color: var(--gold);
+            color: var(--dark-gray);
+            width: 100%;
+            text-align: left;
+            padding: 1.2rem 2rem;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            box-sizing: border-box; /* Agar padding tidak membuat lebar melebihi 100% */
+        }
+
+        .qna-question:hover {
+            background-color: #e6b800;
+        }
+        
+        .qna-answer {
+            background-color: var(--white);
+            color: var(--dark-gray);
+            padding: 1.5rem;
+            margin-top: -1rem; /* Untuk tumpang tindih dengan question */
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+            display: none;
+        }
+
+        /* Landing Page 5 (Penjelasan Pembelian) */
+        .landing-page-5 {
+            background-color: var(--white);
+            text-align: center;
+            max-width: 800px;
+            padding-top: 8rem; /* Ruang untuk header fixed */
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem; /* Jarak bawah judul */
+            color: var(--gold);
+            text-align: center;
+        }
+        .landing-page-5 p {
+            color: var(--medium-gray);
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            background-color: var(--soft-black);
+            color: var(--light-gray);
+        }
+
+        .social-media {
+            margin-bottom: 1.5rem;
+        }
+
+        .social-media a {
+            color: var(--light-gray);
+            font-size: 2rem;
+            margin: 0 1rem;
+            transition: color 0.3s;
+        }
+
+        .social-media a:hover {
+            color: var(--gold);
+        }
+        
+        /* Animasi */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounceIn {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); opacity: 1;}
+            0% { opacity: 0; transform: translateY(-200px); }
+            40% { transform: translateY(-30px); }
+            60% { transform: translateY(-15px); }
+        }
+
+        @keyframes slideInFromLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInFromRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Media Queries (Responsif) */
+        @media (max-width: 768px) {
+            .header {
+                padding: 0.75rem 1rem;
+            }
+
+            .shop-name {
+                font-size: 1.4rem;
+            }
+
+            .menu-icon {
+                display: block;
+            }
+            
+            .landing-page-1 {
+                min-height: 80vh;
+                padding-top: 6rem;
+            }
+
+            .logo-container {
+                width: 120px;
+                height: 120px;
+                margin-bottom: 1.5rem;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-description {
+                font-size: 0.9rem;
+            }
+
+            .landing-page {
+                padding: 3rem 1rem;
+            }
+            
+            .landing-page-2, .landing-page-3, .landing-page-4, .landing-page-5 {
+                padding-top: 6rem;
+            }
+
+            .card-container {
+                grid-template-columns: minmax(250px, 1fr);
+                gap: 1.5rem;
+            }
+            
+            .donatur-card, .sponsorship-card {
+                transform: translateX(0) !important; /* Override animation for small screens */
+                opacity: 1 !important;
+            }
+
+            .modal-content .form-buttons {
+                flex-direction: column;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .landing-page-1 {
+                flex-direction: row;
+                justify-content: space-between;
+                text-align: left;
+                padding-top: 0; /* Reset padding-top */
+            }
+
+            .logo-container {
+                animation: none; /* Matikan animasi bounceIn di desktop */
+                opacity: 1;
+                transform: none;
+                margin-bottom: 0;
+            }
+            
+            .hero-text-container {
+                animation: none;
+                opacity: 1;
+                transform: none;
+                max-width: 50%;
+            }
+            
+            .hero-title {
+                animation: fadeIn 1.5s forwards, slideInFromRight 1s forwards;
+            }
+            
+            .hero-description {
+                animation: fadeIn 1.5s 0.5s forwards, slideInFromRight 1s 0.5s forwards;
+            }
+            
+            .header {
+                padding: 1rem 4rem; /* Lebih lebar di desktop */
+            }
+            .header.scrolled {
+                padding: 0.75rem 4rem;
+            }
+
+            .landing-page {
+                padding-left: 4rem;
+                padding-right: 4rem;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -16,38 +606,53 @@
         </div>
         <div class="header-right">
             <div class="menu-icon">
-                <i class="fas fa-ellipsis-v"></i>
+                <i class="fas fa-bars"></i>
             </div>
         </div>
     </header>
 
-    <section class="landing-page landing-page-1">
-        <div class="logo-container">
+    <section class="landing-page landing-page-1" id="home">
+        <div class="logo-container animate-on-load">
             <img src="[url-logo-anda]" alt="Eterield Shop Logo" class="logo">
         </div>
         <div class="hero-text-container">
             <h2 class="hero-title">Welcome to Eterieldshop</h2>
-            <p class="hero-description">Temukan item game terbaikmu di sini!</p>
+            <p class="hero-description">Temukan item game terbaikmu di sini! Kami menyediakan berbagai item dan layanan untuk meningkatkan pengalaman bermainmu.</p>
         </div>
     </section>
     
-    <section class="landing-page landing-page-2">
-        <div class="black-overlay"></div>
+    <section class="landing-page landing-page-2" id="items">
+        <h2 class="section-title" style="color: var(--white);">Katalog Item Eksklusif</h2>
         <div class="card-container">
-            <div class="card item-card">
+            <div class="card item-card animate-on-scroll">
                 <div class="card-image-container">
-                    <img src="[link-gambar-github-1]" alt="Item 1" class="card-image">
+                    <img src="https://via.placeholder.com/400x200/FFD700/FFFFFF?text=Item+Game+1" alt="Item 1" class="card-image">
                 </div>
                 <div class="card-info">
                     <p class="item-name">Item Game 1</p>
                     <button class="buy-button">Beli</button>
                 </div>
             </div>
-            <div class="card item-card">...</div>
-            <div class="card item-card">...</div>
-            <div class="card item-card">...</div>
-            <div class="card item-card">...</div>
-            <div class="card item-card">...</div>
+            <div class="card item-card animate-on-scroll">
+                <div class="card-image-container"><img src="https://via.placeholder.com/400x200/FFD700/FFFFFF?text=Item+Game+2" alt="Item 2" class="card-image"></div>
+                <div class="card-info"><p class="item-name">Item Game 2</p><button class="buy-button">Beli</button></div>
+            </div>
+            <div class="card item-card animate-on-scroll">
+                <div class="card-image-container"><img src="https://via.placeholder.com/400x200/FFD700/FFFFFF?text=Item+Game+3" alt="Item 3" class="card-image"></div>
+                <div class="card-info"><p class="item-name">Item Game 3</p><button class="buy-button">Beli</button></div>
+            </div>
+            <div class="card item-card animate-on-scroll">
+                <div class="card-image-container"><img src="https://via.placeholder.com/400x200/FFD700/FFFFFF?text=Item+Game+4" alt="Item 4" class="card-image"></div>
+                <div class="card-info"><p class="item-name">Item Game 4</p><button class="buy-button">Beli</button></div>
+            </div>
+            <div class="card item-card animate-on-scroll">
+                <div class="card-image-container"><img src="https://via.placeholder.com/400x200/FFD700/FFFFFF?text=Item+Game+5" alt="Item 5" class="card-image"></div>
+                <div class="card-info"><p class="item-name">Item Game 5</p><button class="buy-button">Beli</button></div>
+            </div>
+            <div class="card item-card animate-on-scroll">
+                <div class="card-image-container"><img src="https://via.placeholder.com/400x200/FFD700/FFFFFF?text=Item+Game+6" alt="Item 6" class="card-image"></div>
+                <div class="card-info"><p class="item-name">Item Game 6</p><button class="buy-button">Beli</button></div>
+            </div>
         </div>
     </section>
 
@@ -75,10 +680,10 @@
         </div>
     </div>
 
-    <section class="landing-page landing-page-3">
+    <section class="landing-page landing-page-3" id="donasi">
         <h2 class="section-title">Dukungan & Donasi</h2>
         <div class="card-container">
-            <div class="card donatur-card">
+            <div class="card donatur-card animate-on-scroll">
                 <h3 class="card-title">List Benefit Donatur</h3>
                 <div class="card-line"></div>
                 <div class="donatur-list">
@@ -130,7 +735,7 @@
                             <li>1 dari 2 Horns</li>
                             <li>2x Epic Weapon (epic knight)</li>
                             <li>**Devil/Angel Crown** lyxgro</li>
-                            <li>+4 adventure level lebih tinggi</li>
+                            <li>+4 Adventure Level lebih tinggi</li>
                             <li>Tag role custom</li>
                             <li>1 set **Dark armor** (epic knight)</li>
                             <li>**Custom Race** (Rekayasa Genetik Ras)</li>
@@ -153,7 +758,7 @@
                             <li>1 Horns</li>
                             <li>2x Epic Weapon (epic knight)</li>
                             <li>**Devil/Angel Crown** lyxgro</li>
-                            <li>+6 adventure level lebih tinggi</li>
+                            <li>+6 Adventure Level lebih tinggi</li>
                             <li>Tag role custom</li>
                             <li>1 set **Dark armor** (epic knight)</li>
                             <li>**Custom Race** (Rekayasa Genetik Ras)</li>
@@ -178,7 +783,7 @@
                             <li>2 Horns</li>
                             <li>2x Epic Weapon (epic knight)</li>
                             <li>**Devil dan Angel Crown** lyxgro</li>
-                            <li>+8 adventure level lebih tinggi</li>
+                            <li>+8 Adventure Level lebih tinggi</li>
                             <li>Tag role custom</li>
                             <li>1 set **Dark armor** (epic knight)</li>
                             <li>**Custom Race** (Rekayasa Genetik Ras)</li>
@@ -192,33 +797,53 @@
                     </details>
                 </div>
             </div>
-            <div class="card sponsorship-card">
+            <div class="card sponsorship-card animate-on-scroll">
                 <h3 class="card-title">Sponsorship</h3>
                 <div class="card-line"></div>
-                <p>Informasi sponsorship dan cara kerja sama.</p>
+                <p>Informasi sponsorship dan cara kerja sama. Jika Anda tertarik untuk berkolaborasi atau menjadi sponsor, silakan hubungi kami untuk mendiskusikan peluang yang ada.</p>
             </div>
         </div>
     </section>
 
-    <section class="landing-page landing-page-4">
-        <h2>Q&A - Pertanyaan yang Sering Diajukan</h2>
+    <section class="landing-page landing-page-4" id="qna">
+        <h2 class="section-title">Q&A - Pertanyaan yang Sering Diajukan</h2>
         <div class="qna-container">
-            <div class="qna-item">
+            <div class="qna-item animate-on-scroll">
                 <button class="qna-question">Bagaimana cara membeli item?</button>
                 <div class="qna-answer">
-                    <p>Cukup klik tombol "Beli" pada item yang Anda inginkan, lalu isi formulir pembelian dan ikuti petunjuk selanjutnya.</p>
+                    <p>Cukup klik tombol "Beli" pada item yang Anda inginkan, lalu isi formulir pembelian dan ikuti petunjuk selanjutnya. Pastikan semua data terisi dengan benar.</p>
                 </div>
             </div>
-            <div class="qna-item">...</div>
-            <div class="qna-item">...</div>
-            <div class="qna-item">...</div>
-            <div class="qna-item">...</div>
+            <div class="qna-item animate-on-scroll">
+                <button class="qna-question">Apakah barang yang dibeli aman?</button>
+                <div class="qna-answer">
+                    <p>Ya, semua transaksi di Eterieldshop dijamin 100% aman. Kami memberikan garansi penuh untuk setiap item yang hilang karena kesalahan server.</p>
+                </div>
+            </div>
+            <div class="qna-item animate-on-scroll">
+                <button class="qna-question">Metode pembayaran apa saja yang tersedia?</button>
+                <div class="qna-answer">
+                    <p>Saat ini kami menerima pembayaran melalui transfer bank dan beberapa platform e-wallet terkemuka. Detail lengkap akan muncul di formulir pembelian.</p>
+                </div>
+            </div>
+            <div class="qna-item animate-on-scroll">
+                <button class="qna-question">Berapa lama proses pengiriman item?</button>
+                <div class="qna-answer">
+                    <p>Item akan dikirimkan secepatnya setelah bukti transfer diverifikasi. Proses biasanya tidak lebih dari 10-15 menit pada jam operasional.</p>
+                </div>
+            </div>
+            <div class="qna-item animate-on-scroll">
+                <button class="qna-question">Apakah saya bisa meminta custom item?</button>
+                <div class="qna-answer">
+                    <p>Tergantung pada tingkatan donasi, kami menyediakan opsi untuk custom item atau race. Silakan periksa detail benefit donatur di halaman ini untuk informasi lebih lanjut.</p>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section class="landing-page landing-page-5">
-        <h2>Mengapa Berbelanja di Eterieldshop?</h2>
-        <p>Eterieldshop adalah tempat terbaik untuk mendapatkan item game berkualitas dengan harga terjangkau. Kami menjamin proses yang cepat dan aman, serta layanan pelanggan yang ramah dan siap membantu.</p>
+    <section class="landing-page landing-page-5" id="tentang">
+        <h2 class="section-title">Mengapa Berbelanja di Eterieldshop?</h2>
+        <p>Eterieldshop adalah tempat terbaik untuk mendapatkan item game berkualitas dengan harga terjangkau. Kami menjamin proses yang cepat dan aman, serta layanan pelanggan yang ramah dan siap membantu. Kami selalu berinovasi untuk memberikan yang terbaik bagi komunitas kami.</p>
     </section>
 
     <footer class="footer">
@@ -229,7 +854,120 @@
         </div>
         <p>&copy; 2025 Eterieldshop. All rights reserved.</p>
     </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
 
-    <script src="script.js"></script>
+            const header = document.querySelector('.header');
+            const heroTitle = document.querySelector('.hero-title');
+            const heroDescription = document.querySelector('.hero-description');
+            const logoContainer = document.querySelector('.logo-container');
+            
+            // Header scroll effect
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+
+            // Animasi muncul untuk Hero Section (Desktop/PC)
+            // Hanya jalankan jika bukan mobile
+            if (window.innerWidth > 768) {
+                // Hapus kelas animate-on-load agar animasi bounceIn tidak terpicu lagi
+                logoContainer.classList.remove('animate-on-load'); 
+                
+                // Set initial opacity dan transform untuk hero text agar animasi berjalan
+                heroTitle.style.opacity = '0';
+                heroTitle.style.transform = 'translateY(20px)';
+                heroDescription.style.opacity = '0';
+                heroDescription.style.transform = 'translateY(20px)';
+
+                heroTitle.style.animation = 'fadeIn 1.5s forwards, slideInFromRight 1s forwards';
+                heroDescription.style.animation = 'fadeIn 1.5s 0.5s forwards, slideInFromRight 1s 0.5s forwards';
+            } else {
+                // Di mobile, pastikan logo dan teks hero terlihat tanpa animasi slide/fade
+                logoContainer.style.opacity = '1';
+                logoContainer.style.transform = 'none';
+                heroTitle.style.opacity = '1';
+                heroTitle.style.transform = 'none';
+                heroDescription.style.opacity = '1';
+                heroDescription.style.transform = 'none';
+            }
+
+
+            // Modal Pembelian
+            const buyButtons = document.querySelectorAll('.buy-button');
+            const modal = document.getElementById('purchase-form-modal');
+            const closeButton = modal.querySelector('.close-button');
+            const backButton = modal.querySelector('.back-button');
+
+            buyButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    modal.classList.add('show');
+                });
+            });
+
+            closeButton.addEventListener('click', () => {
+                modal.classList.remove('show');
+            });
+
+            backButton.addEventListener('click', () => {
+                modal.classList.remove('show');
+            });
+
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    modal.classList.remove('show');
+                }
+            });
+
+            // Animasi saat scroll untuk berbagai elemen
+            const elementsToAnimate = document.querySelectorAll('.animate-on-scroll');
+            
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        if (entry.target.classList.contains('item-card') || entry.target.classList.contains('qna-item')) {
+                            entry.target.style.animation = 'fadeIn 1s forwards';
+                        } else if (entry.target.classList.contains('donatur-card')) {
+                            entry.target.style.animation = 'slideInFromLeft 1s forwards';
+                        } else if (entry.target.classList.contains('sponsorship-card')) {
+                            entry.target.style.animation = 'slideInFromRight 1s forwards';
+                        }
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            elementsToAnimate.forEach(el => observer.observe(el));
+
+            // Fungsionalitas QnA
+            const qnaQuestions = document.querySelectorAll('.qna-question');
+            
+            qnaQuestions.forEach(question => {
+                question.addEventListener('click', () => {
+                    const answer = question.nextElementSibling;
+                    const isVisible = answer.style.display === 'block';
+                    
+                    document.querySelectorAll('.qna-answer').forEach(ans => {
+                        ans.style.display = 'none';
+                    });
+                    
+                    if (!isVisible) {
+                        answer.style.display = 'block';
+                    }
+                });
+            });
+
+            // Form submission handler (Discord Webhook & WhatsApp)
+            const purchaseForm = document.getElementById('purchase-form');
+            purchaseForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                alert('Fitur pengiriman bukti via Discord belum diimplementasikan. Silakan gunakan tombol WhatsApp!');
+            });
+        });
+    </script>
 </body>
 </html>
