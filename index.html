@@ -770,29 +770,24 @@
             <label for="payment-method">Metode Pembayaran</label>
             <select name="payment-method" id="payment-method" required>
                 <option value="">-- Pilih Pembayaran --</option>
-                <option value="bank">Bank jago: 104657404763</option>
+                <option value="bank">Bank Jago: 104657404763</option>
                 <option value="ewallet">E-wallet</option>
                 <option value="dana">Dana: 083159084210</option>
                 <option value="gopay">Gopay: 083159084210</option>
-                <img src="https://github.com/marcellnw/eterieldshop/blob/main/20250428_145751.png" 
-     alt="QRIS" 
-     id="qris-image" 
-     style="max-width: 100%; margin-top: 10px;">
-</button>
-<img src="https://github.com/marcellnw/eterieldshop/blob/main/20250428_145751.png" 
-     alt="QRIS" 
-     id="qris-image" 
-     style="display: none; max-width: 100%; margin-top: 10px;">
             </select>
-            
-<img src="https://github.com/marcellnw/eterieldshop/blob/main/20250428_145751.png" alt="QRIS" id="qris-image" style="display: none; max-width: 100%; margin-top: 10px;">
+
+            <img src="https://github.com/marcellnw/eterieldshop/blob/main/20250428_145751.png" 
+                 alt="QRIS" 
+                 id="qris-image" 
+                 style="display: none; max-width: 100%; margin-top: 10px;">
 
             <label for="proof">Lampirkan Bukti Transfer:</label>
             <input type="file" name="proof" id="proof" accept="image/*" required>
 
             <div class="form-buttons">
                 <button type="submit" class="send-discord-btn">Kirim Bukti (Discord)</button>
-                <a href="https://wa.me/6281323146137?text=Hai%2C%20saya%20ingin%20membeli%20item%20..." class="wa-btn" target="_blank">Kirim via WhatsApp</a>
+                <a href="https://wa.me/6281323146137?text=Hai%2C%20saya%20ingin%20membeli%20item%20..." 
+                   class="wa-btn" target="_blank">Kirim via WhatsApp</a>
                 <button type="button" class="back-button">Kembali ke Pembelian</button>
             </div>
         </form>
@@ -1080,135 +1075,163 @@
     </footer>
     
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const header = document.querySelector('.header');
-        const heroTitle = document.querySelector('.hero-title');
-        const heroDescription = document.querySelector('.hero-description');
-        const logoContainer = document.querySelector('.logo-container');
-        const parallax = document.querySelector(".parallax");
-    
-        // Scroll effect (header + parallax background)
-        window.addEventListener('scroll', () => {
-            const scrolled = window.scrollY;
-    
-            // Header shrink effect
-            if (scrolled > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-    
-            // Parallax effect
-            if (parallax) {
-                parallax.style.backgroundPositionY = -(scrolled * 0.3) + "px"; 
-            }
-        });
-    
-        // Hero Section Animation (Desktop only)
-        if (window.innerWidth > 768) {
-            logoContainer.classList.remove('animate-on-load'); 
-    
-            heroTitle.style.opacity = '0';
-            heroTitle.style.transform = 'translateY(20px)';
-            heroDescription.style.opacity = '0';
-            heroDescription.style.transform = 'translateY(20px)';
-    
-            // Tambahkan kelas animasi, biar gak overwrite inline-style lain
-            heroTitle.classList.add('animate-hero-title');
-            heroDescription.classList.add('animate-hero-desc');
-        } else {
-            // Mobile: tampil langsung tanpa animasi
-            [logoContainer, heroTitle, heroDescription].forEach(el => {
-                el.style.opacity = '1';
-                el.style.transform = 'none';
-            });
-        }
-    
-        // Modal Pembelian
-        const buyButtons = document.querySelectorAll('.buy-button');
-        const modal = document.getElementById('purchase-form-modal');
-    
-        if (modal) {
-            const closeButton = modal.querySelector('.close-button');
-            const backButton = modal.querySelector('.back-button');
-    
-            buyButtons.forEach(button => {
-                button.addEventListener('click', () => modal.classList.add('show'));
-            });
-    
-            [closeButton, backButton].forEach(btn => {
-                if (btn) btn.addEventListener('click', () => modal.classList.remove('show'));
-            });
-    
-            window.addEventListener('click', (event) => {
-                if (event.target === modal) modal.classList.remove('show');
-            });
-        }
-    
-        // Scroll animations
-        const elementsToAnimate = document.querySelectorAll('.animate-on-scroll');
-        const observer = new IntersectionObserver((entries, obs) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    if (entry.target.classList.contains('item-card') || entry.target.classList.contains('qna-item')) {
-                        entry.target.style.animation = 'fadeIn 1s forwards';
-                    } else if (entry.target.classList.contains('donatur-card')) {
-                        entry.target.style.animation = 'slideInFromLeft 1s forwards';
-                    } else if (entry.target.classList.contains('sponsorship-card')) {
-                        entry.target.style.animation = 'slideInFromRight 1s forwards';
-                    }
-                    obs.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.2 });
-        elementsToAnimate.forEach(el => observer.observe(el));
-    
-        // QnA toggle
-        const qnaQuestions = document.querySelectorAll('.qna-question');
-        qnaQuestions.forEach(question => {
-            question.addEventListener('click', () => {
-                const answer = question.nextElementSibling;
-                if (!answer) return;
-    
-                const isVisible = answer.style.display === 'block';
-                document.querySelectorAll('.qna-answer').forEach(ans => ans.style.display = 'none');
-                if (!isVisible) answer.style.display = 'block';
-            });
-        });
-    
-        // Form submission
-        const purchaseForm = document.getElementById('purchase-form');
-        if (purchaseForm) {
-            purchaseForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                alert('Fitur pengiriman bukti via Discord belum diimplementasikan. Silakan gunakan tombol WhatsApp!');
-            });
-        }
-    
-        // --- Kode untuk fungsionalitas QRIS yang baru digabungkan ---
-        // Ambil elemen dropdown metode pembayaran
-        const paymentMethodSelect = document.getElementById('payment-method');
-        // Ambil elemen gambar QRIS
-        const qrisImage = document.getElementById('qris-image');
+document.addEventListener('DOMContentLoaded', () => {
+    const header = document.querySelector('.header');
+    const heroTitle = document.querySelector('.hero-title');
+    const heroDescription = document.querySelector('.hero-description');
+    const logoContainer = document.querySelector('.logo-container');
+    const parallax = document.querySelector(".parallax");
 
-        if (paymentMethodSelect && qrisImage) {
-            // Tambahkan event listener untuk mendeteksi perubahan pada dropdown
-            paymentMethodSelect.addEventListener('change', function() {
-                // Jika nilai yang dipilih adalah 'qris', tampilkan gambar
-                if (this.value === 'qris') {
-                    qrisImage.style.display = 'block';
-                } else {
-                    // Jika nilai yang dipilih bukan 'qris', sembunyikan gambar
-                    qrisImage.style.display = 'none';
-                }
-            });
+    // Scroll effect (header + parallax background)
+    window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY;
+
+        if (scrolled > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
         }
-        // --- Akhir dari kode QRIS ---
+
+        if (parallax) {
+            parallax.style.backgroundPositionY = -(scrolled * 0.3) + "px"; 
+        }
     });
+
+    // Hero Section Animation (Desktop only)
+    if (window.innerWidth > 768) {
+        logoContainer.classList.remove('animate-on-load'); 
+        heroTitle.style.opacity = '0';
+        heroTitle.style.transform = 'translateY(20px)';
+        heroDescription.style.opacity = '0';
+        heroDescription.style.transform = 'translateY(20px)';
+        heroTitle.classList.add('animate-hero-title');
+        heroDescription.classList.add('animate-hero-desc');
+    } else {
+        [logoContainer, heroTitle, heroDescription].forEach(el => {
+            el.style.opacity = '1';
+            el.style.transform = 'none';
+        });
+    }
+
+    // Modal Pembelian
+    const buyButtons = document.querySelectorAll('.buy-button');
+    const modal = document.getElementById('purchase-form-modal');
+    if (modal) {
+        const closeButton = modal.querySelector('.close-button');
+        const backButton = modal.querySelector('.back-button');
+
+        buyButtons.forEach(button => {
+            button.addEventListener('click', () => modal.classList.add('show'));
+        });
+
+        [closeButton, backButton].forEach(btn => {
+            if (btn) btn.addEventListener('click', () => modal.classList.remove('show'));
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) modal.classList.remove('show');
+        });
+    }
+
+    // Scroll animations
+    const elementsToAnimate = document.querySelectorAll('.animate-on-scroll');
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                if (entry.target.classList.contains('item-card') || entry.target.classList.contains('qna-item')) {
+                    entry.target.style.animation = 'fadeIn 1s forwards';
+                } else if (entry.target.classList.contains('donatur-card')) {
+                    entry.target.style.animation = 'slideInFromLeft 1s forwards';
+                } else if (entry.target.classList.contains('sponsorship-card')) {
+                    entry.target.style.animation = 'slideInFromRight 1s forwards';
+                }
+                obs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+    elementsToAnimate.forEach(el => observer.observe(el));
+
+    // QnA toggle
+    const qnaQuestions = document.querySelectorAll('.qna-question');
+    qnaQuestions.forEach(question => {
+        question.addEventListener('click', () => {
+            const answer = question.nextElementSibling;
+            if (!answer) return;
+            const isVisible = answer.style.display === 'block';
+            document.querySelectorAll('.qna-answer').forEach(ans => ans.style.display = 'none');
+            if (!isVisible) answer.style.display = 'block';
+        });
+    });
+
+    // --- Fungsionalitas QRIS dan Form Discord ---
+    const paymentMethod = document.getElementById('payment-method');
+    const qrisImage = document.getElementById('qris-image');
+    const form = document.getElementById('purchase-form');
+
+    if(paymentMethod && qrisImage) {
+        paymentMethod.addEventListener('change', () => {
+            if(['ewallet','dana','gopay'].includes(paymentMethod.value)){
+                qrisImage.style.display = 'block';
+            } else {
+                qrisImage.style.display = 'none';
+            }
+        });
+    }
+
+    if(form) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const gamertag = document.getElementById('gamertag').value;
+            const item = document.getElementById('item').value;
+            const payment = document.getElementById('payment-method').value;
+            const proof = document.getElementById('proof').files[0];
+
+            if(!proof){
+                alert('Silakan lampirkan bukti transfer!');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = async function() {
+                const payload = {
+                    content: `📥 **Formulir Pembelian Baru**\n**Nama:** ${name}\n**Gamertag:** ${gamertag}\n**Paket:** ${item}\n**Metode Pembayaran:** ${payment}`,
+                    embeds: [
+                        {
+                            title: "Bukti Transfer",
+                            image: { url: `attachment://${proof.name}` }
+                        }
+                    ]
+                };
+
+                const formData = new FormData();
+                formData.append('file', proof, proof.name);
+                formData.append('payload_json', JSON.stringify(payload));
+
+                const webhookURL = "https://discord.com/api/webhooks/1396156274688659567/xengMSeqM5lYTrqa--9et7C7n31iTAeDn6OdexwIQxZl4-Hh-wePxiDjBBM14QWBREU7";
+
+                try {
+                    await fetch(webhookURL, { method: 'POST', body: formData });
+                    alert('Formulir berhasil dikirim ke Discord!');
+                    form.reset();
+                    qrisImage.style.display = 'none';
+                } catch(err) {
+                    console.error(err);
+                    alert('Terjadi kesalahan saat mengirim form ke Discord.');
+                }
+            };
+
+            reader.readAsDataURL(proof);
+        });
+    }
+    // --- Akhir QRIS & Discord ---
+});
 </script>
     </script>
 </body>
 </html>
+
 
 
 
