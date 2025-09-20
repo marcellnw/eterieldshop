@@ -1078,161 +1078,168 @@
     
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    const header = document.querySelector('.header');
-    const heroTitle = document.querySelector('.hero-title');
-    const heroDescription = document.querySelector('.hero-description');
-    const logoContainer = document.querySelector('.logo-container');
-    const parallax = document.querySelector(".parallax");
+            // --- Elemen-elemen DOM ---
+            const header = document.querySelector('.header');
+            const heroTitle = document.querySelector('.hero-title');
+            const heroDescription = document.querySelector('.hero-description');
+            const logoContainer = document.querySelector('.logo-container');
+            const parallax = document.querySelector(".parallax");
+            const buyButtons = document.querySelectorAll('.buy-button');
+            const modal = document.getElementById('purchase-form-modal');
+            const qnaQuestions = document.querySelectorAll('.qna-question');
+            const elementsToAnimate = document.querySelectorAll('.animate-on-scroll');
+            const paymentMethod = document.getElementById('payment-method');
+            const qrisImage = document.getElementById('qris-image');
+            const purchaseForm = document.getElementById('purchase-form');
 
-    // Scroll effect (header + parallax background)
-    window.addEventListener('scroll', () => {
-        const scrolled = window.scrollY;
-
-        if (scrolled > 50) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-
-        if (parallax) {
-            parallax.style.backgroundPositionY = -(scrolled * 0.3) + "px"; 
-        }
-    });
-
-    // Hero Section Animation (Desktop only)
-    if (window.innerWidth > 768) {
-        logoContainer.classList.remove('animate-on-load'); 
-        heroTitle.style.opacity = '0';
-        heroTitle.style.transform = 'translateY(20px)';
-        heroDescription.style.opacity = '0';
-        heroDescription.style.transform = 'translateY(20px)';
-        heroTitle.classList.add('animate-hero-title');
-        heroDescription.classList.add('animate-hero-desc');
-    } else {
-        [logoContainer, heroTitle, heroDescription].forEach(el => {
-            el.style.opacity = '1';
-            el.style.transform = 'none';
-        });
-    }
-
-    // Modal Pembelian
-    const buyButtons = document.querySelectorAll('.buy-button');
-    const modal = document.getElementById('purchase-form-modal');
-    if (modal) {
-        const closeButton = modal.querySelector('.close-button');
-        const backButton = modal.querySelector('.back-button');
-
-        buyButtons.forEach(button => {
-            button.addEventListener('click', () => modal.classList.add('show'));
-        });
-
-        [closeButton, backButton].forEach(btn => {
-            if (btn) btn.addEventListener('click', () => modal.classList.remove('show'));
-        });
-
-        window.addEventListener('click', (event) => {
-            if (event.target === modal) modal.classList.remove('show');
-        });
-    }
-
-    // Scroll animations
-    const elementsToAnimate = document.querySelectorAll('.animate-on-scroll');
-    const observer = new IntersectionObserver((entries, obs) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                if (entry.target.classList.contains('item-card') || entry.target.classList.contains('qna-item')) {
-                    entry.target.style.animation = 'fadeIn 1s forwards';
-                } else if (entry.target.classList.contains('donatur-card')) {
-                    entry.target.style.animation = 'slideInFromLeft 1s forwards';
-                } else if (entry.target.classList.contains('sponsorship-card')) {
-                    entry.target.style.animation = 'slideInFromRight 1s forwards';
+            // --- Fungsionalitas Header & Parallax ---
+            window.addEventListener('scroll', () => {
+                const scrolled = window.scrollY;
+                if (scrolled > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
                 }
-                obs.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.2 });
-    elementsToAnimate.forEach(el => observer.observe(el));
 
-    // QnA toggle
-    const qnaQuestions = document.querySelectorAll('.qna-question');
-    qnaQuestions.forEach(question => {
-        question.addEventListener('click', () => {
-            const answer = question.nextElementSibling;
-            if (!answer) return;
-            const isVisible = answer.style.display === 'block';
-            document.querySelectorAll('.qna-answer').forEach(ans => ans.style.display = 'none');
-            if (!isVisible) answer.style.display = 'block';
-        });
-    });
+                if (parallax) {
+                    parallax.style.backgroundPositionY = -(scrolled * 0.3) + "px"; 
+                }
+            });
 
-    // --- Fungsionalitas QRIS dan Form Discord ---
-    const paymentMethod = document.getElementById('payment-method');
-    const qrisImage = document.getElementById('qris-image');
-    const form = document.getElementById('purchase-form');
-
-    if(paymentMethod && qrisImage) {
-        paymentMethod.addEventListener('change', () => {
-            if(['ewallet','dana','gopay'].includes(paymentMethod.value)){
-                qrisImage.style.display = 'block';
+            // --- Animasi Hero Section (Desktop Only) ---
+            if (window.innerWidth > 768) {
+                if (logoContainer) {
+                    logoContainer.classList.remove('animate-on-load');
+                }
+                if (heroTitle) {
+                    heroTitle.style.opacity = '0';
+                    heroTitle.style.transform = 'translateY(20px)';
+                    heroTitle.classList.add('animate-hero-title');
+                }
+                if (heroDescription) {
+                    heroDescription.style.opacity = '0';
+                    heroDescription.style.transform = 'translateY(20px)';
+                    heroDescription.classList.add('animate-hero-desc');
+                }
             } else {
-                qrisImage.style.display = 'none';
-            }
-        });
-    }
-
-    if(form) {
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const name = document.getElementById('name').value;
-            const gamertag = document.getElementById('gamertag').value;
-            const item = document.getElementById('item').value;
-            const payment = document.getElementById('payment-method').value;
-            const proof = document.getElementById('proof').files[0];
-
-            if(!proof){
-                alert('Silakan lampirkan bukti transfer!');
-                return;
+                [logoContainer, heroTitle, heroDescription].forEach(el => {
+                    if (el) {
+                        el.style.opacity = '1';
+                        el.style.transform = 'none';
+                    }
+                });
             }
 
-            const reader = new FileReader();
-            reader.onload = async function() {
-                const payload = {
-                    content: `📥 **Formulir Pembelian Baru**\n**Nama:** ${name}\n**Gamertag:** ${gamertag}\n**Paket:** ${item}\n**Metode Pembayaran:** ${payment}`,
-                    embeds: [
-                        {
-                            title: "Bukti Transfer",
-                            image: { url: `attachment://${proof.name}` }
+            // --- Modal Pembelian ---
+            if (modal) {
+                const closeButton = modal.querySelector('.close-button');
+                const backButton = modal.querySelector('.back-button');
+
+                buyButtons.forEach(button => {
+                    button.addEventListener('click', () => modal.classList.add('show'));
+                });
+
+                [closeButton, backButton].forEach(btn => {
+                    if (btn) btn.addEventListener('click', () => modal.classList.remove('show'));
+                });
+
+                window.addEventListener('click', (event) => {
+                    if (event.target === modal) modal.classList.remove('show');
+                });
+            }
+
+            // --- Animasi Saat Scroll ---
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        if (entry.target.classList.contains('item-card') || entry.target.classList.contains('qna-item')) {
+                            entry.target.style.animation = 'fadeIn 1s forwards';
+                        } else if (entry.target.classList.contains('donatur-card')) {
+                            entry.target.style.animation = 'slideInFromLeft 1s forwards';
+                        } else if (entry.target.classList.contains('sponsorship-card')) {
+                            entry.target.style.animation = 'slideInFromRight 1s forwards';
                         }
-                    ]
-                };
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+            elementsToAnimate.forEach(el => observer.observe(el));
 
-                const formData = new FormData();
-                formData.append('file', proof, proof.name);
-                formData.append('payload_json', JSON.stringify(payload));
+            // --- Fungsionalitas QnA ---
+            qnaQuestions.forEach(question => {
+                question.addEventListener('click', () => {
+                    const answer = question.nextElementSibling;
+                    if (!answer) return;
+                    const isVisible = answer.style.display === 'block';
+                    document.querySelectorAll('.qna-answer').forEach(ans => ans.style.display = 'none');
+                    if (!isVisible) answer.style.display = 'block';
+                });
+            });
 
-                const webhookURL = "https://discord.com/api/webhooks/1396156274688659567/xengMSeqM5lYTrqa--9et7C7n31iTAeDn6OdexwIQxZl4-Hh-wePxiDjBBM14QWBREU7";
+            // --- Fungsionalitas QRIS ---
+            if (paymentMethod && qrisImage) {
+                paymentMethod.addEventListener('change', () => {
+                    const selectedValue = paymentMethod.value;
+                    if (['qris', 'ewallet', 'dana', 'gopay'].includes(selectedValue)) {
+                        qrisImage.style.display = 'block';
+                    } else {
+                        qrisImage.style.display = 'none';
+                    }
+                });
+            }
 
-                try {
-                    await fetch(webhookURL, { method: 'POST', body: formData });
-                    alert('Formulir berhasil dikirim ke Discord!');
-                    form.reset();
-                    qrisImage.style.display = 'none';
-                } catch(err) {
-                    console.error(err);
-                    alert('Terjadi kesalahan saat mengirim form ke Discord.');
-                }
-            };
+            // --- Pengiriman Formulir ke Discord ---
+            if (purchaseForm) {
+                purchaseForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
 
-            reader.readAsDataURL(proof);
+                    const name = document.getElementById('name').value;
+                    const gamertag = document.getElementById('gamertag').value;
+                    const item = document.getElementById('item').value;
+                    const payment = document.getElementById('payment-method').value;
+                    const proof = document.getElementById('proof').files[0];
+
+                    if (!name || !gamertag || !item || !payment || !proof) {
+                        alert('Silakan lengkapi semua data formulir, termasuk bukti transfer!');
+                        return;
+                    }
+                    
+                    const payload = {
+                        content: `📥 **Formulir Pembelian Baru**\n**Nama:** ${name}\n**Gamertag:** ${gamertag}\n**Paket:** ${item}\n**Metode Pembayaran:** ${payment}`,
+                        embeds: [
+                            {
+                                title: "Bukti Transfer",
+                                image: { url: `attachment://${proof.name}` }
+                            }
+                        ]
+                    };
+
+                    const formData = new FormData();
+                    formData.append('file', proof, proof.name);
+                    formData.append('payload_json', JSON.stringify(payload));
+
+                    const webhookURL = "https://discord.com/api/webhooks/1396156274688659567/xengMSeqM5lYTrqa--9et7C7n31iTAeDn6OdexwIQxZl4-Hh-wePxiDjBBM14QWBREU7";
+
+                    try {
+                        await fetch(webhookURL, { method: 'POST', body: formData });
+                        alert('Formulir berhasil dikirim ke Discord!');
+                        
+                        purchaseForm.reset();
+                        if (qrisImage) qrisImage.style.display = 'none';
+                        if (modal) modal.classList.remove('show');
+
+                    } catch(err) {
+                        console.error(err);
+                        alert('Terjadi kesalahan saat mengirim form ke Discord.');
+                    }
+                });
+            }
         });
-    }
-    // --- Akhir QRIS & Discord ---
-});
-</script>
     </script>
 </body>
 </html>
+
+
 
 
 
