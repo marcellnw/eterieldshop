@@ -764,15 +764,20 @@
                 <option value="mvpplus">MVP+ - Rp100.000</option>
                 <option value="mvpplusplus">MVP++ - Rp150.000</option>
                 <option value="vvipplus">VVIP+ - Rp250.000</option>
-                <option value="vvipplusplus">VVIP++ - Rp325.000</option>
+                <option value="vvipplusplus">VVIP++ - Rp350.000</option>
             </select>
 
             <label for="payment-method">Metode Pembayaran</label>
             <select name="payment-method" id="payment-method" required>
                 <option value="">-- Pilih Pembayaran --</option>
-                <option value="bank">Transfer Bank</option>
+                <option value="bank">Bank jago: 104657404763</option>
                 <option value="ewallet">E-wallet</option>
+                <option value="dana">Dana: 083159084210</option>
+                <option value="gopay">Gopay: 083159084210</option>
+                <option value="qris">QRIS</option>
             </select>
+            
+            <img src="URL_GAMBAR_QRIS_ANDA" alt="QRIS" id="qris-image" style="display: none; max-width: 100%; margin-top: 10px;">
 
             <label for="proof">Lampirkan Bukti Transfer:</label>
             <input type="file" name="proof" id="proof" accept="image/*" required>
@@ -785,6 +790,7 @@
         </form>
     </div>
 </div>
+
     
 <section class="landing-page landing-page-3" id="donasi">
   <h2 class="section-title">Dukungan & Donasi</h2>
@@ -942,7 +948,7 @@
   <div class="card-line"></div>
   <p><strong>EternalSMP Season 14</strong><br>
   Dukung perjalanan EternalSMP Season 14 dengan menjadi sponsor!<br><br>
-  Dengan kontribusi <strong>Rp40.000</strong>, Anda akan mendapatkan:
+  Dengan kontribusi <strong>Rp15.000</strong>, Anda akan mendapatkan:
   </p>
   <ul>
     <li>Role khusus di Discord</li>
@@ -953,7 +959,7 @@
 </div>
 
     <section class="landing-page landing-page-4" id="qna">
-        <h2 class="section-title">Q&A - Pertanyaan yang Sering Diajukan</h2>
+        <h2 class="section-title">Pertanyaan yang Sering Diajukan</h2>
         <div class="qna-container">
             <div class="qna-item animate-on-scroll">
                 <button class="qna-question">Bagaimana cara membeli item?</button>
@@ -970,7 +976,7 @@
             <div class="qna-item animate-on-scroll">
                 <button class="qna-question">Metode pembayaran apa saja yang tersedia?</button>
                 <div class="qna-answer">
-                    <p>Saat ini kami menerima pembayaran melalui transfer bank dan beberapa platform e-wallet terkemuka. Detail lengkap akan muncul di formulir pembelian.</p>
+                    <p>Saat ini kami menerima pembayaran melalui transfer bank dan beberapa platform e-wallet terkemuka, seperti dana gopay ovo dan ada juga qris. Detail lengkap akan muncul di formulir pembelian.</p>
                 </div>
             </div>
             <div class="qna-item animate-on-scroll">
@@ -1065,114 +1071,135 @@
         <p>&copy; 2025 Eterieldshop. All rights reserved.</p>
     </footer>
     
-    <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const header = document.querySelector('.header');
-    const heroTitle = document.querySelector('.hero-title');
-    const heroDescription = document.querySelector('.hero-description');
-    const logoContainer = document.querySelector('.logo-container');
-    const parallax = document.querySelector(".parallax");
-
-    // Scroll effect (header + parallax background)
-    window.addEventListener('scroll', () => {
-        const scrolled = window.scrollY;
-
-        // Header shrink effect
-        if (scrolled > 50) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-
-        // Parallax effect
-        if (parallax) {
-            parallax.style.backgroundPositionY = -(scrolled * 0.3) + "px"; 
-        }
-    });
-
-    // Hero Section Animation (Desktop only)
-    if (window.innerWidth > 768) {
-        logoContainer.classList.remove('animate-on-load'); 
-
-        heroTitle.style.opacity = '0';
-        heroTitle.style.transform = 'translateY(20px)';
-        heroDescription.style.opacity = '0';
-        heroDescription.style.transform = 'translateY(20px)';
-
-        // Tambahkan kelas animasi, biar gak overwrite inline-style lain
-        heroTitle.classList.add('animate-hero-title');
-        heroDescription.classList.add('animate-hero-desc');
-    } else {
-        // Mobile: tampil langsung tanpa animasi
-        [logoContainer, heroTitle, heroDescription].forEach(el => {
-            el.style.opacity = '1';
-            el.style.transform = 'none';
-        });
-    }
-
-    // Modal Pembelian
-    const buyButtons = document.querySelectorAll('.buy-button');
-    const modal = document.getElementById('purchase-form-modal');
-
-    if (modal) {
-        const closeButton = modal.querySelector('.close-button');
-        const backButton = modal.querySelector('.back-button');
-
-        buyButtons.forEach(button => {
-            button.addEventListener('click', () => modal.classList.add('show'));
-        });
-
-        [closeButton, backButton].forEach(btn => {
-            if (btn) btn.addEventListener('click', () => modal.classList.remove('show'));
-        });
-
-        window.addEventListener('click', (event) => {
-            if (event.target === modal) modal.classList.remove('show');
-        });
-    }
-
-    // Scroll animations
-    const elementsToAnimate = document.querySelectorAll('.animate-on-scroll');
-    const observer = new IntersectionObserver((entries, obs) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                if (entry.target.classList.contains('item-card') || entry.target.classList.contains('qna-item')) {
-                    entry.target.style.animation = 'fadeIn 1s forwards';
-                } else if (entry.target.classList.contains('donatur-card')) {
-                    entry.target.style.animation = 'slideInFromLeft 1s forwards';
-                } else if (entry.target.classList.contains('sponsorship-card')) {
-                    entry.target.style.animation = 'slideInFromRight 1s forwards';
-                }
-                obs.unobserve(entry.target);
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const header = document.querySelector('.header');
+        const heroTitle = document.querySelector('.hero-title');
+        const heroDescription = document.querySelector('.hero-description');
+        const logoContainer = document.querySelector('.logo-container');
+        const parallax = document.querySelector(".parallax");
+    
+        // Scroll effect (header + parallax background)
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+    
+            // Header shrink effect
+            if (scrolled > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+    
+            // Parallax effect
+            if (parallax) {
+                parallax.style.backgroundPositionY = -(scrolled * 0.3) + "px"; 
             }
         });
-    }, { threshold: 0.2 });
-    elementsToAnimate.forEach(el => observer.observe(el));
-
-    // QnA toggle
-    const qnaQuestions = document.querySelectorAll('.qna-question');
-    qnaQuestions.forEach(question => {
-        question.addEventListener('click', () => {
-            const answer = question.nextElementSibling;
-            if (!answer) return;
-
-            const isVisible = answer.style.display === 'block';
-            document.querySelectorAll('.qna-answer').forEach(ans => ans.style.display = 'none');
-            if (!isVisible) answer.style.display = 'block';
+    
+        // Hero Section Animation (Desktop only)
+        if (window.innerWidth > 768) {
+            logoContainer.classList.remove('animate-on-load'); 
+    
+            heroTitle.style.opacity = '0';
+            heroTitle.style.transform = 'translateY(20px)';
+            heroDescription.style.opacity = '0';
+            heroDescription.style.transform = 'translateY(20px)';
+    
+            // Tambahkan kelas animasi, biar gak overwrite inline-style lain
+            heroTitle.classList.add('animate-hero-title');
+            heroDescription.classList.add('animate-hero-desc');
+        } else {
+            // Mobile: tampil langsung tanpa animasi
+            [logoContainer, heroTitle, heroDescription].forEach(el => {
+                el.style.opacity = '1';
+                el.style.transform = 'none';
+            });
+        }
+    
+        // Modal Pembelian
+        const buyButtons = document.querySelectorAll('.buy-button');
+        const modal = document.getElementById('purchase-form-modal');
+    
+        if (modal) {
+            const closeButton = modal.querySelector('.close-button');
+            const backButton = modal.querySelector('.back-button');
+    
+            buyButtons.forEach(button => {
+                button.addEventListener('click', () => modal.classList.add('show'));
+            });
+    
+            [closeButton, backButton].forEach(btn => {
+                if (btn) btn.addEventListener('click', () => modal.classList.remove('show'));
+            });
+    
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) modal.classList.remove('show');
+            });
+        }
+    
+        // Scroll animations
+        const elementsToAnimate = document.querySelectorAll('.animate-on-scroll');
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (entry.target.classList.contains('item-card') || entry.target.classList.contains('qna-item')) {
+                        entry.target.style.animation = 'fadeIn 1s forwards';
+                    } else if (entry.target.classList.contains('donatur-card')) {
+                        entry.target.style.animation = 'slideInFromLeft 1s forwards';
+                    } else if (entry.target.classList.contains('sponsorship-card')) {
+                        entry.target.style.animation = 'slideInFromRight 1s forwards';
+                    }
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+        elementsToAnimate.forEach(el => observer.observe(el));
+    
+        // QnA toggle
+        const qnaQuestions = document.querySelectorAll('.qna-question');
+        qnaQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                if (!answer) return;
+    
+                const isVisible = answer.style.display === 'block';
+                document.querySelectorAll('.qna-answer').forEach(ans => ans.style.display = 'none');
+                if (!isVisible) answer.style.display = 'block';
+            });
         });
+    
+        // Form submission
+        const purchaseForm = document.getElementById('purchase-form');
+        if (purchaseForm) {
+            purchaseForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Fitur pengiriman bukti via Discord belum diimplementasikan. Silakan gunakan tombol WhatsApp!');
+            });
+        }
+    
+        // --- Kode untuk fungsionalitas QRIS yang baru digabungkan ---
+        // Ambil elemen dropdown metode pembayaran
+        const paymentMethodSelect = document.getElementById('payment-method');
+        // Ambil elemen gambar QRIS
+        const qrisImage = document.getElementById('qris-image');
+
+        if (paymentMethodSelect && qrisImage) {
+            // Tambahkan event listener untuk mendeteksi perubahan pada dropdown
+            paymentMethodSelect.addEventListener('change', function() {
+                // Jika nilai yang dipilih adalah 'qris', tampilkan gambar
+                if (this.value === 'qris') {
+                    qrisImage.style.display = 'block';
+                } else {
+                    // Jika nilai yang dipilih bukan 'qris', sembunyikan gambar
+                    qrisImage.style.display = 'none';
+                }
+            });
+        }
+        // --- Akhir dari kode QRIS ---
     });
-
-    // Form submission
-    const purchaseForm = document.getElementById('purchase-form');
-    if (purchaseForm) {
-        purchaseForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Fitur pengiriman bukti via Discord belum diimplementasikan. Silakan gunakan tombol WhatsApp!');
-        });
-    }
-});
 </script>
     </script>
 </body>
 </html>
+
 
