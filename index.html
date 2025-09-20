@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <style>
- /* Warna & Font */
+        /* Warna & Font */
         :root {
             --white: #ffffff;
             --light-gray: #f0f0f0;
@@ -46,7 +46,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 1rem 2rem;
-            background-color: var(--dark-gray); /* Header background jadi abu-abu gelap */
+            background-color: var(--dark-gray);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
             z-index: 1000;
             transition: padding 0.3s ease, background-color 0.3s ease;
@@ -55,7 +55,7 @@
 
         .header.scrolled {
             padding: 0.75rem 2rem;
-            background-color: var(--soft-black); /* Sedikit lebih gelap saat di-scroll */
+            background-color: var(--soft-black);
         }
 
         .shop-name {
@@ -76,6 +76,35 @@
             color: var(--white);
             cursor: pointer;
             z-index: 1001;
+        }
+
+        .mobile-nav {
+            display: none; /* Sembunyikan secara default */
+            flex-direction: column;
+            position: fixed;
+            top: 60px; /* Atur di bawah header */
+            left: 0;
+            width: 100%;
+            background-color: var(--soft-black);
+            padding: 1rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+        }
+
+        .mobile-nav.open {
+            display: flex; /* Tampilkan saat class 'open' ditambahkan */
+        }
+
+        .mobile-nav a {
+            color: var(--white);
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            text-align: center;
+        }
+
+        .mobile-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         /* Landing Page General */
@@ -227,136 +256,126 @@
             transform: translateY(-2px);
         }
         
-    /* Modal / Formulir */
-    .modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.6);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 2000;
-        visibility: hidden;
-        opacity: 0;
-        transition: visibility 0s, opacity 0.3s;
-        padding: 1rem;
-        box-sizing: border-box;
-    }
+        /* Modal / Formulir */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.3s;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
 
-    .modal.show {
-        visibility: visible;
-        opacity: 1;
-    }
+        .modal.show {
+            visibility: visible;
+            opacity: 1;
+        }
 
-    .modal-content {
-        background: linear-gradient(145deg, #ffffff, #f9f9f9);
-        padding: 2rem;
-        border-radius: 15px;
-        color: var(--dark-gray);
-        position: relative;
-        max-width: 420px; /* lebih kecil agar tidak full */
-        width: 100%;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-        transform: scale(0.9);
-        transition: transform 0.3s ease;
-    }
-
-    .modal.show .modal-content {
-        transform: scale(1);
-    }
-
-    .modal-content h2 {
-        text-align: center;
-        color: var(--gold);
-        margin-bottom: 1.5rem;
-        font-size: 1.5rem;
-    }
-
-    .modal-content label {
-        display: block;
-        margin-bottom: 0.4rem;
-        font-weight: 600;
-        color: var(--dark-gray);
-        font-size: 0.9rem;
-    }
-
-    .modal-content input,
-    .modal-content select {
-        width: 100%;
-        padding: 0.7rem;
-        margin-bottom: 1rem;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        font-family: var(--poppins);
-        font-size: 0.95rem;
-        box-sizing: border-box;
-    }
-
-    /* Tombol close */
-    .close-button {
-        position: absolute;
-        top: 12px;
-        right: 15px;
-        background: none;
-        border: none;
-        font-size: 1.8rem;
-        cursor: pointer;
-        color: var(--dark-gray);
-    }
-
-    .modal-content .form-buttons {
-        display: flex;
-        flex-direction: column;
-        gap: 0.8rem;
-        margin-top: 1.5rem;
-    }
-
-    .modal-content button,
-    .modal-content a {
-        padding: 0.8rem;
-        border-radius: 50px;
-        font-weight: 600;
-        text-decoration: none;
-        text-align: center;
-        border: none;
-        cursor: pointer;
-        transition: background-color 0.3s, transform 0.2s;
-    }
-
-    .send-discord-btn {
-        background-color: #7289da;
-        color: var(--white);
-    }
-    .send-discord-btn:hover { background-color: #5a6eaa; transform: translateY(-2px); }
-
-    .wa-btn {
-        background-color: #25D366;
-        color: var(--white);
-    }
-    .wa-btn:hover { background-color: #1ea34a; transform: translateY(-2px); }
-
-    .back-button {
-        background-color: #e0e0e0;
-        color: var(--dark-gray);
-        margin-top: 0.5rem;
-    }
-    .back-button:hover { background-color: #c0c0c0; transform: translateY(-2px); }
-
-    /* Responsive */
-    @media (max-width: 480px) {
         .modal-content {
-            padding: 1.5rem;
-            max-width: 95%;
+            background: linear-gradient(145deg, #ffffff, #f9f9f9);
+            padding: 2rem;
+            border-radius: 15px;
+            color: var(--dark-gray);
+            position: relative;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            max-height: 90vh; /* Batasi tinggi agar tidak melebihi layar */
+            overflow-y: auto; /* Aktifkan scrollbar vertikal jika perlu */
         }
-        .modal-content h2 {
-            font-size: 1.3rem;
-        }
-    }
 
-        
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-content h2 {
+            text-align: center;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .modal-content label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+
+        .modal-content input,
+        .modal-content select {
+            width: 100%;
+            padding: 0.7rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-family: var(--poppins);
+            font-size: 0.95rem;
+            box-sizing: border-box;
+        }
+
+        /* Tombol close */
+        .close-button {
+            position: absolute;
+            top: 12px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--dark-gray);
+        }
+
+        .modal-content .form-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+
+        .modal-content button,
+        .modal-content a {
+            padding: 0.8rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .send-discord-btn {
+            background-color: #7289da;
+            color: var(--white);
+        }
+        .send-discord-btn:hover { background-color: #5a6eaa; transform: translateY(-2px); }
+
+        .wa-btn {
+            background-color: #25D366;
+            color: var(--white);
+        }
+        .wa-btn:hover { background-color: #1ea34a; transform: translateY(-2px); }
+
+        .back-button {
+            background-color: #e0e0e0;
+            color: var(--dark-gray);
+            margin-top: 0.5rem;
+        }
+        .back-button:hover { background-color: #c0c0c0; transform: translateY(-2px); }
+
         /* Landing Page 3 (Donatur & Sponsorship) */
         .landing-page-3 {
             background-color: var(--white);
@@ -603,6 +622,14 @@
             .modal-content .form-buttons {
                 flex-direction: column;
             }
+            
+            .modal-content {
+                padding: 1.5rem;
+                max-width: 95%;
+            }
+            .modal-content h2 {
+                font-size: 1.3rem;
+            }
         }
         
         @media (min-width: 769px) {
@@ -646,6 +673,10 @@
                 padding-left: 4rem;
                 padding-right: 4rem;
             }
+
+            .mobile-nav {
+                display: none !important; /* Pastikan menu mobile tidak muncul di desktop */
+            }
         }
     </style>
 </head>
@@ -656,10 +687,17 @@
         <h1 class="shop-name">Eterieldshop</h1>
     </div>
     <div class="header-right">
-        <div class="menu-icon">
+        <div class="menu-icon" id="menu-toggle">
             <i class="fas fa-bars"></i>
         </div>
     </div>
+    <nav class="mobile-nav" id="mobile-nav">
+        <a href="#home">Home</a>
+        <a href="#items">Katalog Item</a>
+        <a href="#donasi">Donasi & Sponsorship</a>
+        <a href="#qna">QnA</a>
+        <a href="#tentang">Tentang Kami</a>
+    </nav>
 </header>
 
 <section class="landing-page landing-page-1 parallax" id="home">
@@ -687,7 +725,6 @@
     <h2 class="section-title" style="color: var(--white);">Katalog Item Eksklusif</h2>
     <div class="card-container">
 
-        <!-- VVIP++ -->
         <div class="card item-card animate-on-scroll">
             <div class="card-image-container">
                 <img src="https://raw.githubusercontent.com/marcellnw/eterieldshop/main/VVIP%2B%2B.png" alt="VVIP++" class="card-image">
@@ -698,7 +735,6 @@
             </div>
         </div>
 
-        <!-- VVIP+ -->
         <div class="card item-card animate-on-scroll">
             <div class="card-image-container">
                 <img src="https://raw.githubusercontent.com/marcellnw/eterieldshop/main/VVIP%2B.png" alt="VVIP+" class="card-image">
@@ -709,7 +745,6 @@
             </div>
         </div>
 
-        <!-- MVP++ -->
         <div class="card item-card animate-on-scroll">
             <div class="card-image-container">
                 <img src="https://raw.githubusercontent.com/marcellnw/eterieldshop/main/MVP%2B%2B.png" alt="MVP++" class="card-image">
@@ -720,7 +755,6 @@
             </div>
         </div>
 
-        <!-- MVP+ -->
         <div class="card item-card animate-on-scroll">
             <div class="card-image-container">
                 <img src="https://raw.githubusercontent.com/marcellnw/eterieldshop/main/MVP%2B.png" alt="MVP+" class="card-image">
@@ -731,7 +765,6 @@
             </div>
         </div>
 
-        <!-- MVP -->
         <div class="card item-card animate-on-scroll">
             <div class="card-image-container">
                 <img src="https://raw.githubusercontent.com/marcellnw/eterieldshop/main/MVP.png" alt="MVP" class="card-image">
@@ -766,36 +799,35 @@
                 <option value="vvipplus">VVIP+ - Rp250.000</option>
                 <option value="vvipplusplus">VVIP++ - Rp350.000</option>
             </select>
-<label for="payment-method">Metode Pembayaran</label>
-<select name="payment-method" id="payment-method" required>
-    <option value="">-- Pilih Pembayaran --</option>
-    <option value="bank">Bank Jago: 104657404763</option>
-    <option value="ewallet">E-wallet</option>
-    <option value="dana">Dana: 083159084210</option>
-    <option value="gopay">Gopay: 083159084210</option>
-    <option value="qris">Qris Ueenzcell</option>
-</select>
 
-<img src="https://github.com/marcellnw/eterieldshop/blob/main/20250920_194116.png?raw=true" 
-     alt="QRIS" 
-     id="qris-image" 
-     style="display: none; max-width: 100%; margin-top: 10px;">
+            <label for="payment-method">Metode Pembayaran</label>
+            <select name="payment-method" id="payment-method" required>
+                <option value="">-- Pilih Pembayaran --</option>
+                <option value="bank">Bank Jago: 104657404763</option>
+                <option value="ewallet">E-wallet</option>
+                <option value="dana">Dana: 083159084210</option>
+                <option value="gopay">Gopay: 083159084210</option>
+                <option value="qris">Qris Ueenzcell</option>
+            </select>
 
+            <img src="https://github.com/marcellnw/eterieldshop/blob/main/20250920_194116.png?raw=true" 
+                 alt="QRIS" 
+                 id="qris-image" 
+                 style="display: none; max-width: 100%; margin-top: 10px;">
 
             <label for="proof">Lampirkan Bukti Transfer:</label>
             <input type="file" name="proof" id="proof" accept="image/*" required>
-
-            <div class="form-buttons">
-                <button type="submit" class="send-discord-btn">Kirim Bukti (Discord)</button>
-                <a href="https://wa.me/6281323146137?text=Hai%2C%20saya%20ingin%20membeli%20item%20..." 
-                   class="wa-btn" target="_blank">Kirim via WhatsApp</a>
-                <button type="button" class="back-button">Kembali ke Pembelian</button>
-            </div>
         </form>
+
+        <div class="form-buttons">
+            <button type="submit" form="purchase-form" class="send-discord-btn">Kirim Bukti (Discord)</button>
+            <a href="https://wa.me/6281323146137?text=Hai%2C%20saya%20ingin%20membeli%20item%20..." 
+               class="wa-btn" target="_blank">Kirim via WhatsApp</a>
+            <button type="button" class="back-button">Kembali ke Pembelian</button>
+        </div>
     </div>
 </div>
 
-    
 <section class="landing-page landing-page-3" id="donasi">
   <h2 class="section-title">Dukungan & Donasi</h2>
   <div class="card-container">
@@ -945,8 +977,6 @@
 
   </div>
 </section>
-<!-- Updated sponsorship card section to match the provided CSS theme -->
-
 <div class="card sponsorship-card animate-on-scroll">
   <h3 class="card-title">Sponsorship</h3>
   <div class="card-line"></div>
@@ -1061,191 +1091,190 @@
     </div>
 </section>
 
-    <section class="landing-page landing-page-5" id="tentang">
-        <h2 class="section-title">Mengapa Berbelanja di Eterieldshop?</h2>
-        <p>Eterieldshop adalah toko resmi yang dibuat oleh admin untuk para pemain yang ingin meningkatkan petualangan mereka di Minecraft EternalSMP Season 14. Kami bukan hanya toko biasa, melainkan penyedia solusi premium untuk pengalaman bermain game minecraft server. Kami menawarkan paket perlengkapan premium yang dirancang untuk memberikan keuntungan besar di dalam server.
-​Cukup pilih paket Anda, lakukan pembayaran, dan item akan langsung diproses untuk pengambilan, dan siap untuk digunakan dalam petualangan Anda namun beberapa item tidak bisa di akses karena mengikuti sistem gameplay season 14.</p>
-    </section>
+<section class="landing-page landing-page-5" id="tentang">
+    <h2 class="section-title">Mengapa Berbelanja di Eterieldshop?</h2>
+    <p>Eterieldshop adalah toko resmi yang dibuat oleh admin untuk para pemain yang ingin meningkatkan petualangan mereka di Minecraft EternalSMP Season 14. Kami bukan hanya toko biasa, melainkan penyedia solusi premium untuk pengalaman bermain game minecraft server. Kami menawarkan paket perlengkapan premium yang dirancang untuk memberikan keuntungan besar di dalam server.
+Cukup pilih paket Anda, lakukan pembayaran, dan item akan langsung diproses untuk pengambilan, dan siap untuk digunakan dalam petualangan Anda namun beberapa item tidak bisa di akses karena mengikuti sistem gameplay season 14.</p>
+</section>
 
-    <footer class="footer">
-        <div class="social-media">
-            <a href="https://youtube.com/@eternalsmpserver?si=b8RfNRpBpy689HUs" class="social-icon"><i class="fab fa-youtube"></i></a>
-            <a href="https://discord.gg/YCGvq8W3Bp" class="social-icon"><i class="fab fa-discord"></i></a>
-            <a href="https://www.tiktok.com/@eternalsmpserver?_t=ZS-8zsu68iYGVU&_r=1" class="social-icon"><i class="fab fa-tiktok"></i></a>
-        </div>
-        <p>&copy; 2025 Eterieldshop. All rights reserved.</p>
-    </footer>
+<footer class="footer">
+    <div class="social-media">
+        <a href="https://youtube.com/@eternalsmpserver?si=b8RfNRpBpy689HUs" class="social-icon"><i class="fab fa-youtube"></i></a>
+        <a href="https://discord.gg/YCGvq8W3Bp" class="social-icon"><i class="fab fa-discord"></i></a>
+        <a href="https://www.tiktok.com/@eternalsmpserver?_t=ZS-8zsu68iYGVU&_r=1" class="social-icon"><i class="fab fa-tiktok"></i></a>
+    </div>
+    <p>&copy; 2025 Eterieldshop. All rights reserved.</p>
+</footer>
     
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-            // --- Elemen-elemen DOM ---
-            const header = document.querySelector('.header');
-            const heroTitle = document.querySelector('.hero-title');
-            const heroDescription = document.querySelector('.hero-description');
-            const logoContainer = document.querySelector('.logo-container');
-            const parallax = document.querySelector(".parallax");
-            const buyButtons = document.querySelectorAll('.buy-button');
-            const modal = document.getElementById('purchase-form-modal');
-            const qnaQuestions = document.querySelectorAll('.qna-question');
-            const elementsToAnimate = document.querySelectorAll('.animate-on-scroll');
-            const paymentMethod = document.getElementById('payment-method');
-            const qrisImage = document.getElementById('qris-image');
-            const purchaseForm = document.getElementById('purchase-form');
+    // --- Elemen-elemen DOM ---
+    const header = document.querySelector('.header');
+    const heroTitle = document.querySelector('.hero-title');
+    const heroDescription = document.querySelector('.hero-description');
+    const logoContainer = document.querySelector('.logo-container');
+    const parallax = document.querySelector(".parallax");
+    const buyButtons = document.querySelectorAll('.buy-button');
+    const modal = document.getElementById('purchase-form-modal');
+    const qnaQuestions = document.querySelectorAll('.qna-question');
+    const elementsToAnimate = document.querySelectorAll('.animate-on-scroll');
+    const paymentMethod = document.getElementById('payment-method');
+    const qrisImage = document.getElementById('qris-image');
+    const purchaseForm = document.getElementById('purchase-form');
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileNav = document.getElementById('mobile-nav');
 
-            // --- Fungsionalitas Header & Parallax ---
-            window.addEventListener('scroll', () => {
-                const scrolled = window.scrollY;
-                if (scrolled > 50) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                }
+    // --- Fungsionalitas Header & Parallax ---
+    window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY;
+        if (scrolled > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
 
-                if (parallax) {
-                    parallax.style.backgroundPositionY = -(scrolled * 0.3) + "px"; 
-                }
-            });
+        if (parallax) {
+            parallax.style.backgroundPositionY = -(scrolled * 0.3) + "px"; 
+        }
+    });
 
-            // --- Animasi Hero Section (Desktop Only) ---
-            if (window.innerWidth > 768) {
-                if (logoContainer) {
-                    logoContainer.classList.remove('animate-on-load');
-                }
-                if (heroTitle) {
-                    heroTitle.style.opacity = '0';
-                    heroTitle.style.transform = 'translateY(20px)';
-                    heroTitle.classList.add('animate-hero-title');
-                }
-                if (heroDescription) {
-                    heroDescription.style.opacity = '0';
-                    heroDescription.style.transform = 'translateY(20px)';
-                    heroDescription.classList.add('animate-hero-desc');
-                }
-            } else {
-                [logoContainer, heroTitle, heroDescription].forEach(el => {
-                    if (el) {
-                        el.style.opacity = '1';
-                        el.style.transform = 'none';
-                    }
-                });
-            }
+    // --- Fungsionalitas Menu Mobile ---
+    if (menuToggle && mobileNav) {
+        menuToggle.addEventListener('click', () => {
+            mobileNav.classList.toggle('open');
+        });
+    }
 
-            // --- Modal Pembelian ---
-            if (modal) {
-                const closeButton = modal.querySelector('.close-button');
-                const backButton = modal.querySelector('.back-button');
-
-                buyButtons.forEach(button => {
-                    button.addEventListener('click', () => modal.classList.add('show'));
-                });
-
-                [closeButton, backButton].forEach(btn => {
-                    if (btn) btn.addEventListener('click', () => modal.classList.remove('show'));
-                });
-
-                window.addEventListener('click', (event) => {
-                    if (event.target === modal) modal.classList.remove('show');
-                });
-            }
-
-            // --- Animasi Saat Scroll ---
-            const observer = new IntersectionObserver((entries, obs) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        if (entry.target.classList.contains('item-card') || entry.target.classList.contains('qna-item')) {
-                            entry.target.style.animation = 'fadeIn 1s forwards';
-                        } else if (entry.target.classList.contains('donatur-card')) {
-                            entry.target.style.animation = 'slideInFromLeft 1s forwards';
-                        } else if (entry.target.classList.contains('sponsorship-card')) {
-                            entry.target.style.animation = 'slideInFromRight 1s forwards';
-                        }
-                        obs.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.2 });
-            elementsToAnimate.forEach(el => observer.observe(el));
-
-            // --- Fungsionalitas QnA ---
-            qnaQuestions.forEach(question => {
-                question.addEventListener('click', () => {
-                    const answer = question.nextElementSibling;
-                    if (!answer) return;
-                    const isVisible = answer.style.display === 'block';
-                    document.querySelectorAll('.qna-answer').forEach(ans => ans.style.display = 'none');
-                    if (!isVisible) answer.style.display = 'block';
-                });
-            });
-
-            // --- Fungsionalitas QRIS ---
-            if (paymentMethod && qrisImage) {
-                paymentMethod.addEventListener('change', () => {
-                    const selectedValue = paymentMethod.value;
-                    if (['qris', 'ewallet', 'dana', 'gopay'].includes(selectedValue)) {
-                        qrisImage.style.display = 'block';
-                    } else {
-                        qrisImage.style.display = 'none';
-                    }
-                });
-            }
-
-            // --- Pengiriman Formulir ke Discord ---
-            if (purchaseForm) {
-                purchaseForm.addEventListener('submit', async (e) => {
-                    e.preventDefault();
-
-                    const name = document.getElementById('name').value;
-                    const gamertag = document.getElementById('gamertag').value;
-                    const item = document.getElementById('item').value;
-                    const payment = document.getElementById('payment-method').value;
-                    const proof = document.getElementById('proof').files[0];
-
-                    if (!name || !gamertag || !item || !payment || !proof) {
-                        alert('Silakan lengkapi semua data formulir, termasuk bukti transfer!');
-                        return;
-                    }
-                    
-                    const payload = {
-                        content: `📥 **Formulir Pembelian Baru**\n**Nama:** ${name}\n**Gamertag:** ${gamertag}\n**Paket:** ${item}\n**Metode Pembayaran:** ${payment}`,
-                        embeds: [
-                            {
-                                title: "Bukti Transfer",
-                                image: { url: `attachment://${proof.name}` }
-                            }
-                        ]
-                    };
-
-                    const formData = new FormData();
-                    formData.append('file', proof, proof.name);
-                    formData.append('payload_json', JSON.stringify(payload));
-
-                    const webhookURL = "https://discord.com/api/webhooks/1396156274688659567/xengMSeqM5lYTrqa--9et7C7n31iTAeDn6OdexwIQxZl4-Hh-wePxiDjBBM14QWBREU7";
-
-                    try {
-                        await fetch(webhookURL, { method: 'POST', body: formData });
-                        alert('Formulir berhasil dikirim ke Discord!');
-                        
-                        purchaseForm.reset();
-                        if (qrisImage) qrisImage.style.display = 'none';
-                        if (modal) modal.classList.remove('show');
-
-                    } catch(err) {
-                        console.error(err);
-                        alert('Terjadi kesalahan saat mengirim form ke Discord.');
-                    }
-                });
+    // --- Animasi Hero Section (Desktop Only) ---
+    if (window.innerWidth > 768) {
+        if (logoContainer) {
+            logoContainer.classList.remove('animate-on-load');
+        }
+        if (heroTitle) {
+            heroTitle.style.opacity = '0';
+            heroTitle.style.transform = 'translateY(20px)';
+            heroTitle.classList.add('animate-hero-title');
+        }
+        if (heroDescription) {
+            heroDescription.style.opacity = '0';
+            heroDescription.style.transform = 'translateY(20px)';
+            heroDescription.classList.add('animate-hero-desc');
+        }
+    } else {
+        [logoContainer, heroTitle, heroDescription].forEach(el => {
+            if (el) {
+                el.style.opacity = '1';
+                el.style.transform = 'none';
             }
         });
-    </script>
+    }
+
+    // --- Modal Pembelian ---
+    if (modal) {
+        const closeButton = modal.querySelector('.close-button');
+        const backButton = modal.querySelector('.back-button');
+
+        buyButtons.forEach(button => {
+            button.addEventListener('click', () => modal.classList.add('show'));
+        });
+
+        [closeButton, backButton].forEach(btn => {
+            if (btn) btn.addEventListener('click', () => modal.classList.remove('show'));
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) modal.classList.remove('show');
+        });
+    }
+
+    // --- Animasi Saat Scroll ---
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                if (entry.target.classList.contains('item-card') || entry.target.classList.contains('qna-item')) {
+                    entry.target.style.animation = 'fadeIn 1s forwards';
+                } else if (entry.target.classList.contains('donatur-card')) {
+                    entry.target.style.animation = 'slideInFromLeft 1s forwards';
+                } else if (entry.target.classList.contains('sponsorship-card')) {
+                    entry.target.style.animation = 'slideInFromRight 1s forwards';
+                }
+                obs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+    elementsToAnimate.forEach(el => observer.observe(el));
+
+    // --- Fungsionalitas QnA ---
+    qnaQuestions.forEach(question => {
+        question.addEventListener('click', () => {
+            const answer = question.nextElementSibling;
+            if (!answer) return;
+            const isVisible = answer.style.display === 'block';
+            document.querySelectorAll('.qna-answer').forEach(ans => ans.style.display = 'none');
+            if (!isVisible) answer.style.display = 'block';
+        });
+    });
+
+    // --- Fungsionalitas QRIS ---
+    if (paymentMethod && qrisImage) {
+        paymentMethod.addEventListener('change', () => {
+            const selectedValue = paymentMethod.value;
+            if (['qris', 'ewallet', 'dana', 'gopay'].includes(selectedValue)) {
+                qrisImage.style.display = 'block';
+            } else {
+                qrisImage.style.display = 'none';
+            }
+        });
+    }
+
+    // --- Pengiriman Formulir ke Discord ---
+    if (purchaseForm) {
+        purchaseForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const gamertag = document.getElementById('gamertag').value;
+            const item = document.getElementById('item').value;
+            const payment = document.getElementById('payment-method').value;
+            const proof = document.getElementById('proof').files[0];
+
+            if (!name || !gamertag || !item || !payment || !proof) {
+                alert('Silakan lengkapi semua data formulir, termasuk bukti transfer!');
+                return;
+            }
+            
+            const payload = {
+                content: `📥 **Formulir Pembelian Baru**\n**Nama:** ${name}\n**Gamertag:** ${gamertag}\n**Paket:** ${item}\n**Metode Pembayaran:** ${payment}`,
+                embeds: [
+                    {
+                        title: "Bukti Transfer",
+                        image: { url: `attachment://${proof.name}` }
+                    }
+                ]
+            };
+
+            const formData = new FormData();
+            formData.append('file', proof, proof.name);
+            formData.append('payload_json', JSON.stringify(payload));
+
+            const webhookURL = "https://discord.com/api/webhooks/1396156274688659567/xengMSeqM5lYTrqa--9et7C7n31iTAeDn6OdexwIQxZl4-Hh-wePxiDjBBM14QWBREU7";
+
+            try {
+                await fetch(webhookURL, { method: 'POST', body: formData });
+                alert('Formulir berhasil dikirim ke Discord!');
+                
+                purchaseForm.reset();
+                if (qrisImage) qrisImage.style.display = 'none';
+                if (modal) modal.classList.remove('show');
+
+            } catch(err) {
+                console.error(err);
+                alert('Terjadi kesalahan saat mengirim form ke Discord.');
+            }
+        });
+    }
+});
+</script>
+
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
