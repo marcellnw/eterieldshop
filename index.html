@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Control Panel - Discord</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #313338;
@@ -12,6 +12,8 @@
             --input-bg: #1e1f22;
             --discord-yellow: #fbc531;
             --text-gray: #b5bac1;
+            --success-green: #43b581;
+            --error-red: #f04747;
         }
 
         body {
@@ -23,21 +25,30 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         .admin-card {
             background-color: var(--card-bg);
             width: 100%;
-            max-width: 550px;
+            /* Mode Landscape PC */
+            max-width: 900px; 
             border-radius: 12px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.5);
             overflow: hidden;
             border: 1px solid #404249;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .header {
             background-color: #232428;
-            padding: 15px 25px;
+            padding: 20px 30px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -45,121 +56,165 @@
         }
 
         .header-left { display: flex; align-items: center; gap: 15px; }
-        
-        .header h2 { margin: 0; font-size: 1.6rem; letter-spacing: 0.5px; }
+        .header h2 { margin: 0; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; }
 
-        .content { padding: 25px; }
+        .content { 
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr; /* Grid 2 kolom untuk PC */
+            gap: 25px;
+        }
+
+        /* Responsive HP: Jadi 1 kolom */
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+            .admin-card { max-width: 100%; }
+        }
 
         .form-section {
             border: 1px solid #404249;
             padding: 20px;
             border-radius: 8px;
-            margin-bottom: 20px;
+            background: rgba(0,0,0,0.1);
         }
 
         .section-label {
-            color: var(--text-gray);
-            font-size: 0.85rem;
-            font-weight: 600;
+            color: var(--discord-yellow);
+            font-size: 0.75rem;
+            font-weight: 800;
             margin-bottom: 15px;
             display: block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .form-group { margin-bottom: 15px; display: flex; align-items: center; }
-        .form-group label { width: 100px; font-size: 0.9rem; color: var(--text-gray); }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-gray); font-weight: 600; }
 
         input[type="text"], textarea {
-            flex: 1;
+            width: 100%;
             background: white;
-            border: none;
-            padding: 10px;
-            border-radius: 4px;
-            color: #333;
-            font-size: 0.9rem;
+            border: 2px solid transparent;
+            padding: 12px;
+            border-radius: 6px;
+            color: #1e1f22;
+            font-size: 1rem;
+            font-weight: 500;
+            box-sizing: border-box;
+            outline: none;
+            transition: border 0.2s;
         }
 
-        .upload-row { display: flex; gap: 20px; align-items: flex-start; margin-top: 10px; }
-        
-        .upload-controls { flex: 1; }
+        input:focus, textarea:focus {
+            border-color: var(--discord-yellow);
+        }
+
+        .upload-zone {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
 
         .custom-file-input {
             display: flex;
-            background: #40444b;
-            border-radius: 4px;
+            background: #111214;
+            border-radius: 6px;
             overflow: hidden;
-            margin-bottom: 10px;
+            border: 1px dashed #4f545c;
         }
 
         .btn-browse {
             background: var(--discord-yellow);
             color: black;
-            padding: 8px 12px;
-            font-weight: bold;
+            padding: 10px 15px;
+            font-weight: 700;
             font-size: 0.8rem;
             cursor: pointer;
             border: none;
+            white-space: nowrap;
         }
 
         .file-name {
-            padding: 8px;
+            padding: 10px;
             font-size: 0.8rem;
             color: var(--text-gray);
-            white-space: nowrap;
+            align-self: center;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
+        .preview-container {
+            margin-top: 10px;
+            text-align: center;
+        }
+
         .preview-box {
-            width: 120px;
-            height: 100px;
-            background: #40444b;
-            border: 2px solid #ccc;
+            width: 100%;
+            max-width: 250px;
+            height: 150px;
+            background: #111214;
+            border: 2px solid #404249;
             border-radius: 8px;
             display: flex;
-            flex-direction: column;
+            margin: 0 auto;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            font-size: 0.7rem;
-            color: var(--text-gray);
+            position: relative;
         }
 
-        .preview-box img { width: 100%; height: 100%; object-fit: cover; display: none; }
+        .preview-box img { width: 100%; height: 100%; object-fit: contain; }
+        .preview-placeholder { color: #4f545c; font-size: 0.8rem; font-weight: 600; }
+
+        .footer-action {
+            grid-column: span 1; /* Di PC tetap di kolom kiri atau kanan */
+        }
+
+        /* Agar tombol di PC terlihat penuh di bawah grid */
+        @media (min-width: 769px) {
+            .footer-action { grid-column: 1 / span 2; }
+        }
 
         .btn-send {
             width: 100%;
             background: var(--discord-yellow);
             color: black;
             border: none;
-            padding: 15px;
+            padding: 18px;
             font-weight: 800;
-            font-size: 1rem;
-            border-radius: 6px;
+            font-size: 1.1rem;
+            border-radius: 8px;
             cursor: pointer;
-            margin-top: 10px;
+            transition: transform 0.1s, background 0.2s;
             text-transform: uppercase;
         }
 
+        .btn-send:hover { background: #e1b12c; transform: translateY(-2px); }
+        .btn-send:active { transform: translateY(0); }
+
         .status-area {
-            margin-top: 20px;
-            font-size: 0.8rem;
-            color: var(--text-gray);
+            background: #1e1f22;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid var(--discord-yellow);
         }
 
         .webhook-link {
-            display: block;
-            color: #7289da;
-            text-decoration: none;
-            word-break: break-all;
-            margin: 5px 0;
+            color: #5865f2;
             font-family: monospace;
+            font-size: 0.75rem;
+            word-break: break-all;
+            text-decoration: none;
         }
 
-        .status-indicator { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
-        .dot { width: 10px; height: 10px; background: var(--discord-yellow); border-radius: 50%; }
+        .status-indicator { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-weight: 700; font-size: 0.9rem;}
+        .dot { width: 12px; height: 12px; background: var(--discord-yellow); border-radius: 50%; }
 
-        /* Icon SVG */
-        .icon-yellow { fill: var(--discord-yellow); width: 24px; height: 24px; }
+        .icon-yellow { fill: var(--discord-yellow); width: 28px; height: 28px; }
     </style>
 </head>
 <body>
@@ -168,57 +223,58 @@
     <div class="header">
         <div class="header-left">
             <svg viewBox="0 0 24 24" class="icon-yellow"><path d="M22.7,19L13.6,9.9C14.5,7.6 14,4.9 12.1,3C10.1,1 7.1,0.6 4.7,1.7L9,6L6,9L1.7,4.7C0.6,7.1 1,10.1 3,12.1C4.9,14 7.6,14.5 9.9,13.6L19,22.7C19.4,23.1 20,23.1 20.4,22.7L22.7,20.4C23.1,20 23.1,19.4 22.7,19Z"/></svg>
-            <h2>Admin Control Panel</h2>
+            <h2>ADMIN PANEL</h2>
         </div>
         <svg viewBox="0 0 24 24" class="icon-yellow"><path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11.03L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.97 19.05,5.05L16.56,6.05C16.04,5.65 15.44,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.56,5.32 7.96,5.65 7.44,6.05L4.95,5.05C4.73,4.97 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11.03C4.53,12.65 4.5,12.33 4.5,12C4.5,11.67 4.53,11.34 4.57,11.03L2.46,12.63C2.27,12.78 2.21,13.05 2.34,13.27L4.34,16.73C4.46,16.95 4.73,17.03 4.95,16.95L7.44,15.95C7.96,16.35 8.56,16.68 9.13,16.93L9.5,19.58C9.54,19.82 9.75,20 10,20H14C14.25,20 14.46,19.82 14.5,19.58L14.87,16.93C15.44,16.68 16.04,16.35 16.56,15.95L19.05,17.05C19.27,17.13 19.54,17.05 19.66,16.83L21.66,13.37C21.78,13.15 21.73,12.88 21.54,12.73L19.43,12.97Z"/></svg>
     </div>
 
     <div class="content">
         <div class="form-section">
-            <span class="section-label">Judul Pengumuman (Auto-Fantasy/Bold)</span>
+            <span class="section-label">Detail Pengumuman</span>
             <div class="form-group">
-                <label>Title</label>
-                <input type="text" id="title" placeholder="title">
+                <label>Judul Pesan</label>
+                <input type="text" id="title" placeholder="Contoh: Maintenance Server">
             </div>
-            <div class="form-group" style="align-items: flex-start;">
-                <label>Message</label>
-                <textarea id="message" rows="4" placeholder="Ketik detail pengumuman..."></textarea>
+            <div class="form-group">
+                <label>Isi Konten</label>
+                <textarea id="message" rows="8" placeholder="Tulis pengumuman di sini..."></textarea>
             </div>
         </div>
 
         <div class="form-section">
-            <span class="section-label">Upload Gambar Kecil (Thumbnail)</span>
-            <div class="upload-row">
-                <div class="upload-controls">
-                    <label style="font-size: 0.8rem; display: block; margin-bottom: 5px;">Upload Image</label>
+            <span class="section-label">Media & Status</span>
+            <div class="upload-zone">
+                <div class="form-group">
+                    <label>Thumbnail Gambar</label>
                     <div class="custom-file-input">
                         <label class="btn-browse">
-                            Pilih File
+                            UNGGAH
                             <input type="file" id="fileInput" hidden accept="image/*">
                         </label>
-                        <div class="file-name" id="fileName">Belum ada file dipilih</div>
+                        <div class="file-name" id="fileName">Belum ada file...</div>
                     </div>
                 </div>
 
-                <div style="text-align: center;">
-                    <label style="font-size: 0.8rem; display: block; margin-bottom: 5px;">Pratinjau Gambar</label>
+                <div class="preview-container">
                     <div class="preview-box" id="previewBox">
-                        <span id="previewText">Pratinjau Gambar</span>
-                        <img id="imgPreview" alt="preview">
+                        <span class="preview-placeholder" id="previewText">PRATINJAU</span>
+                        <img id="imgPreview" style="display:none">
+                    </div>
+                </div>
+
+                <div class="status-area">
+                    <span style="font-size: 0.7rem; color: var(--text-gray); font-weight: bold;">WEBHOOK ACTIVE:</span>
+                    <a href="#" class="webhook-link">https://discord.com/api/webhooks/...</a>
+                    <div class="status-indicator">
+                        <div class="dot"></div>
+                        <span id="statusText">Status: Standby</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <button class="btn-send" onclick="sendToDiscord()">Kirim ke Discord</button>
-
-        <div class="status-area">
-            <span>StatusMsg:</span>
-            <a href="#" class="webhook-link">https://discord.com/api/webhooks/1396156289507135499/GZtGikx2sMRTlikk0HyJdRqWPJzMYePosJkNFMC-KRHjqJG9kRc1HVnKWFLOK7ocT7D5</a>
-            <div class="status-indicator">
-                <div class="dot"></div>
-                <span id="statusText">Submited: none</span>
-            </div>
+        <div class="footer-action">
+            <button class="btn-send" onclick="sendToDiscord()">KIRIM KE DISCORD</button>
         </div>
     </div>
 </div>
@@ -228,9 +284,8 @@
     const fileName = document.getElementById('fileName');
     const imgPreview = document.getElementById('imgPreview');
     const previewText = document.getElementById('previewText');
-    let base64Image = "";
 
-    // Handler Preview Gambar
+    // Preview Gambar
     fileInput.addEventListener('change', function() {
         const file = this.files[0];
         if (file) {
@@ -240,21 +295,10 @@
                 imgPreview.src = e.target.result;
                 imgPreview.style.display = 'block';
                 previewText.style.display = 'none';
-                base64Image = e.target.result;
             }
             reader.readAsDataURL(file);
         }
     });
-
-    function toFantasy(text) {
-        if (!text) return "";
-        const map = {
-            'A': '𝕬', 'B': '𝕭', 'C': '𝕮', 'D': '𝕯', 'E': '𝕰', 'F': '𝕱', 'G': '𝕲', 'H': '𝕳', 'I': '𝕴', 'J': '𝕵', 'K': '𝕶', 'L': '𝕷', 'M': '𝕸', 'N': '𝕹', 'O': '𝕺', 'P': '𝕻', 'Q': '𝕼', 'R': '𝕽', 'S': '𝕾', 'T': '𝕿', 'U': '𝖀', 'V': '𝖁', 'W': '𝖂', 'X': '𝖃', 'Y': '𝖄', 'Z': '𝖅',
-            'a': '𝖆', 'b': '𝖇', 'c': '𝖈', 'd': '𝖉', 'e': '𝖊', 'f': '𝖋', 'g': '𝖌', 'h': '𝖍', 'i': '𝖎', 'j': '𝖏', 'k': '𝖐', 'l': '𝖑', 'm': '𝖒', 'n': '𝖓', 'o': '𝖔', 'p': '𝖕', 'q': '𝖖', 'r': '𝖗', 's': '𝖘', 't': '𝖙', 'u': '𝖚', 'v': '𝖛', 'w': '𝖜', 'x': '𝖝', 'y': '𝖞', 'z': '𝖟',
-            '0':'𝟘','1':'𝟙','2':'𝟚','3':'𝟛','4':'𝟜','5':'𝟝','6':'𝟞','7':'𝟟','8':'𝟠','9':'𝟡'
-        };
-        return text.split('').map(c => map[c] || c).join('');
-    }
 
     async function sendToDiscord() {
         const url = "https://discord.com/api/webhooks/1396156289507135499/GZtGikx2sMRTlikk0HyJdRqWPJzMYePosJkNFMC-KRHjqJG9kRc1HVnKWFLOK7ocT7D5";
@@ -263,19 +307,18 @@
         const statusText = document.getElementById('statusText');
 
         if(!title || !msg) {
-            alert("Harap isi Judul dan Pesan!");
+            alert("Harap lengkapi Judul dan Isi Pesan!");
             return;
         }
 
-        // Catatan: Karena Webhook biasa tidak bisa menerima base64 langsung dalam embed, 
-        // kita menggunakan pendekatan form-data jika ada file.
         const formData = new FormData();
         
+        // Menggunakan Markdown Bold standar Discord (**) untuk judul agar jelas
         const embed = {
-            title: toFantasy(title),
+            title: `**${title.toUpperCase()}**`, 
             description: msg,
-            color: 16501504, // Yellow
-            footer: { text: "🛡️ Professional Admin System" },
+            color: 16501504, 
+            footer: { text: "Maintenance System • " + new Date().toLocaleDateString() },
             timestamp: new Date()
         };
 
@@ -286,15 +329,21 @@
 
         formData.append("payload_json", JSON.stringify({ embeds: [embed] }));
 
+        statusText.innerText = "Status: Mengirim...";
+        statusText.style.color = "var(--discord-yellow)";
+
         try {
             const res = await fetch(url, { method: 'POST', body: formData });
             if(res.ok) {
-                statusText.innerText = "Submited: SUCCESS ✅";
-                statusText.style.color = "#43b581";
+                statusText.innerText = "Status: BERHASIL TERKIRIM ✅";
+                statusText.style.color = "var(--success-green)";
+                // Reset form
+                document.getElementById('title').value = "";
+                document.getElementById('message').value = "";
             } else { throw new Error(); }
         } catch(e) {
-            statusText.innerText = "Submited: FAILED ❌";
-            statusText.style.color = "#f04747";
+            statusText.innerText = "Status: GAGAL TERKIRIM ❌";
+            statusText.style.color = "var(--error-red)";
         }
     }
 </script>
