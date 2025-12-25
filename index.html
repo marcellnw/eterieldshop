@@ -9,7 +9,6 @@
         :root {
             --bg-color: #1e1f22;
             --card-bg: #2b2d31;
-            --input-bg: #1e1f22;
             --discord-yellow: #fbc531;
             --text-gray: #b5bac1;
             --success-green: #43b581;
@@ -25,34 +24,32 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
-            overflow-x: hidden;
+            overflow: hidden;
         }
 
-        /* Background Particles */
+        /* Background Canvas Partikel */
         #particle-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
+            z-index: 0;
             background: radial-gradient(circle at center, #2f3136 0%, #1e1f22 100%);
         }
 
         .admin-card {
             background-color: var(--card-bg);
-            width: 100%;
-            max-width: 900px; 
+            width: 90%;
+            max-width: 850px;
             border-radius: 12px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.6);
             overflow: hidden;
             border: 1px solid #404249;
-            animation: fadeIn 0.8s ease-out;
             position: relative;
             z-index: 1;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.8s ease-out;
         }
 
         @keyframes fadeIn {
@@ -62,93 +59,90 @@
 
         .header {
             background-color: #232428;
-            padding: 20px 30px;
+            padding: 15px 25px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 5px solid var(--discord-yellow);
+            border-bottom: 4px solid var(--discord-yellow);
         }
 
-        .header-left { display: flex; align-items: center; gap: 15px; }
-        .header h2 { margin: 0; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; }
+        .header h2 { margin: 0; font-size: 1.3rem; font-weight: 800; }
 
         .content { 
-            padding: 30px;
+            padding: 25px;
             display: grid;
-            grid-template-columns: 1.5fr 1fr;
-            gap: 25px;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 20px;
         }
 
         @media (max-width: 768px) {
-            .content { grid-template-columns: 1fr; padding: 20px; }
+            .content { grid-template-columns: 1fr; }
         }
 
         .form-section {
             border: 1px solid #404249;
-            padding: 20px;
+            padding: 18px;
             border-radius: 8px;
             background: rgba(0,0,0,0.2);
         }
 
         .section-label {
             color: var(--discord-yellow);
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 800;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             display: block;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-gray); font-weight: 600; }
+        .form-group label { display: block; margin-bottom: 6px; font-size: 0.8rem; color: var(--text-gray); font-weight: 600; }
 
         input[type="text"], textarea {
             width: 100%;
             background: #ffffff;
-            border: 2px solid transparent;
-            padding: 12px;
-            border-radius: 6px;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
             color: #1e1f22;
-            font-size: 1rem;
-            font-weight: 500;
+            font-size: 0.9rem;
             box-sizing: border-box;
             outline: none;
         }
 
-        /* PERBAIKAN TOMBOL UNGGAH */
+        /* FIX BAGIAN UNGGAH/INPUT FILE */
         .custom-file-input {
             display: flex;
-            align-items: stretch; /* Membuat tombol dan teks sama tinggi */
+            align-items: stretch; /* Membuat isi di dalamnya mengisi tinggi penuh */
             background: #111214;
             border-radius: 6px;
-            overflow: hidden;
             border: 1px solid #4f545c;
-            height: 45px; /* Tinggi tetap agar presisi */
+            height: 40px; /* Tinggi dikunci agar konsisten */
+            overflow: hidden;
         }
 
         .btn-browse {
             background: var(--discord-yellow);
-            color: black;
-            padding: 0 20px;
+            color: #000;
+            padding: 0 15px;
             font-weight: 800;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             cursor: pointer;
-            border: none;
             display: flex;
-            align-items: center;
+            align-items: center; /* Teks di tengah vertikal */
             justify-content: center;
+            border: none;
             transition: background 0.2s;
+            height: 100%; /* Mengisi penuh tinggi kontainer */
         }
 
         .btn-browse:hover { background: #e1b12c; }
 
         .file-name {
-            padding: 0 15px;
-            font-size: 0.85rem;
+            padding: 0 12px;
+            font-size: 0.8rem;
             color: var(--text-gray);
             display: flex;
-            align-items: center;
+            align-items: center; /* Teks di tengah vertikal */
             flex: 1;
             white-space: nowrap;
             overflow: hidden;
@@ -157,13 +151,12 @@
 
         .preview-box {
             width: 100%;
-            max-width: 250px;
-            height: 150px;
+            height: 120px;
             background: #111214;
-            border: 2px solid #404249;
-            border-radius: 8px;
+            border: 1px solid #404249;
+            border-radius: 6px;
+            margin-top: 10px;
             display: flex;
-            margin: 0 auto;
             align-items: center;
             justify-content: center;
             overflow: hidden;
@@ -176,12 +169,12 @@
             background: var(--discord-yellow);
             color: black;
             border: none;
-            padding: 18px;
+            padding: 15px;
             font-weight: 800;
-            font-size: 1.1rem;
-            border-radius: 8px;
+            font-size: 1rem;
+            border-radius: 6px;
             cursor: pointer;
-            transition: all 0.2s;
+            margin-top: 10px;
             text-transform: uppercase;
         }
 
@@ -189,13 +182,16 @@
 
         .status-area {
             background: #1e1f22;
-            padding: 15px;
-            border-radius: 8px;
+            padding: 12px;
+            border-radius: 6px;
             margin-top: 15px;
             border-left: 4px solid var(--discord-yellow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .icon-yellow { fill: var(--discord-yellow); width: 28px; height: 28px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--discord-yellow); }
     </style>
 </head>
 <body>
@@ -204,51 +200,46 @@
 
 <div class="admin-card">
     <div class="header">
-        <div class="header-left">
-            <svg viewBox="0 0 24 24" class="icon-yellow"><path d="M22.7,19L13.6,9.9C14.5,7.6 14,4.9 12.1,3C10.1,1 7.1,0.6 4.7,1.7L9,6L6,9L1.7,4.7C0.6,7.1 1,10.1 3,12.1C4.9,14 7.6,14.5 9.9,13.6L19,22.7C19.4,23.1 20,23.1 20.4,22.7L22.7,20.4C23.1,20 23.1,19.4 22.7,19Z"/></svg>
-            <h2>ADMIN PANEL</h2>
+        <div style="display:flex; align-items:center; gap:10px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--discord-yellow)"><path d="M22.7,19L13.6,9.9C14.5,7.6 14,4.9 12.1,3C10.1,1 7.1,0.6 4.7,1.7L9,6L6,9L1.7,4.7C0.6,7.1 1,10.1 3,12.1C4.9,14 7.6,14.5 9.9,13.6L19,22.7C19.4,23.1 20,23.1 20.4,22.7L22.7,20.4C23.1,20 23.1,19.4 22.7,19Z"/></svg>
+            <h2>ADMIN CONTROL</h2>
         </div>
-        <svg viewBox="0 0 24 24" class="icon-yellow"><path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11.03L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.97 19.05,5.05L16.56,6.05C16.04,5.65 15.44,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.56,5.32 7.96,5.65 7.44,6.05L4.95,5.05C4.73,4.97 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11.03C4.53,12.65 4.5,12.33 4.5,12C4.5,11.67 4.53,11.34 4.57,11.03L2.46,12.63C2.27,12.78 2.21,13.05 2.34,13.27L4.34,16.73C4.46,16.95 4.73,17.03 4.95,16.95L7.44,15.95C7.96,16.35 8.56,16.68 9.13,16.93L9.5,19.58C9.54,19.82 9.75,20 10,20H14C14.25,20 14.46,19.82 14.5,19.58L14.87,16.93C15.44,16.68 16.04,16.35 16.56,15.95L19.05,17.05C19.27,17.13 19.54,17.05 19.66,16.83L21.66,13.37C21.78,13.15 21.73,12.88 21.54,12.73L19.43,12.97Z"/></svg>
     </div>
 
     <div class="content">
         <div class="form-section">
-            <span class="section-label">Detail Pengumuman</span>
-            <div class="form-group">
-                <label>Judul Pesan</label>
-                <input type="text" id="title" placeholder="Masukkan judul...">
+            <span class="section-label">Pengumuman</span>
+            <div class="form-group" style="margin-bottom: 12px;">
+                <label>Judul</label>
+                <input type="text" id="title" placeholder="Maintenance...">
             </div>
             <div class="form-group">
-                <label>Isi Konten</label>
-                <textarea id="message" rows="8" placeholder="Tulis pengumuman..."></textarea>
+                <label>Pesan</label>
+                <textarea id="message" rows="6" placeholder="Isi pesan..."></textarea>
             </div>
         </div>
 
         <div class="form-section">
-            <span class="section-label">Media & Status</span>
-            <div class="upload-zone">
-                <div class="form-group">
-                    <label>Thumbnail Gambar</label>
-                    <div class="custom-file-input">
-                        <label class="btn-browse">
-                            UNGGAH
-                            <input type="file" id="fileInput" hidden accept="image/*">
-                        </label>
-                        <div class="file-name" id="fileName">Belum ada file...</div>
-                    </div>
+            <span class="section-label">Media & Preview</span>
+            <div class="form-group">
+                <label>Gambar Thumbnail</label>
+                <div class="custom-file-input">
+                    <label class="btn-browse">
+                        UNGGAH
+                        <input type="file" id="fileInput" hidden accept="image/*">
+                    </label>
+                    <div class="file-name" id="fileName">No file chosen...</div>
                 </div>
+            </div>
 
-                <div class="preview-box" id="previewBox">
-                    <span id="previewText" style="color:#4f545c; font-size: 0.8rem;">PRATINJAU</span>
-                    <img id="imgPreview" style="display:none">
-                </div>
+            <div class="preview-box">
+                <span id="previewText" style="color:#4f545c; font-size: 0.7rem;">IMAGE PREVIEW</span>
+                <img id="imgPreview" style="display:none">
+            </div>
 
-                <div class="status-area">
-                    <div style="display:flex; align-items:center; gap:8px;">
-                        <div class="dot" id="statusDot"></div>
-                        <span id="statusText" style="font-weight:700; font-size:0.9rem;">Status: Standby</span>
-                    </div>
-                </div>
+            <div class="status-area">
+                <div class="dot" id="statusDot"></div>
+                <span id="statusText" style="font-weight:700; font-size:0.8rem;">Status: Standby</span>
             </div>
         </div>
 
@@ -259,12 +250,12 @@
 </div>
 
 <script>
-    // --- PARTICLE SYSTEM ---
+    // --- PARTICLE KERLAP KERLIP ---
     const canvas = document.getElementById('particle-canvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
 
-    function initCanvas() {
+    function init() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     }
@@ -273,18 +264,14 @@
         constructor() {
             this.x = Math.random() * canvas.width;
             this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 2;
-            this.speedX = Math.random() * 0.5 - 0.25;
-            this.speedY = Math.random() * 0.5 - 0.25;
+            this.size = Math.random() * 1.5 + 0.5;
+            this.blinkSpeed = Math.random() * 0.02 + 0.005;
             this.opacity = Math.random();
+            this.direction = 1;
         }
         update() {
-            this.x += this.speedX;
-            this.y += this.speedY;
-            if (this.x > canvas.width) this.x = 0;
-            if (this.x < 0) this.x = canvas.width;
-            if (this.y > canvas.height) this.y = 0;
-            if (this.y < 0) this.y = canvas.height;
+            this.opacity += this.blinkSpeed * this.direction;
+            if (this.opacity > 1 || this.opacity < 0) this.direction *= -1;
         }
         draw() {
             ctx.fillStyle = `rgba(251, 197, 49, ${this.opacity})`;
@@ -294,22 +281,20 @@
         }
     }
 
-    function createParticles() {
-        for (let i = 0; i < 100; i++) particles.push(new Particle());
+    function create() {
+        for(let i=0; i<80; i++) particles.push(new Particle());
     }
 
     function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0,0,canvas.width, canvas.height);
         particles.forEach(p => { p.update(); p.draw(); });
         requestAnimationFrame(animate);
     }
 
-    window.addEventListener('resize', initCanvas);
-    initCanvas();
-    createParticles();
-    animate();
+    window.onresize = init;
+    init(); create(); animate();
 
-    // --- FORM LOGIC ---
+    // --- LOGIC FORM ---
     const fileInput = document.getElementById('fileInput');
     const fileName = document.getElementById('fileName');
     const imgPreview = document.getElementById('imgPreview');
@@ -336,42 +321,37 @@
         const statusText = document.getElementById('statusText');
         const statusDot = document.getElementById('statusDot');
 
-        if(!title || !msg) {
-            alert("Harap lengkapi Judul dan Pesan!");
-            return;
-        }
+        if(!title || !msg) { alert("Isi Judul & Pesan!"); return; }
 
+        statusText.innerText = "Status: Mengirim...";
+        
         const formData = new FormData();
-        const embed = {
-            title: `**${title.toUpperCase()}**`,
-            description: msg,
-            color: 16501504,
-            footer: { text: "System Admin Panel" },
-            timestamp: new Date()
+        const payload = {
+            embeds: [{
+                title: `**${title.toUpperCase()}**`,
+                description: msg,
+                color: 16501504,
+                timestamp: new Date()
+            }]
         };
 
         if (fileInput.files[0]) {
-            embed.thumbnail = { url: "attachment://thumb.png" };
-            formData.append("file", fileInput.files[0], "thumb.png");
+            payload.embeds[0].thumbnail = { url: "attachment://f.png" };
+            formData.append("file", fileInput.files[0], "f.png");
         }
+        formData.append("payload_json", JSON.stringify(payload));
 
-        formData.append("payload_json", JSON.stringify({ embeds: [embed] }));
-
-        statusText.innerText = "Status: Mengirim...";
         try {
             const res = await fetch(url, { method: 'POST', body: formData });
             if(res.ok) {
                 statusText.innerText = "Status: BERHASIL ✅";
-                statusText.style.color = "var(--success-green)";
                 statusDot.style.background = "var(--success-green)";
             } else { throw new Error(); }
-        } catch(e) {
+        } catch {
             statusText.innerText = "Status: GAGAL ❌";
-            statusText.style.color = "var(--error-red)";
             statusDot.style.background = "var(--error-red)";
         }
     }
 </script>
-
 </body>
 </html>
