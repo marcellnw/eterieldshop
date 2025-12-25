@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Discord Maintenance</title>
+    <title>Admin Dashboard - Discord Webhook</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -27,21 +27,22 @@
 
         .admin-card {
             background-color: var(--discord-card);
-            padding: 2rem;
+            padding: 2.5rem;
             border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
             width: 100%;
-            max-width: 450px;
+            max-width: 500px;
             border-top: 5px solid var(--discord-yellow);
         }
 
         h2 {
             color: white;
             margin-top: 0;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             text-align: center;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
         }
 
         .form-group {
@@ -50,55 +51,57 @@
 
         label {
             display: block;
-            margin-bottom: 0.5rem;
-            font-size: 0.85rem;
-            font-weight: 600;
+            margin-bottom: 0.6rem;
+            font-size: 0.75rem;
+            font-weight: 700;
             color: #b5bac1;
+            text-transform: uppercase;
         }
 
         input, textarea {
             width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 4px;
+            padding: 14px;
+            border: 1px solid transparent;
+            border-radius: 5px;
             background-color: var(--input-bg);
             color: white;
             font-size: 0.95rem;
             box-sizing: border-box;
             outline: none;
-            transition: ring 0.2s;
+            transition: all 0.2s ease;
         }
 
         input:focus, textarea:focus {
-            box-shadow: 0 0 0 2px var(--discord-yellow);
+            border-color: var(--discord-yellow);
+            background-color: #111214;
         }
 
         .btn-send {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             background-color: var(--discord-yellow);
             color: #000;
             border: none;
-            border-radius: 4px;
-            font-weight: bold;
+            border-radius: 5px;
+            font-weight: 800;
             font-size: 1rem;
             cursor: pointer;
-            transition: transform 0.1s, background 0.2s;
+            transition: all 0.2s;
+            margin-top: 1rem;
         }
 
         .btn-send:hover {
-            background-color: #d4ac0d;
-            transform: translateY(-1px);
-        }
-
-        .btn-send:active {
-            transform: translateY(1px);
+            background-color: #ffd700;
+            box-shadow: 0 0 15px rgba(241, 196, 15, 0.4);
         }
 
         .status {
-            margin-top: 1rem;
+            margin-top: 1.5rem;
             text-align: center;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 10px;
+            border-radius: 4px;
             display: none;
         }
     </style>
@@ -106,31 +109,32 @@
 <body>
 
 <div class="admin-card">
-    <h2>Admin Webhook</h2>
+    <h2>Admin Control Panel</h2>
     
     <div class="form-group">
-        <label>JUDUL PENGUMUMAN</label>
-        <input type="text" id="title" placeholder="Contoh: Maintenance Server" value="Maintenance Server: Fase 1">
+        <label>Judul Pengumuman (Auto-Fantasy Bold)</label>
+        <input type="text" id="title" placeholder="Ketik judul di sini...">
     </div>
 
     <div class="form-group">
-        <label>ISI PESAN (FONT BIASA)</label>
-        <textarea id="message" rows="4" placeholder="Tulis pesan pengumuman...">Server akan offline selama 2 jam mulai pukul 15:00 WIB untuk memindahkan beberapa bangunan dari fase 1. Mohon bersabar!</textarea>
+        <label>Isi Pesan</label>
+        <textarea id="message" rows="5" placeholder="Ketik detail pengumuman secara lengkap..."></textarea>
     </div>
 
     <div class="form-group">
-        <label>URL GAMBAR KECIL (THUMBNAIL)</label>
+        <label>Link Gambar Kecil (Thumbnail)</label>
         <input type="text" id="imageUrl" placeholder="https://link-gambar.com/logo.png">
     </div>
 
-    <button class="btn-send" onclick="sendToDiscord()">KIRIM PENGUMUMAN</button>
+    <button class="btn-send" onclick="sendToDiscord()">KIRIM KE DISCORD</button>
     
     <div id="statusMsg" class="status"></div>
 </div>
 
 <script>
-    // Fungsi untuk mengubah teks biasa menjadi gaya "Fantasy/Fraktur" Unicode
+    // Konversi Teks ke Bold Fantasy
     function toFantasy(text) {
+        if (!text) return "";
         const map = {
             'A': '𝕬', 'B': '𝕭', 'C': '𝕮', 'D': '𝕯', 'E': '𝕰', 'F': '𝕱', 'G': '𝕲', 'H': '𝕳', 'I': '𝕴', 'J': '𝕵', 'K': '𝕶', 'L': '𝕷', 'M': '𝕸', 'N': '𝕹', 'O': '𝕺', 'P': '𝕻', 'Q': '𝕼', 'R': '𝕽', 'S': '𝕾', 'T': '𝕿', 'U': '𝖀', 'V': '𝖁', 'W': '𝖂', 'X': '𝖃', 'Y': '𝖄', 'Z': '𝖅',
             'a': '𝖆', 'b': '𝖇', 'c': '𝖈', 'd': '𝖉', 'e': '𝖊', 'f': '𝖋', 'g': '𝖌', 'h': '𝖍', 'i': '𝖎', 'j': '𝖏', 'k': '𝖐', 'l': '𝖑', 'm': '𝖒', 'n': '𝖓', 'o': '𝖔', 'p': '𝖕', 'q': '𝖖', 'r': '𝖗', 's': '𝖘', 't': '𝖙', 'u': '𝖚', 'v': '𝖛', 'w': '𝖜', 'x': '𝖝', 'y': '𝖞', 'z': '𝖟',
@@ -140,22 +144,29 @@
     }
 
     async function sendToDiscord() {
-        const webhookURL = "https://discord.com/api/webhooks/13214156289507135499/GZtGikx2sMRTlikk0HyJdRqWPJzMYePosJkNFMC-KRHjqJG9kRc1HVnKWFLOK7ocT7D5";
+        const webhookURL = "https://discord.com/api/webhooks/1396156289507135499/GZtGikx2sMRTlikk0HyJdRqWPJzMYePosJkNFMC-KRHjqJG9kRc1HVnKWFLOK7ocT7D5";
         const statusDiv = document.getElementById('statusMsg');
         
-        // Ambil input dan ubah judul ke gaya Fantasy
         const rawTitle = document.getElementById('title').value;
-        const fantasyTitle = toFantasy(rawTitle);
         const message = document.getElementById('message').value;
         const imageUrl = document.getElementById('imageUrl').value;
 
+        // Validasi Sederhana
+        if (!rawTitle || !message) {
+            statusDiv.style.display = "block";
+            statusDiv.style.backgroundColor = "rgba(240, 71, 71, 0.1)";
+            statusDiv.style.color = "#f04747";
+            statusDiv.innerText = "⚠️ Harap isi judul dan pesan!";
+            return;
+        }
+
         const payload = {
             embeds: [{
-                title: fantasyTitle,
+                title: toFantasy(rawTitle),
                 description: message,
-                color: 16761095, // Kuning Discord
-                thumbnail: { url: imageUrl },
-                footer: { text: "Maintenance System • Fase 1" },
+                color: 16761095, // Kuning (#f1c407)
+                thumbnail: { url: imageUrl || "" },
+                footer: { text: "Admin Announcement System" },
                 timestamp: new Date()
             }]
         };
@@ -169,15 +180,22 @@
 
             if (response.ok) {
                 statusDiv.style.display = "block";
+                statusDiv.style.backgroundColor = "rgba(67, 181, 129, 0.1)";
                 statusDiv.style.color = "#43b581";
-                statusDiv.innerText = "✅ Pengumuman Terkirim!";
+                statusDiv.innerText = "✅ Berhasil dikirim ke Discord!";
+                
+                // Reset form setelah sukses
+                document.getElementById('title').value = "";
+                document.getElementById('message').value = "";
+                document.getElementById('imageUrl').value = "";
             } else {
                 throw new Error();
             }
         } catch (err) {
             statusDiv.style.display = "block";
+            statusDiv.style.backgroundColor = "rgba(240, 71, 71, 0.1)";
             statusDiv.style.color = "#f04747";
-            statusDiv.innerText = "❌ Gagal! Periksa koneksi/URL Webhook.";
+            statusDiv.innerText = "❌ Gagal mengirim! Periksa Webhook URL.";
         }
     }
 </script>
